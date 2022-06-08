@@ -11,7 +11,7 @@ public:
 	Log();
 	~Log() = default;
 
-	inline static std::shared_ptr<spdlog::logger>& Get();
+	static std::shared_ptr<spdlog::logger>& Get();
 
 private:
 	static Log* s_instance;

@@ -11,7 +11,7 @@ Log::Log()
 	spdlog::set_pattern("[%T] (%l): %v");
 }
 
-inline std::shared_ptr<spdlog::logger>& Log::Get()
+std::shared_ptr<spdlog::logger>& Log::Get()
 {
 	return s_instance->m_logger;
 }

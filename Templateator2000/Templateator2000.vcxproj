@@ -58,6 +58,20 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -85,6 +99,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Utilities\LUA\Lua.cpp" />
+    <ClCompile Include="Utilities\DCS\Unit.cpp" />
+    <ClCompile Include="Utilities\DCS\Mission.cpp" />
+    <ClCompile Include="Utilities\Moose.cpp" />
+    <ClCompile Include="Utilities\DCS\Group.cpp" />
+    <ClCompile Include="Windows\TankerWindow.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="MainWindow.ui" />
     <QtMoc Include="MainWindow.h" />
@@ -92,10 +112,17 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <None Include="Templateator2000.ico" />
+    <QtUic Include="Windows\TankerWindow.ui" />
     <ResourceCompile Include="Templateator2000.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Utilities\LUA\Lua.h" />
+    <ClInclude Include="Utilities\DCS\Unit.h" />
+    <ClInclude Include="Utilities\DCS\Mission.h" />
+    <ClInclude Include="Utilities\Moose.h" />
+    <ClInclude Include="Utilities\DCS\Group.h" />
     <ClInclude Include="Utilities\Log.h" />
+    <QtMoc Include="Windows\TankerWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

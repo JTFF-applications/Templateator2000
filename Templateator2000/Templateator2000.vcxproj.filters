@@ -27,6 +27,30 @@
     <Filter Include="Source Files\Utilities">
       <UniqueIdentifier>{e051c563-bf71-4969-9f93-f438475a8c5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Windows">
+      <UniqueIdentifier>{95ec2028-e12f-4615-b33e-55d64dbc9612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Windows">
+      <UniqueIdentifier>{76c04c28-ffcc-4633-b170-3ac1735b5ea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\DCS">
+      <UniqueIdentifier>{611734b6-a9b1-4588-9351-b4978561bb26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Scripting">
+      <UniqueIdentifier>{13668a89-98bc-4686-9b31-40a3066a306f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\DCS">
+      <UniqueIdentifier>{dc18b6dd-48b3-4f94-a7cf-491700896294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\Scripting">
+      <UniqueIdentifier>{a2c9a833-68f7-4c1b-9c26-8eb14cf5c15e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\LUA">
+      <UniqueIdentifier>{77ea495a-e0f8-4360-8a25-ac6e6a1dc418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\LUA">
+      <UniqueIdentifier>{6aac6178-3b02-4f68-a4d2-4d5c8d71e0eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MainWindow.qrc">
@@ -55,10 +79,53 @@
     <ClCompile Include="Utilities\Log.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Windows\TankerWindow.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Moose.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\DCS\Group.cpp">
+      <Filter>Source Files\Utilities\DCS</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\DCS\Mission.cpp">
+      <Filter>Source Files\Utilities\DCS</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\DCS\Unit.cpp">
+      <Filter>Source Files\Utilities\DCS</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\LUA\Lua.cpp">
+      <Filter>Source Files\Utilities\LUA</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\Log.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\Moose.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\DCS\Group.h">
+      <Filter>Header Files\Utilities\DCS</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\DCS\Mission.h">
+      <Filter>Header Files\Utilities\DCS</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\DCS\Unit.h">
+      <Filter>Header Files\Utilities\DCS</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\LUA\Lua.h">
+      <Filter>Header Files\Utilities\LUA</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="Windows\TankerWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Windows\TankerWindow.h">
+      <Filter>Header Files\Windows</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

@@ -8,12 +8,12 @@
 class Group
 {
 public:
-	Group(const std::string& name, const std::vector<const Unit>& units);
+	Group(const std::string& name, const std::vector<Unit>& units);
 	~Group() = default;
 
 	const std::string& Name() const { return m_name; }
 
 private:
 	std::string m_name;
-	std::vector<const Unit> m_units;
+	std::vector<Unit> m_units;
 };

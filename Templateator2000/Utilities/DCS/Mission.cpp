@@ -56,7 +56,7 @@ void Mission::Load()
 				if (country.contains("static") && country.at("static").contains("group"))
 					for (const auto& static_group : country["static"]["group"])
 					{
-						std::vector<const Unit> static_units;
+						std::vector<Unit> static_units;
 						for (const auto& static_unit : static_group["units"])
 						{
 							const std::string unit_type = static_unit["type"].get<std::string>();
@@ -71,7 +71,7 @@ void Mission::Load()
 				if (country.contains("plane") && country.at("plane").contains("group"))
 					for (const auto& plane_group : country["plane"]["group"])
 					{
-						std::vector<const Unit> plane_units;
+						std::vector<Unit> plane_units;
 						for (const auto& plane_unit : plane_group["units"])
 						{
 							const std::string unit_type = plane_unit["type"].get<std::string>();
@@ -86,7 +86,7 @@ void Mission::Load()
 				if (country.contains("helicopter") && country.at("helicopter").contains("group"))
 					for (const auto& helicopter_group : country["helicopter"]["group"])
 					{
-						std::vector<const Unit> helicopter_units;
+						std::vector<Unit> helicopter_units;
 						for (const auto& helicopter_unit : helicopter_group["units"])
 						{
 							const std::string unit_type = helicopter_unit["type"].get<std::string>();
@@ -101,7 +101,7 @@ void Mission::Load()
 				if (country.contains("vehicle") && country.at("vehicle").contains("group"))
 					for (const auto& vehicule_group : country["vehicle"]["group"])
 					{
-						std::vector<const Unit> vehicule_units;
+						std::vector<Unit> vehicule_units;
 						for (const auto& vehicule_unit : vehicule_group["units"])
 						{
 							const std::string unit_type = vehicule_unit["type"].get<std::string>();
@@ -116,7 +116,7 @@ void Mission::Load()
 				if (country.contains("ship") && country.at("ship").contains("group"))
 					for (const auto& ship_group : country["ship"]["group"])
 					{
-						std::vector<const Unit> ship_units;
+						std::vector<Unit> ship_units;
 						for (const auto& ship_unit : ship_group["units"])
 						{
 							const std::string unit_type = ship_unit["type"].get<std::string>();

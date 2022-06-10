@@ -9,14 +9,17 @@
 
 namespace json = nlohmann;
 
-class Mission
+class DCSMission
 {
 public:
-	Mission() = default;
-	~Mission() = default;
+	static bool IsValidMission(const std::filesystem::path& path);
 
-	void Get();
-	void Load();
+public:
+	DCSMission();
+	DCSMission(const std::filesystem::path& path);
+	~DCSMission() = default;
+
+	void Init(const std::filesystem::path& path);
 
 	const std::vector<Group> GetHelicopters() const { return m_helicopters; }
 	const std::vector<Group> GetPlanes() const { return m_planes; }
@@ -25,8 +28,12 @@ public:
 	const std::vector<Group> GetShips() const { return m_ships; }
 
 private:
+	void Load();
+
+private:
 	const static std::vector<const char*> s_coalitions;
 	std::filesystem::path m_path;
+	bool m_initialized;
 
 	std::vector<Group> m_helicopters;
 	std::vector<Group> m_planes;

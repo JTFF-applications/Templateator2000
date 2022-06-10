@@ -6,48 +6,68 @@
 
 #include "Utilities/LUA/Lua.h"
 #include "Utilities/Log.h"
-#include "Mission.h"
+#include "DCSMission.h"
 
-const std::vector<const char*> Mission::s_coalitions = { "red", "blue", "neutrals" };
+const std::vector<const char*> DCSMission::s_coalitions = { "red", "blue", "neutrals" };
 
-void Mission::Get()
+bool DCSMission::IsValidMission(const std::filesystem::path& path)
 {
-	std::string filename = QFileDialog::getOpenFileName(nullptr, "Open Mission", "", "Mission Files (*.miz)").toStdString();
-	if (filename.empty())
-		return;
-	else if (!std::filesystem::exists(filename))
-	{
-		QMessageBox::critical(nullptr, "Error", "Selected file does not exist or is not readable.");
-		LOG_ERROR("Selected mission {} is invalid.", filename);
-		return;
-	}
-
-	m_path = filename;
-	Load();
-}
-
-void Mission::Load()
-{
-	libzippp::ZipArchive archive(m_path.string());
+	libzippp::ZipArchive archive(path.string());
 	archive.open(libzippp::ZipArchive::ReadOnly);
 	if (!archive.isOpen())
-	{
-		QMessageBox::critical(nullptr, "Error", "Selected file is not a valid mission.");
-		LOG_ERROR("Selected mission {} is invalid. Cannot read as .zip.", m_path.string());
-		return;
-	}
+		return false;
 
 	libzippp::ZipEntry mission_file = archive.getEntry("mission");
 	if (!mission_file.isFile())
-	{
-		QMessageBox::critical(nullptr, "Error", "Selected file is not a valid mission.");
-		LOG_ERROR("Selected mission {} is invalid. Cannot find mission file.", m_path.string());
+		return false;
+	return true;
+}
+
+DCSMission::DCSMission()
+	: m_initialized(false)
+{
+}
+
+DCSMission::DCSMission(const std::filesystem::path& path)
+{
+	if (!IsValidMission(path))
+		throw std::exception(std::format("Invalid mission {} !", path.string()).c_str());
+
+	m_initialized = true;
+	m_path = path;
+
+	Load();
+}
+
+void DCSMission::Init(const std::filesystem::path& path)
+{
+	if (!IsValidMission(path))
+		throw std::exception(std::format("Invalid mission {} !", path.string()).c_str());
+
+	m_initialized = true;
+	m_path = path;
+
+	m_helicopters.clear();
+	m_planes.clear();
+	m_statics.clear();
+	m_ships.clear();
+	m_vehicules.clear();
+
+	Load();
+}
+
+void DCSMission::Load()
+{
+	if (!m_initialized)
 		return;
-	}
+
+	libzippp::ZipArchive archive(m_path.string());
+	archive.open(libzippp::ZipArchive::ReadOnly);
+	libzippp::ZipEntry mission_file = archive.getEntry("mission");
 
 	try
 	{
-		json::json json = Lua::JsonFromString(mission_file.readAsText());
+		json::json json = Lua::JsonFromString(mission_file.readAsText(), "mission");
 		for (const auto& coalition : s_coalitions)
 		{
 			for (const auto& country : json["coalition"][coalition]["country"])
@@ -131,8 +151,6 @@ void Mission::Load()
 	}
 	catch (const std::exception& except)
 	{
-		QMessageBox::critical(nullptr, "Error", "Selected file is not a valid mission.");
-		LOG_ERROR("Selected mission {} is invalid. Exception thrown : {}", m_path.string(), except.what());
-		return;
+		throw std::exception(std::format("Selected mission {} is invalid. Exception thrown : {}", m_path.string(), except.what()).c_str());
 	}
 }

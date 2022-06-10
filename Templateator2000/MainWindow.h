@@ -2,7 +2,14 @@
 
 #include <QtWidgets/QMainWindow>
 
+#include "Utilities/Mission.h"
 #include "ui_MainWindow.h"
+
+#define CHECK_MISSION_LOADED()	if (!m_mission.IsInitialized()) { \
+										QMessageBox::warning(this, "Error", "No mission loaded !");\
+										LOG_WARN("No mission loaded");\
+										return; \
+									}\
 
 class MainWindow : public QMainWindow
 {
@@ -10,17 +17,16 @@ class MainWindow : public QMainWindow
 
 public:
 	MainWindow(QWidget* parent = nullptr);
+	~MainWindow();
 
 private slots:
 	// Top Bar
-	void New();
 	void Open();
 	void Save();
 	void SaveAs();
 	void Exit();
 
 	void Refresh();
-	void Export();
 
 	void Help();
 	void About();
@@ -40,6 +46,11 @@ private slots:
 	void EditCarrier();
 	void EditBeacon();
 	void EditAtis();
+
+private:
+	void FillTankers();
+
 private:
 	Ui::MainWindowClass m_ui;
+	Mission m_mission;
 };

@@ -23,14 +23,17 @@
    <widget class="QLabel" name="selected_mission">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>0</x>
       <y>60</y>
-      <width>151</width>
+      <width>1281</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Selected Mission : XXX.miz</string>
+     <string>No Mission Selected</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="app_title">
@@ -54,7 +57,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QListView" name="tankers">
+   <widget class="QListWidget" name="tankers">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -64,7 +67,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QListView" name="carrier">
+   <widget class="QListWidget" name="carrier">
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -74,7 +77,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QListView" name="beacon">
+   <widget class="QListWidget" name="beacon">
     <property name="geometry">
      <rect>
       <x>520</x>
@@ -84,7 +87,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QListView" name="awacs">
+   <widget class="QListWidget" name="awacs">
     <property name="geometry">
      <rect>
       <x>770</x>
@@ -94,7 +97,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QListView" name="atis">
+   <widget class="QListWidget" name="atis">
     <property name="geometry">
      <rect>
       <x>1020</x>
@@ -468,7 +471,6 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionSaveAs"/>
@@ -480,7 +482,6 @@
      <string>Mission</string>
     </property>
     <addaction name="actionRefresh"/>
-    <addaction name="actionExport"/>
    </widget>
    <widget class="QMenu" name="menuScripts">
     <property name="title">

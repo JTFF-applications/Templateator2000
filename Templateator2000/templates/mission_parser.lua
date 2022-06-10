@@ -95,4 +95,4 @@ function json.encode(val)
     return ( encode(val) )
   end  
 
-str = json.encode(mission)
+str = json.encode(__TABLE_TO_ENCODE__)

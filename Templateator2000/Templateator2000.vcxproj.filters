@@ -51,6 +51,9 @@
     <Filter Include="Source Files\Utilities\LUA">
       <UniqueIdentifier>{6aac6178-3b02-4f68-a4d2-4d5c8d71e0eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Models">
+      <UniqueIdentifier>{591f3535-f3fc-45d9-b9b6-3a211179b337}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MainWindow.qrc">
@@ -88,14 +91,20 @@
     <ClCompile Include="Utilities\DCS\Group.cpp">
       <Filter>Source Files\Utilities\DCS</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\DCS\Mission.cpp">
-      <Filter>Source Files\Utilities\DCS</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities\DCS\Unit.cpp">
       <Filter>Source Files\Utilities\DCS</Filter>
     </ClCompile>
     <ClCompile Include="Utilities\LUA\Lua.cpp">
       <Filter>Source Files\Utilities\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Scripting\Scripts.cpp">
+      <Filter>Source Files\Utilities\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Mission.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\DCS\DCSMission.cpp">
+      <Filter>Source Files\Utilities\DCS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,14 +117,26 @@
     <ClInclude Include="Utilities\DCS\Group.h">
       <Filter>Header Files\Utilities\DCS</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\DCS\Mission.h">
-      <Filter>Header Files\Utilities\DCS</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities\DCS\Unit.h">
       <Filter>Header Files\Utilities\DCS</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\LUA\Lua.h">
       <Filter>Header Files\Utilities\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Coalitions.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Mission.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Scripting\Scripts.h">
+      <Filter>Header Files\Utilities\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\DCS\DCSMission.h">
+      <Filter>Header Files\Utilities\DCS</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Tanker.h">
+      <Filter>Header Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

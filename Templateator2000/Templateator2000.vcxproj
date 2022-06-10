@@ -99,11 +99,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Utilities\DCS\DCSMission.cpp" />
     <ClCompile Include="Utilities\LUA\Lua.cpp" />
     <ClCompile Include="Utilities\DCS\Unit.cpp" />
-    <ClCompile Include="Utilities\DCS\Mission.cpp" />
+    <ClCompile Include="Utilities\Mission.cpp" />
     <ClCompile Include="Utilities\Moose.cpp" />
     <ClCompile Include="Utilities\DCS\Group.cpp" />
+    <ClCompile Include="Utilities\Scripting\Scripts.cpp" />
     <ClCompile Include="Windows\TankerWindow.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="MainWindow.ui" />
@@ -116,12 +118,16 @@
     <ResourceCompile Include="Templateator2000.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Models\Tanker.h" />
+    <ClInclude Include="Utilities\Coalitions.h" />
+    <ClInclude Include="Utilities\DCS\DCSMission.h" />
     <ClInclude Include="Utilities\LUA\Lua.h" />
     <ClInclude Include="Utilities\DCS\Unit.h" />
-    <ClInclude Include="Utilities\DCS\Mission.h" />
+    <ClInclude Include="Utilities\Mission.h" />
     <ClInclude Include="Utilities\Moose.h" />
     <ClInclude Include="Utilities\DCS\Group.h" />
     <ClInclude Include="Utilities\Log.h" />
+    <ClInclude Include="Utilities\Scripting\Scripts.h" />
     <QtMoc Include="Windows\TankerWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

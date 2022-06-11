@@ -69,6 +69,7 @@ void Scripts::Load()
 					.Coalition = tanker["benefit_coalition"] == "coalition.side.BLUE" ? Coalition::Blue : tanker["benefit_coalition"] == "coalition.side.RED" ? Coalition::Red : Coalition::Neutral,
 					.PatternUnit = tanker["patternUnit"].get<std::string>(),
 					.DepartureBase = tanker["baseUnit"].get<std::string>(),
+					.ParkingSize = tanker["terminalType"].get<std::string>(),
 					.Callsign = tanker["callsign"]["name"].get<std::string>(),
 					.Frequency = std::format("{:.3f}", tanker["freq"].get<float>()),
 					.TacanMorse = tanker["tacan"]["morse"].get<std::string>(),

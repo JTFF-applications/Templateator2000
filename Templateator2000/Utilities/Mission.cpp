@@ -25,11 +25,16 @@ void Mission::Init(const std::filesystem::path& path)
 const std::vector<Group> Mission::GetMissionGroups()
 {
 	std::vector<Group> res;
-	res.insert(res.end(), m_dcsMission.GetHelicopters().begin(), m_dcsMission.GetHelicopters().end());
-	res.insert(res.end(), m_dcsMission.GetPlanes().begin(), m_dcsMission.GetPlanes().end());
-	res.insert(res.end(), m_dcsMission.GetShips().begin(), m_dcsMission.GetShips().end());
-	res.insert(res.end(), m_dcsMission.GetStatics().begin(), m_dcsMission.GetStatics().end());
-	res.insert(res.end(), m_dcsMission.GetVehicules().begin(), m_dcsMission.GetVehicules().end());
+	for (const auto& data : m_dcsMission.GetHelicopters())
+		res.push_back(data);
+	for (const auto& data : m_dcsMission.GetPlanes())
+		res.push_back(data);
+	for (const auto& data : m_dcsMission.GetShips())
+		res.push_back(data);
+	for (const auto& data : m_dcsMission.GetStatics())
+		res.push_back(data);
+	for (const auto& data : m_dcsMission.GetVehicules())
+		res.push_back(data);
 	return res;
 }
 
@@ -46,11 +51,11 @@ void Mission::AddTanker(const Tanker& tanker)
 	m_scripts.m_tankers.push_back(tanker);
 }
 
-void Mission::ModifyTanker(const Tanker& tanker)
+void Mission::ModifyTanker(const Tanker& old_tanker, const Tanker& new_tanker)
 {
 	std::replace_if(m_scripts.m_tankers.begin(), m_scripts.m_tankers.end(), [&](const Tanker& tk) {
-		return TANKER_PRESENTATION_STRING(tanker) == TANKER_PRESENTATION_STRING(tk);
-		}, tanker);
+		return TANKER_PRESENTATION_STRING(old_tanker) == TANKER_PRESENTATION_STRING(tk);
+		}, new_tanker);
 }
 
 void Mission::DeleteTanker(const std::string& label)

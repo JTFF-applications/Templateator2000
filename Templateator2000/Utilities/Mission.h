@@ -21,7 +21,7 @@ public:
 
 	const Tanker& GetTanker(const std::string& label) const;
 	void AddTanker(const Tanker& tanker);
-	void ModifyTanker(const Tanker& tanker);
+	void ModifyTanker(const Tanker& old_tanker, const Tanker& new_tanker);
 	void DeleteTanker(const std::string& label);
 
 private:

@@ -175,19 +175,6 @@
     <string>Pattern :</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="pattern">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>150</y>
-     <width>111</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="placeholderText">
-    <string>Select Unit</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="departure_label">
    <property name="geometry">
     <rect>
@@ -199,19 +186,6 @@
    </property>
    <property name="text">
     <string>Departure :</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="departure">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>180</y>
-     <width>111</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="placeholderText">
-    <string>Select Departure</string>
    </property>
   </widget>
   <widget class="QLabel" name="parking_size_label">
@@ -227,19 +201,6 @@
     <string>Parking Size :</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="parking_size">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>210</y>
-     <width>111</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="placeholderText">
-    <string>Select Parking</string>
-   </property>
-  </widget>
   <widget class="QCheckBox" name="airboss_recovery">
    <property name="geometry">
     <rect>
@@ -251,19 +212,6 @@
    </property>
    <property name="text">
     <string>Airboss Recovery</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="escort">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>270</y>
-     <width>111</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="placeholderText">
-    <string>Select Escort</string>
    </property>
   </widget>
   <widget class="QLabel" name="escort_label">
@@ -635,6 +583,67 @@
    </property>
    <property name="value">
     <number>1</number>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="departure">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>180</y>
+     <width>113</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="placeholderText">
+    <string>Select Departure</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="pattern">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>150</y>
+     <width>113</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="placeholderText">
+    <string>Select Pattern Unit</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="parking_size">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>210</y>
+     <width>113</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="placeholderText">
+    <string>Select Parking Size</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="escort">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>270</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Select Escort</string>
    </property>
   </widget>
  </widget>

@@ -54,6 +54,12 @@
     <Filter Include="Header Files\Models">
       <UniqueIdentifier>{591f3535-f3fc-45d9-b9b6-3a211179b337}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utilities\Validators">
+      <UniqueIdentifier>{dccb38bb-4d1f-4c8d-971f-e2a248b35bcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\Validators">
+      <UniqueIdentifier>{e43d88e0-c005-4e34-b78d-43126fe0326b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MainWindow.qrc">
@@ -106,6 +112,9 @@
     <ClCompile Include="Utilities\DCS\DCSMission.cpp">
       <Filter>Source Files\Utilities\DCS</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\Validators\QStringListValidator.cpp">
+      <Filter>Source Files\Utilities\Validators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\Log.h">
@@ -137,6 +146,9 @@
     </ClInclude>
     <ClInclude Include="Models\Tanker.h">
       <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Validators\QStringListValidator.h">
+      <Filter>Header Files\Utilities\Validators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

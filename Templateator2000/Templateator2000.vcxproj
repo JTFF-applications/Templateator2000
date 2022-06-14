@@ -99,6 +99,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Utilities\Validators\QStringListValidator.cpp" />
     <ClCompile Include="Utilities\DCS\DCSMission.cpp" />
     <ClCompile Include="Utilities\LUA\Lua.cpp" />
     <ClCompile Include="Utilities\DCS\Unit.cpp" />
@@ -119,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Models\Tanker.h" />
+    <ClInclude Include="Utilities\Validators\QStringListValidator.h" />
     <ClInclude Include="Utilities\Coalitions.h" />
     <ClInclude Include="Utilities\DCS\DCSMission.h" />
     <ClInclude Include="Utilities\LUA\Lua.h" />

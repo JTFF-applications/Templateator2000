@@ -3,7 +3,7 @@
 #include "Utilities/Mission.h"
 #include "Utilities/Moose.h"
 #include "Utilities/Validators/QStringListValidator.h"
-#include "TankerWindow.h"
+#include "Windows/TankerWindow.h"
 
 TankerWindow::TankerWindow(QWidget* parent, const std::map<const std::string, const std::vector<Group>>& mission_data, std::function<void(Tanker)> on_ok, std::function<void(void)> on_cancel)
 	: QDialog(parent), m_missionData(mission_data), m_onOk(on_ok), m_onCancel(on_cancel)

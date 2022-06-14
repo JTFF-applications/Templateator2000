@@ -3,7 +3,7 @@
 #include <sstream>
 
 #include "Utilities/Log.h"
-#include "Lua.h"
+#include "Utilities/LUA/Lua.h"
 
 json::json Lua::JsonFromFile(const std::string& filepath, const std::string& table_name)
 {

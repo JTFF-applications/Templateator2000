@@ -6,7 +6,7 @@
 
 #include "Utilities/LUA/Lua.h"
 #include "Utilities/Log.h"
-#include "DCSMission.h"
+#include "Utilities/DCS/DCSMission.h"
 
 const std::vector<const char*> DCSMission::s_coalitions = { "red", "blue", "neutrals" };
 

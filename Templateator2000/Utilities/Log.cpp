@@ -1,4 +1,4 @@
-#include "Log.h"
+#include "Utilities/Log.h"
 
 Log* Log::s_instance = new Log();
 

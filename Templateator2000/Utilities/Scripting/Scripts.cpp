@@ -4,7 +4,7 @@
 
 #include "Utilities/LUA/Lua.h"
 #include "Utilities/Log.h"
-#include "Scripts.h"
+#include "Utilities/Scripting/Scripts.h"
 
 Scripts::Scripts()
 	: m_initialized(false)

@@ -69,6 +69,7 @@ void MainWindow::Open()
 		std::filesystem::path temp_filepath = std::format("temp/{}", std::filesystem::path(filepath).filename().string());
 		std::filesystem::copy_file(filepath, temp_filepath, std::filesystem::copy_options::overwrite_existing);
 		m_mission.Init(temp_filepath);
+		LOG_TRACE("Mission {} loaded sucessfully !", filepath);
 	}
 	catch (const std::exception& except)
 	{
@@ -115,6 +116,7 @@ void MainWindow::AddTanker()
 		m_mission.GetMissionGroups(),
 		[&](const Tanker& tk) {
 			m_mission.AddTanker(tk);
+			LOG_TRACE("Tanker {}-{} added !", tk.Callsign, tk.CallsignNb);
 		},
 		[&] {});
 	win.exec();
@@ -135,6 +137,14 @@ void MainWindow::AddAtis()
 void MainWindow::RemoveTanker()
 {
 	CHECK_MISSION_LOADED();
+	for (auto& item : m_ui.tankers->selectedItems())
+	{
+		const std::string tanker_label = item->text().toStdString();
+		const Tanker& tk = m_mission.GetTanker(tanker_label);
+		m_mission.RemoveTanker(tanker_label);
+		LOG_TRACE("Tanker {}-{} removed !", tk.Callsign, tk.CallsignNb);
+	}
+	qDeleteAll(m_ui.tankers->selectedItems());
 }
 
 void MainWindow::RemoveCarrier()
@@ -149,22 +159,23 @@ void MainWindow::RemoveAtis()
 {
 }
 
-void MainWindow::ModifyTanker()
+void MainWindow::EditTanker()
 {
 	CHECK_MISSION_LOADED();
-
 	for (const auto& item : m_ui.tankers->selectedItems())
 	{
 		const std::string tanker_label = item->text().toStdString();
-		const auto& tk = m_mission.GetTanker(tanker_label);
+		const auto& old_tk = m_mission.GetTanker(tanker_label);
 		TankerWindow win(
 			nullptr,
-			tk,
 			m_mission.GetMissionGroups(),
-			[&](const Tanker& tk) {
-				m_mission.ModifyTanker(tk);
+			[&](const Tanker& new_tk) {
+				m_mission.ModifyTanker(old_tk, new_tk);
+				item->setText(TANKER_PRESENTATION_STRING(new_tk).c_str());
+				LOG_TRACE("Tanker {}-{} modified !", old_tk.Callsign, old_tk.CallsignNb);
 			},
 			[&] {});
+		win.SetTanker(old_tk);
 		win.exec();
 	}
 }
@@ -188,5 +199,6 @@ void MainWindow::FillTankers()
 	const auto& tankers = m_mission.GetScripts().Tankers();
 	for (const auto& tanker : tankers)
 		m_ui.tankers->addItem(TANKER_PRESENTATION_STRING(tanker).c_str());
+	LOG_TRACE("Tankers filled !");
 }
 #pragma endregion

@@ -42,7 +42,7 @@ private slots:
 	void RemoveBeacon();
 	void RemoveAtis();
 
-	void ModifyTanker();
+	void EditTanker();
 	void EditCarrier();
 	void EditBeacon();
 	void EditAtis();

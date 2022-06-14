@@ -89,10 +89,16 @@ void TankerWindow::on_ok_clicked()
 			.RacetrackBack = m_ui.racetrack_back->value(),
 			.CallsignNb = m_ui.callsign_nb->value()
 		};
+
 		if (!Mission::DataToUnitName(m_missionData).contains(tanker.PatternUnit.c_str()))
 			throw std::exception("Invalid pattern unit !");
 		if (!tanker.EscortGroup.empty() || Mission::DataToGroupName(m_missionData).contains(tanker.EscortGroup.c_str()))
 			throw std::exception("Invalid escort group !");
+		if (tanker.Frequency.empty() || tanker.Frequency.size() != 6)
+			throw std::exception("Invalid radio frequency !");
+		if (tanker.TacanMorse.empty() || tanker.TacanMorse.size() != 3)
+			throw std::exception("Invalid tacan morse code !");
+
 		close();
 		std::invoke(m_onOk, tanker);
 	}

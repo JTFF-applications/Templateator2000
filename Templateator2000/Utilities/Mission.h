@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QStringList>
+
 #include <filesystem>
 
 #include "Utilities/DCS/DCSMission.h"
@@ -7,6 +9,10 @@
 
 class Mission
 {
+public:
+	static QStringList DataToGroupName(const std::map<const std::string, const std::vector<Group>>& mission_data);
+	static QStringList DataToUnitName(const std::map<const std::string, const std::vector<Group>>& mission_data);
+
 public:
 	Mission();
 	Mission(const std::filesystem::path& path);

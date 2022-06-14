@@ -633,17 +633,44 @@
     <string>Select Parking Size</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="escort">
+  <widget class="QLineEdit" name="escort">
    <property name="geometry">
     <rect>
      <x>160</x>
      <y>270</y>
-     <width>111</width>
+     <width>113</width>
      <height>22</height>
     </rect>
    </property>
+   <property name="text">
+    <string/>
+   </property>
    <property name="placeholderText">
     <string>Select Escort</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="error_msg">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>609</y>
+     <width>381</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: red;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

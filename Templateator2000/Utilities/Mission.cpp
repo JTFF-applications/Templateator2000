@@ -1,5 +1,24 @@
 #include "Mission.h"
 
+QStringList Mission::DataToGroupName(const std::map<const std::string, const std::vector<Group>>& mission_data)
+{
+	QStringList res;
+	for (const auto& groups : mission_data)
+		for (const auto& group : groups.second)
+			res.push_back(group.Name().c_str());
+	return res;
+}
+
+QStringList Mission::DataToUnitName(const std::map<const std::string, const std::vector<Group>>& mission_data)
+{
+	QStringList res;
+	for (const auto& groups : mission_data)
+		for (const auto& group : groups.second)
+			for (const auto& unit : group.Units())
+				res.push_back(unit.Name().c_str());
+	return res;
+}
+
 Mission::Mission()
 	: m_initialized(false)
 {

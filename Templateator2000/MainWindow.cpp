@@ -116,6 +116,7 @@ void MainWindow::AddTanker()
 		m_mission.GetMissionGroups(),
 		[&](const Tanker& tk) {
 			m_mission.AddTanker(tk);
+			m_ui.tankers->addItem(TANKER_PRESENTATION_STRING(tk).c_str());
 			LOG_TRACE("Tanker {}-{} added !", tk.Callsign, tk.CallsignNb);
 		},
 		[&] {});

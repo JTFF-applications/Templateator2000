@@ -17,4 +17,12 @@ public:
 	static const QStringList GetQTParkings();
 	static const QStringList GetQTAwacsCallsigns();
 	static const QStringList GetQTTankerCallsigns();
+
+	static const std::string GetMooseAirbaseFromName(const std::string& airport_name);
+	static const std::string GetMooseCallsignFromName(const std::string& callsign_name);
+	static const std::string GetMooseParkingFromName(const std::string parking_size_name);
+	
+	static const std::string GetNameFromMooseAirbase(const std::string& airport);
+	static const std::string GetNameFromMooseCallsign(const std::string& callsign);
+	static const std::string GetNameFromMooseParking(const std::string parking_size);
 };

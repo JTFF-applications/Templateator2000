@@ -64,12 +64,14 @@ void Scripts::Load()
 			json::json tankers = Lua::JsonFromConfigFile(file.readAsText(), "TankersConfig");
 			for (const auto& tanker : tankers)
 			{
+				bool isEscorted = tanker.contains("escortgroupname");
 				Tanker tanker_object = {
 					.Type = Tanker::Type::Fixed,
 					.Coalition = tanker["benefit_coalition"] == "coalition.side.BLUE" ? Coalition::Blue : tanker["benefit_coalition"] == "coalition.side.RED" ? Coalition::Red : Coalition::Neutral,
 					.PatternUnit = tanker["patternUnit"].get<std::string>(),
 					.DepartureBase = tanker["baseUnit"].get<std::string>(),
 					.ParkingSize = tanker["terminalType"].get<std::string>(),
+					.EscortGroup = isEscorted ? tanker["escortgroupname"].get<std::string>() : "",
 					.Callsign = tanker["callsign"]["name"].get<std::string>(),
 					.Frequency = std::format("{:.3f}", tanker["freq"].get<float>()),
 					.TacanMorse = tanker["tacan"]["morse"].get<std::string>(),

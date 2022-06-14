@@ -17,12 +17,12 @@ public:
 
 	const std::string GetMissionName() const { return m_path.filename().string(); }
 	const Scripts& GetScripts() const { return m_scripts; }
-	const std::vector<Group> GetMissionGroups();
+	const std::map<const std::string, const std::vector<Group>> GetMissionGroups();
 
 	const Tanker& GetTanker(const std::string& label) const;
 	void AddTanker(const Tanker& tanker);
 	void ModifyTanker(const Tanker& old_tanker, const Tanker& new_tanker);
-	void DeleteTanker(const std::string& label);
+	void RemoveTanker(const std::string& label);
 
 private:
 	std::filesystem::path m_path;

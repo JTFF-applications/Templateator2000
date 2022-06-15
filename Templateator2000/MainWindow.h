@@ -1,7 +1,5 @@
 #pragma once
 
-#include <QtWidgets/QMainWindow>
-
 #include "Utilities/Mission.h"
 #include "ui_MainWindow.h"
 
@@ -9,15 +7,20 @@
 										QMessageBox::warning(this, "Error", "No mission loaded !");\
 										LOG_WARN("No mission loaded");\
 										return; \
-									}\
+									}
 
-class MainWindow : public QMainWindow
+class MainWindow final : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	MainWindow(QWidget* parent = nullptr);
-	~MainWindow();
+	explicit MainWindow(QWidget* parent = nullptr);
+	virtual ~MainWindow() override;
+
+	MainWindow(const MainWindow&) = delete;
+	MainWindow(const MainWindow&&) = delete;
+	MainWindow& operator=(const MainWindow& other) = delete;
+	MainWindow& operator=(const MainWindow&& other) = delete;
 
 private slots:
 	// Top Bar
@@ -48,9 +51,9 @@ private slots:
 	void EditAtis();
 
 private:
-	void FillTankers();
+	void FillTankers() const;
 
 private:
-	Ui::MainWindowClass m_ui;
+	Ui::MainWindowClass m_ui {};
 	Mission m_mission;
 };

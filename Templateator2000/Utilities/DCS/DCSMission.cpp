@@ -1,34 +1,31 @@
-#include <QFileDialog>
-#include <QMessageBox>
-
 #include <libzippp/libzippp.h>
 #include <nlohmann/json.hpp>
 
-#include "Utilities/LUA/Lua.h"
 #include "Utilities/Log.h"
+#include "Utilities/LUA/Lua.h"
 #include "Utilities/DCS/DCSMission.h"
 
-const std::vector<const char*> DCSMission::s_coalitions = { "red", "blue", "neutrals" };
+const std::vector<const char*> DcsMission::s_coalitions = {"red", "blue", "neutrals"};
 
-bool DCSMission::IsValidMission(const std::filesystem::path& path)
+bool DcsMission::IsValidMission(const std::filesystem::path& path)
 {
 	libzippp::ZipArchive archive(path.string());
 	archive.open(libzippp::ZipArchive::ReadOnly);
 	if (!archive.isOpen())
 		return false;
 
-	libzippp::ZipEntry mission_file = archive.getEntry("mission");
+	const libzippp::ZipEntry mission_file = archive.getEntry("mission");
 	if (!mission_file.isFile())
 		return false;
 	return true;
 }
 
-DCSMission::DCSMission()
+DcsMission::DcsMission()
 	: m_initialized(false)
 {
 }
 
-DCSMission::DCSMission(const std::filesystem::path& path)
+DcsMission::DcsMission(const std::filesystem::path& path)
 {
 	if (!IsValidMission(path))
 		throw std::exception(std::format("Invalid mission {} !", path.string()).c_str());
@@ -39,7 +36,7 @@ DCSMission::DCSMission(const std::filesystem::path& path)
 	Load();
 }
 
-void DCSMission::Init(const std::filesystem::path& path)
+void DcsMission::Init(const std::filesystem::path& path)
 {
 	if (!IsValidMission(path))
 		throw std::exception(std::format("Invalid mission {} !", path.string()).c_str());
@@ -51,12 +48,12 @@ void DCSMission::Init(const std::filesystem::path& path)
 	m_planes.clear();
 	m_statics.clear();
 	m_ships.clear();
-	m_vehicules.clear();
+	m_vehicles.clear();
 
 	Load();
 }
 
-void DCSMission::Load()
+void DcsMission::Load()
 {
 	if (!m_initialized)
 		return;
@@ -69,7 +66,6 @@ void DCSMission::Load()
 	{
 		json::json json = Lua::JsonFromString(mission_file.readAsText(), "mission");
 		for (const auto& coalition : s_coalitions)
-		{
 			for (const auto& country : json["coalition"][coalition]["country"])
 			{
 				// Statics
@@ -117,19 +113,19 @@ void DCSMission::Load()
 						m_helicopters.emplace_back(group_name, helicopter_units);
 					}
 
-				// Vehicules
+				// Vehicle
 				if (country.contains("vehicle") && country.at("vehicle").contains("group"))
-					for (const auto& vehicule_group : country["vehicle"]["group"])
+					for (const auto& vehicle_group : country["vehicle"]["group"])
 					{
-						std::vector<Unit> vehicule_units;
-						for (const auto& vehicule_unit : vehicule_group["units"])
+						std::vector<Unit> vehicle_units;
+						for (const auto& vehicle_unit : vehicle_group["units"])
 						{
-							const std::string unit_type = vehicule_unit["type"].get<std::string>();
-							const std::string unit_name = vehicule_unit["name"].get<std::string>();
-							vehicule_units.emplace_back(unit_type, unit_name);
+							const std::string unit_type = vehicle_unit["type"].get<std::string>();
+							const std::string unit_name = vehicle_unit["name"].get<std::string>();
+							vehicle_units.emplace_back(unit_type, unit_name);
 						}
-						const std::string group_name = vehicule_group["name"].get<std::string>();
-						m_vehicules.emplace_back(group_name, vehicule_units);
+						const std::string group_name = vehicle_group["name"].get<std::string>();
+						m_vehicles.emplace_back(group_name, vehicle_units);
 					}
 
 				// Ships
@@ -147,10 +143,10 @@ void DCSMission::Load()
 						m_ships.emplace_back(group_name, ship_units);
 					}
 			}
-		}
-	}
-	catch (const std::exception& except)
+	} catch (const std::exception& except)
 	{
-		throw std::exception(std::format("Selected mission {} is invalid. Exception thrown : {}", m_path.string(), except.what()).c_str());
+		throw std::exception(std::format("Selected mission {} is invalid. Exception thrown : {}",
+		                                 m_path.string(),
+		                                 except.what()).c_str());
 	}
 }

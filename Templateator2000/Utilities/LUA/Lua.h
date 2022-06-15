@@ -1,15 +1,13 @@
 #pragma once
 
-#include <pugixml.hpp>
 namespace lua
 {
-	extern "C"
-	{
-#include "Lua.h"
-#include "lauxlib.h"
-#include "lualib.h"
+	extern "C" {
+	#include <lauxlib.h>
+	#include "Lua.h"
 	}
 }
+
 #include <nlohmann/json.hpp>
 
 namespace json = nlohmann;
@@ -22,5 +20,5 @@ public:
 	static json::json JsonFromConfigFile(const std::string& content, const std::string& table_name);
 
 private:
-	static bool CheckLua(lua::lua_State* L, int r);
+	static bool CheckLua(lua::lua_State* l, int r);
 };

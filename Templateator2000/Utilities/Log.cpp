@@ -1,3 +1,5 @@
+#include <spdlog/sinks/basic_file_sink.h>
+
 #include "Utilities/Log.h"
 
 Log* Log::s_instance = new Log();

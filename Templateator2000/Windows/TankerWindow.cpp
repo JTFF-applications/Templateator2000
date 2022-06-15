@@ -5,22 +5,22 @@
 #include "Utilities/Validators/QStringListValidator.h"
 #include "Windows/TankerWindow.h"
 
-TankerWindow::TankerWindow(QWidget* parent, const std::map<const std::string, const std::vector<Group>>& mission_data, std::function<void(Tanker)> on_ok, std::function<void(void)> on_cancel)
+TankerWindow::TankerWindow(QWidget* parent, const std::map<const std::string, const std::vector<Group>>& mission_data, std::function<void(Tanker)> on_ok, std::function<void()> on_cancel)
 	: QDialog(parent), m_missionData(mission_data), m_onOk(on_ok), m_onCancel(on_cancel)
 {
 	m_ui.setupUi(this);
 
-	m_ui.callsign->addItems(Moose::GetQTTankerCallsigns());
+	m_ui.callsign->addItems(Moose::GetQtTankerCallsigns());
 
-	m_ui.departure->setCompleter(new QCompleter(Moose::GetQTAirbases(), this));
-	m_ui.parking_size->setCompleter(new QCompleter(Moose::GetQTParkings(), this));
+	m_ui.departure->setCompleter(new QCompleter(Moose::GetQtAirbases(), this));
+	m_ui.parking_size->setCompleter(new QCompleter(Moose::GetQtParkings(), this));
 	m_ui.pattern->setCompleter(new QCompleter(Mission::DataToUnitName(m_missionData), this));
 	m_ui.escort->setCompleter(new QCompleter(Mission::DataToGroupName(m_missionData), this));
 
 	m_ui.frequency->setValidator(new QRegularExpressionValidator(QRegularExpression("^[1-3][0-9]{2}[.][0-9](00|25|50|75)$")));
 	m_ui.tacan_morse->setValidator(new QRegularExpressionValidator(QRegularExpression("^[A-Z]{3}$")));
-	m_ui.departure->setValidator(new QStringListValidator(Moose::GetQTAirbases()));
-	m_ui.parking_size->setValidator(new QStringListValidator(Moose::GetQTParkings()));
+	m_ui.departure->setValidator(new QStringListValidator(Moose::GetQtAirbases()));
+	m_ui.parking_size->setValidator(new QStringListValidator(Moose::GetQtParkings()));
 	m_ui.pattern->setValidator(new QStringListValidator(Mission::DataToUnitName(m_missionData)));
 	m_ui.escort->setValidator(new QStringListValidator(Mission::DataToGroupName(m_missionData)));
 
@@ -41,7 +41,7 @@ TankerWindow::~TankerWindow()
 	delete m_ui.parking_size->validator();
 }
 
-void TankerWindow::SetTanker(const Tanker& tk)
+void TankerWindow::SetTanker(const Tanker& tk) const
 {
 	m_ui.type->setCurrentIndex(m_ui.type->findText(tk.Type == Tanker::Type::Fixed ? "Fixed" : "On Demand"));
 	m_ui.coalition->setCurrentIndex(m_ui.coalition->findText(tk.Coalition == Coalition::Blue ? "Blue" : tk.Coalition == Coalition::Red ? "Red" : "Neutral"));
@@ -94,7 +94,7 @@ void TankerWindow::on_ok_clicked()
 			throw std::exception("Invalid pattern unit !");
 		if (!tanker.EscortGroup.empty() || Mission::DataToGroupName(m_missionData).contains(tanker.EscortGroup.c_str()))
 			throw std::exception("Invalid escort group !");
-		if (tanker.Frequency.empty() || tanker.Frequency.size() != 6)
+		if (tanker.Frequency.empty() || tanker.Frequency.size() != 7)
 			throw std::exception("Invalid radio frequency !");
 		if (tanker.TacanMorse.empty() || tanker.TacanMorse.size() != 3)
 			throw std::exception("Invalid tacan morse code !");

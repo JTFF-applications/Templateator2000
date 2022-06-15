@@ -1,6 +1,7 @@
 #include "Utilities/Log.h"
 #include "Utilities/Moose.h"
 
+// ReSharper disable StringLiteralTypo
 const std::map<const std::string, const std::map<const std::string, const std::string>> Moose::Airbases =
 {
 	{
@@ -181,13 +182,14 @@ const std::map<const std::string, const std::string> Moose::TankerCallsigns =
 	{"Arco", "CALLSIGN.Tanker.Arco"},
 	{"Shell", "CALLSIGN.Tanker.Shell"},
 };
+// ReSharper restore StringLiteralTypo
 
 #define GET_MAP_FIRST_ROW(MAP) 	QStringList res;\
-								for (const auto& data : MAP) \
+								for (const auto& data : (MAP)) \
 									res.append(data.first.c_str()); \
 								return res;
 
-const QStringList Moose::GetQTAirbases()
+const QStringList Moose::GetQtAirbases()
 {
 	QStringList res;
 	for (const auto& map : Airbases)
@@ -200,24 +202,24 @@ const QStringList Moose::GetQTAirbases()
 	return res;
 }
 
-const QStringList Moose::GetQTParkings()
+const QStringList Moose::GetQtParkings()
 {
 	GET_MAP_FIRST_ROW(Parkings)
 }
 
-const QStringList Moose::GetQTAwacsCallsigns()
+const QStringList Moose::GetQtAwacsCallsigns()
 {
 	GET_MAP_FIRST_ROW(AwacsCallsigns)
 }
 
-const QStringList Moose::GetQTTankerCallsigns()
+const QStringList Moose::GetQtTankerCallsigns()
 {
 	GET_MAP_FIRST_ROW(TankerCallsigns)
 }
 
 const std::string Moose::GetMooseAirbaseFromName(const std::string& airport_name)
 {
-	for (const auto& map : Moose::Airbases)
+	for (const auto& map : Airbases)
 		for (const auto& pair : map.second)
 			if (pair.first == airport_name)
 				return pair.second;
@@ -227,30 +229,31 @@ const std::string Moose::GetMooseAirbaseFromName(const std::string& airport_name
 
 const std::string Moose::GetMooseCallsignFromName(const std::string& callsign_name)
 {
-	auto tanker = std::find_if(Moose::TankerCallsigns.begin(), Moose::TankerCallsigns.end(), [&](const std::pair<const std::string, const std::string>& pair)
-		{
-			return pair.first == callsign_name;
-		});
-	auto awacs = std::find_if(Moose::AwacsCallsigns.begin(), Moose::AwacsCallsigns.end(), [&](const std::pair<const std::string, const std::string>& pair)
-		{
-			return pair.first == callsign_name;
-		});
+	const auto tanker = std::ranges::find_if(TankerCallsigns,
+	                                         [&](const std::pair<const std::string, const std::string>& pair)
+	                                         {
+		                                         return pair.first == callsign_name;
+	                                         });
+	const auto awacs = std::ranges::find_if(AwacsCallsigns,
+	                                        [&](const std::pair<const std::string, const std::string>& pair)
+	                                        {
+		                                        return pair.first == callsign_name;
+	                                        });
 
-	if (tanker != Moose::TankerCallsigns.end())
+	if (tanker != TankerCallsigns.end())
 		return tanker->second;
-	else if (awacs != Moose::AwacsCallsigns.end())
+	if (awacs != AwacsCallsigns.end())
 		return awacs->second;
 	LOG_ERROR("Callsign {} not found !", callsign_name);
 	throw std::exception("Callsign not found !");
 }
 
-const std::string Moose::GetMooseParkingFromName(const std::string parking_size_name)
+const std::string Moose::GetMooseParkingFromName(const std::string& parking_size_name)
 {
 	try
 	{
-		return Moose::Parkings.at(parking_size_name);
-	}
-	catch (const std::exception& e)
+		return Parkings.at(parking_size_name);
+	} catch ([[maybe_unused]] const std::exception& except)
 	{
 		LOG_ERROR("Parking {} not found !", parking_size_name);
 		throw std::exception("Parking not found !");
@@ -259,7 +262,7 @@ const std::string Moose::GetMooseParkingFromName(const std::string parking_size_
 
 const std::string Moose::GetNameFromMooseAirbase(const std::string& airport)
 {
-	for (const auto& map : Moose::Airbases)
+	for (const auto& map : Airbases)
 		for (const auto& pair : map.second)
 			if (pair.second == airport)
 				return pair.first;
@@ -269,26 +272,28 @@ const std::string Moose::GetNameFromMooseAirbase(const std::string& airport)
 
 const std::string Moose::GetNameFromMooseCallsign(const std::string& callsign)
 {
-	auto tanker = std::find_if(Moose::TankerCallsigns.begin(), Moose::TankerCallsigns.end(), [&](const std::pair<const std::string, const std::string>& pair)
-		{
-			return pair.second == callsign;
-		});
-	auto awacs = std::find_if(Moose::AwacsCallsigns.begin(), Moose::AwacsCallsigns.end(), [&](const std::pair<const std::string, const std::string>& pair)
-		{
-			return pair.second == callsign;
-		});
+	const auto tanker = std::ranges::find_if(TankerCallsigns,
+	                                         [&](const std::pair<const std::string, const std::string>& pair)
+	                                         {
+		                                         return pair.second == callsign;
+	                                         });
+	const auto awacs = std::ranges::find_if(AwacsCallsigns,
+	                                        [&](const std::pair<const std::string, const std::string>& pair)
+	                                        {
+		                                        return pair.second == callsign;
+	                                        });
 
-	if (tanker != Moose::TankerCallsigns.end())
+	if (tanker != TankerCallsigns.end())
 		return tanker->first;
-	else if (awacs != Moose::AwacsCallsigns.end())
+	if (awacs != AwacsCallsigns.end())
 		return awacs->first;
 	LOG_ERROR("Callsign {} not found !", callsign);
 	throw std::exception("Callsign not found !");
 }
 
-const std::string Moose::GetNameFromMooseParking(const std::string parking_size)
+const std::string Moose::GetNameFromMooseParking(const std::string& parking_size)
 {
-	for (const auto& pair : Moose::Parkings)
+	for (const auto& pair : Parkings)
 		if (pair.second == parking_size)
 			return pair.first;
 	LOG_ERROR("Parking {} not found !", parking_size);

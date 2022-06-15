@@ -5,11 +5,10 @@
 class Unit
 {
 public:
-	Unit(const std::string& type, const std::string& name);
-	~Unit() = default;
+	explicit Unit(const std::string& type, const std::string& name);
 
-	const std::string& Type() const { return m_type; }
-	const std::string& Name() const { return m_name; }
+	[[nodiscard]] const std::string& Type() const { return m_type; }
+	[[nodiscard]] const std::string& Name() const { return m_name; }
 
 private:
 	std::string m_type, m_name;

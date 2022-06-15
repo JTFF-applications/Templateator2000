@@ -2,10 +2,9 @@
 
 #include <string>
 
-#include "Utilities/DCS/Unit.h"
 #include "Utilities/Coalitions.h"
 
-#define TANKER_PRESENTATION_STRING(tanker) std::format("{}-{} Fq:{} Tcn:{}Y {}", tanker.Callsign.substr(tanker.Callsign.find_last_of('.') + 1), tanker.CallsignNb, tanker.Frequency, tanker.TacanChannel, tanker.TacanMorse)
+#define TANKER_PRESENTATION_STRING(tanker) std::format("{}-{} Fq:{} Tcn:{}Y {}", (tanker).Callsign.substr((tanker).Callsign.find_last_of('.') + 1), (tanker).CallsignNb, (tanker).Frequency, (tanker).TacanChannel, (tanker).TacanMorse)
 
 class Tanker
 {

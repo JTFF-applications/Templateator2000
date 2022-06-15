@@ -57,7 +57,7 @@ void MainWindow::Open()
 	if (filepath.empty())
 		return;
 
-	if (!DCSMission::IsValidMission(filepath))
+	if (!DcsMission::IsValidMission(filepath))
 	{
 		QMessageBox::warning(this, "Error", "Invalid mission file !");
 		LOG_WARN("Invalid mission {}", filepath);
@@ -66,12 +66,12 @@ void MainWindow::Open()
 
 	try
 	{
-		std::filesystem::path temp_filepath = std::format("temp/{}", std::filesystem::path(filepath).filename().string());
-		std::filesystem::copy_file(filepath, temp_filepath, std::filesystem::copy_options::overwrite_existing);
+		const std::filesystem::path temp_filepath = std::format("temp/{}",
+		                                                        std::filesystem::path(filepath).filename().string());
+		copy_file(filepath, temp_filepath, std::filesystem::copy_options::overwrite_existing);
 		m_mission.Init(temp_filepath);
 		LOG_TRACE("Mission {} loaded sucessfully !", filepath);
-	}
-	catch (const std::exception& except)
+	} catch (const std::exception& except)
 	{
 		QMessageBox::critical(nullptr, "Error", except.what(), QMessageBox::Ok);
 		LOG_ERROR(except.what());
@@ -110,16 +110,19 @@ void MainWindow::About()
 #pragma region Buttons
 void MainWindow::AddTanker()
 {
-	CHECK_MISSION_LOADED();
+	CHECK_MISSION_LOADED()
 	TankerWindow win(
 		nullptr,
 		m_mission.GetMissionGroups(),
-		[&](const Tanker& tk) {
+		[&](const Tanker& tk)
+		{
 			m_mission.AddTanker(tk);
 			m_ui.tankers->addItem(TANKER_PRESENTATION_STRING(tk).c_str());
 			LOG_TRACE("Tanker {}-{} added !", tk.Callsign, tk.CallsignNb);
 		},
-		[&] {});
+		[&]
+		{
+		});
 	win.exec();
 }
 
@@ -137,8 +140,8 @@ void MainWindow::AddAtis()
 
 void MainWindow::RemoveTanker()
 {
-	CHECK_MISSION_LOADED();
-	for (auto& item : m_ui.tankers->selectedItems())
+	CHECK_MISSION_LOADED()
+	for (const auto& item : m_ui.tankers->selectedItems())
 	{
 		const std::string tanker_label = item->text().toStdString();
 		const Tanker& tk = m_mission.GetTanker(tanker_label);
@@ -162,7 +165,7 @@ void MainWindow::RemoveAtis()
 
 void MainWindow::EditTanker()
 {
-	CHECK_MISSION_LOADED();
+	CHECK_MISSION_LOADED()
 	for (const auto& item : m_ui.tankers->selectedItems())
 	{
 		const std::string tanker_label = item->text().toStdString();
@@ -170,12 +173,15 @@ void MainWindow::EditTanker()
 		TankerWindow win(
 			nullptr,
 			m_mission.GetMissionGroups(),
-			[&](const Tanker& new_tk) {
+			[&](const Tanker& new_tk)
+			{
 				m_mission.ModifyTanker(old_tk, new_tk);
 				item->setText(TANKER_PRESENTATION_STRING(new_tk).c_str());
 				LOG_TRACE("Tanker {}-{} modified !", old_tk.Callsign, old_tk.CallsignNb);
 			},
-			[&] {});
+			[&]
+			{
+			});
 		win.SetTanker(old_tk);
 		win.exec();
 	}
@@ -195,7 +201,7 @@ void MainWindow::EditAtis()
 #pragma endregion
 
 #pragma region Fill UI
-void MainWindow::FillTankers()
+void MainWindow::FillTankers() const
 {
 	const auto& tankers = m_mission.GetScripts().Tankers();
 	for (const auto& tanker : tankers)

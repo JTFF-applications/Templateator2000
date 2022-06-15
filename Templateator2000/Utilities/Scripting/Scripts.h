@@ -10,11 +10,10 @@ class Scripts
 
 public:
 	Scripts();
-	Scripts(const std::filesystem::path& path);
-	~Scripts() = default;
+	explicit Scripts(const std::filesystem::path& path);
 
 	void Init(const std::filesystem::path& path);
-	const std::vector<Tanker>& Tankers() const { return m_tankers; }
+	[[nodiscard]] const std::vector<Tanker>& Tankers() const { return m_tankers; }
 
 private:
 	void Load();

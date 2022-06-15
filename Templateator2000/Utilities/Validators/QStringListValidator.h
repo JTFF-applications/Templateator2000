@@ -2,11 +2,16 @@
 
 #include <QValidator>
 
-class QStringListValidator : public QValidator
+class QStringListValidator final : public QValidator
 {
 public:
-	QStringListValidator(const QStringList& values, QObject* parent = nullptr);
-	~QStringListValidator() = default;
+	explicit QStringListValidator(const QStringList& values, QObject* parent = nullptr);
+	virtual ~QStringListValidator() override = default;
+
+	QStringListValidator(const QStringListValidator&) = delete;
+	QStringListValidator(const QStringListValidator&&) = delete;
+	QStringListValidator& operator=(const QStringListValidator& other) = delete;
+	QStringListValidator& operator=(const QStringListValidator&& other) = delete;
 
 	virtual State validate(QString& input, int& pos) const override;
 

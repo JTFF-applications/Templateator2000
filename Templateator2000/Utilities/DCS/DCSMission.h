@@ -1,31 +1,30 @@
 #pragma once
 
-#include <nlohmann/json.hpp>
-
 #include <filesystem>
 #include <vector>
+
+#include <nlohmann/json.hpp>
 
 #include "Utilities/DCS/Group.h"
 
 namespace json = nlohmann;
 
-class DCSMission
+class DcsMission
 {
 public:
 	static bool IsValidMission(const std::filesystem::path& path);
 
 public:
-	DCSMission();
-	DCSMission(const std::filesystem::path& path);
-	~DCSMission() = default;
+	DcsMission();
+	explicit DcsMission(const std::filesystem::path& path);
 
 	void Init(const std::filesystem::path& path);
 
-	const std::vector<Group> GetHelicopters() const { return m_helicopters; }
-	const std::vector<Group> GetPlanes() const { return m_planes; }
-	const std::vector<Group> GetStatics() const { return m_statics; }
-	const std::vector<Group> GetVehicules() const { return m_vehicules; }
-	const std::vector<Group> GetShips() const { return m_ships; }
+	[[nodiscard]] const std::vector<Group> GetHelicopters() const { return m_helicopters; }
+	[[nodiscard]] const std::vector<Group> GetPlanes() const { return m_planes; }
+	[[nodiscard]] const std::vector<Group> GetStatics() const { return m_statics; }
+	[[nodiscard]] const std::vector<Group> GetVehicles() const { return m_vehicles; }
+	[[nodiscard]] const std::vector<Group> GetShips() const { return m_ships; }
 
 private:
 	void Load();
@@ -38,9 +37,6 @@ private:
 	std::vector<Group> m_helicopters;
 	std::vector<Group> m_planes;
 	std::vector<Group> m_statics;
-	std::vector<Group> m_vehicules;
+	std::vector<Group> m_vehicles;
 	std::vector<Group> m_ships;
 };
-
-// Group name : mission/coalition/blue/country/{1}/{helicopter/vehicule/ship/plane/static}/group/{1}/name
-// Unit name  : mission/coalition/blue/country/{1}/{helicopter/vehicule/ship/plane/static}/group/{1}/units/{1}/name

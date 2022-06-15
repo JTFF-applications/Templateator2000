@@ -1,9 +1,7 @@
-#include <QMessageBox>
-
 #include <libzippp/libzippp.h>
 
-#include "Utilities/LUA/Lua.h"
 #include "Utilities/Log.h"
+#include "Utilities/LUA/Lua.h"
 #include "Utilities/Scripting/Scripts.h"
 
 Scripts::Scripts()
@@ -12,7 +10,7 @@ Scripts::Scripts()
 }
 
 Scripts::Scripts(const std::filesystem::path& path)
-	: m_initialized(true), m_path(path)
+	: m_path(path), m_initialized(true)
 {
 	Load();
 }
@@ -38,10 +36,12 @@ void Scripts::Load()
 
 	std::vector<libzippp::ZipEntry> entries = archive.getEntries();
 	bool scripts_injected = false;
-	std::for_each(entries.begin(), entries.end(), [&](libzippp::ZipEntry entry) {
-		if (entry.getName() == "scripts.txt")
-			scripts_injected = true;
-		});
+	std::ranges::for_each(entries,
+	                      [&](const libzippp::ZipEntry& entry)
+	                      {
+		                      if (entry.getName() == "scripts.txt")
+			                      scripts_injected = true;
+	                      });
 
 	if (!scripts_injected)
 		throw std::exception("JTFF Scripts are not installed in this mission !");
@@ -53,6 +53,7 @@ void Scripts::Load()
 	while (std::getline(scripts_installed_stream, scripts_installed_line))
 		m_scripts_installed.push_back(scripts_installed_line);
 
+	// ReSharper disable StringLiteralTypo
 	for (const auto& file : entries)
 	{
 		if (!file.getName().starts_with("l10n/DEFAULT/"))
@@ -64,14 +65,18 @@ void Scripts::Load()
 			json::json tankers = Lua::JsonFromConfigFile(file.readAsText(), "TankersConfig");
 			for (const auto& tanker : tankers)
 			{
-				bool isEscorted = tanker.contains("escortgroupname");
+				bool is_escorted = tanker.contains("escortgroupname");
 				Tanker tanker_object = {
 					.Type = Tanker::Type::Fixed,
-					.Coalition = tanker["benefit_coalition"] == "coalition.side.BLUE" ? Coalition::Blue : tanker["benefit_coalition"] == "coalition.side.RED" ? Coalition::Red : Coalition::Neutral,
+					.Coalition = tanker["benefit_coalition"] == "coalition.side.BLUE"
+						             ? Coalition::Blue
+						             : tanker["benefit_coalition"] == "coalition.side.RED"
+							               ? Coalition::Red
+							               : Coalition::Neutral,
 					.PatternUnit = tanker["patternUnit"].get<std::string>(),
 					.DepartureBase = tanker["baseUnit"].get<std::string>(),
 					.ParkingSize = tanker["terminalType"].get<std::string>(),
-					.EscortGroup = isEscorted ? tanker["escortgroupname"].get<std::string>() : "",
+					.EscortGroup = is_escorted ? tanker["escortgroupname"].get<std::string>() : "",
 					.Callsign = tanker["callsign"]["name"].get<std::string>(),
 					.Frequency = std::format("{:.3f}", tanker["freq"].get<float>()),
 					.TacanMorse = tanker["tacan"]["morse"].get<std::string>(),
@@ -103,4 +108,5 @@ void Scripts::Load()
 		{
 		}
 	}
+	// ReSharper restore StringLiteralTypo
 }

@@ -17,7 +17,7 @@ public:
 public:
 	Type Type;
 	Coalition Coalition;
-	std::string PatternUnit, DepartureBase, ParkingSize, EscortGroup, Callsign, Frequency, TacanMorse;
+	std::string PatternUnit, DepartureBase, ParkingSize, GroupName, EscortGroup, Callsign, Frequency, TacanMorse;
 	bool AutoRespawn, AirbossRecovery;
 	int MaxMissionDuration, Altitude, Speed, FuelWarningLevel, Modex, TacanChannel;
 	int RacetrackFront, RacetrackBack, CallsignNb;

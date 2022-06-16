@@ -24,18 +24,20 @@ Mission::Mission()
 {
 }
 
-Mission::Mission(const std::filesystem::path& path)
-	: m_path(path), m_initialized(true), m_dcs_mission(path), m_scripts(path)
+Mission::Mission(const std::filesystem::path& path, const std::filesystem::path& mission_path)
+	: m_path(path), m_mission_path(mission_path), m_initialized(true),
+	  m_dcs_mission(path), m_scripts(path)
 {
 }
 
-void Mission::Init(const std::filesystem::path& path)
+void Mission::Init(const std::filesystem::path& path, const std::filesystem::path& mission_path)
 {
 	if (m_initialized)
 		return;
 
 	m_initialized = true;
 	m_path = path;
+	m_mission_path = mission_path;
 
 	m_dcs_mission.Init(m_path);
 	m_scripts.Init(m_path);
@@ -44,6 +46,7 @@ void Mission::Init(const std::filesystem::path& path)
 void Mission::Save() const
 {
 	m_scripts.Save();
+	copy_file(m_path, m_mission_path, std::filesystem::copy_options::overwrite_existing);
 }
 
 const std::map<const std::string, const std::vector<Group>> Mission::GetMissionGroups() const

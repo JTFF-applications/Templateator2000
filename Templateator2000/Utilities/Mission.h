@@ -15,9 +15,9 @@ public:
 
 public:
 	Mission();
-	explicit Mission(const std::filesystem::path& path);
+	explicit Mission(const std::filesystem::path& path, const std::filesystem::path& mission_path);
 
-	void Init(const std::filesystem::path& path);
+	void Init(const std::filesystem::path& path, const std::filesystem::path& mission_path);
 	void Save() const;
 	[[nodiscard]] const bool& IsInitialized() const { return m_initialized; }
 
@@ -32,7 +32,7 @@ public:
 	void RemoveTanker(const std::string& label);
 
 private:
-	std::filesystem::path m_path;
+	std::filesystem::path m_path, m_mission_path;
 	bool m_initialized;
 
 	DcsMission m_dcs_mission;

@@ -24,34 +24,34 @@ public:
 
 private slots:
 	// Top Bar
-	void Open();
-	void Save();
-	void SaveAs();
-	void Exit();
+	void open();
+	void save();
+	void saveAs();
+	void exit();
 
-	void Refresh();
+	void refresh();
 
-	void Help();
-	void About();
+	void help();
+	void about();
 
 	// Buttons
-	void AddTanker();
-	void AddCarrier();
-	void AddBeacon();
-	void AddAtis();
+	void addTanker();
+	void addCarrier();
+	void addBeacon();
+	void addAtis();
 
-	void RemoveTanker();
-	void RemoveCarrier();
-	void RemoveBeacon();
-	void RemoveAtis();
+	void removeTanker();
+	void removeCarrier();
+	void removeBeacon();
+	void removeAtis();
 
-	void EditTanker();
-	void EditCarrier();
-	void EditBeacon();
-	void EditAtis();
+	void editTanker();
+	void editCarrier();
+	void editBeacon();
+	void editAtis();
 
 private:
-	void FillTankers() const;
+	void fillTankers() const;
 
 private:
 	Ui::MainWindowClass m_ui {};

@@ -7,7 +7,8 @@
 
 json::json Lua::JsonFromFile(const std::string& filepath, const std::string& table_name)
 {
-	const auto l = lua::luaL_newstate();
+	lua::lua_State* l = lua::luaL_newstate();
+	luaL_openlibs(l);
 
 	std::stringstream buffer;
 	std::ifstream mission(filepath);
@@ -33,7 +34,8 @@ json::json Lua::JsonFromFile(const std::string& filepath, const std::string& tab
 
 json::json Lua::JsonFromString(const std::string& content, const std::string& table_name)
 {
-	const auto l = lua::luaL_newstate();
+	lua::lua_State* l = lua::luaL_newstate();
+	luaL_openlibs(l);
 
 	std::stringstream buffer;
 	buffer << content;
@@ -48,7 +50,7 @@ json::json Lua::JsonFromString(const std::string& content, const std::string& ta
 		lua_getglobal(l, "str");
 		if (lua_isstring(l, -1))
 		{
-			const std::string json = lua::lua_tostring(l, -1);
+			const std::string json = lua_tostring(l, -1);
 			return json::json::parse(json);
 		}
 		throw std::exception("Lua error : Can't find str in lua !");
@@ -78,12 +80,53 @@ json::json Lua::JsonFromConfigFile(const std::string& content, const std::string
 	return JsonFromString(str, table_name);
 }
 
-bool Lua::CheckLua(lua::lua_State* l, int r)
+const std::string Lua::LuaFromTankers(const std::vector<Tanker>& tankers)
+{
+	std::stringstream ss;
+	ss << "TankersConfig = {";
+
+	// ReSharper disable StringLiteralTypo
+	for (const auto& tanker : tankers)
+	{
+		ss << "{";
+		ss << "enable = true,";
+		ss << "autorespawn = " << (tanker.AutoRespawn ? "true" : "false") << ",";
+		ss << "patternUnit = '" << tanker.PatternUnit << "',";
+		ss << "benefit_coalition = " << "coalition.side." << (tanker.Coalition == Coalition::Blue
+			                                                      ? "BLUE"
+			                                                      : tanker.Coalition == Coalition::Red
+				                                                        ? "RED"
+				                                                        : "NEUTRAL") << ",";
+		ss << "baseUnit = " << tanker.DepartureBase << ",";
+		ss << "terminalType = " << tanker.ParkingSize << ",";
+		ss << "groupName = '" << tanker.GroupName << "',";
+		ss << "airboss_recovery = " << (tanker.AirbossRecovery ? "true" : "false") << ",";
+		if (!tanker.EscortGroup.empty())
+			ss << "escortgroupname = '" << tanker.EscortGroup << "',";
+		ss << "missionmaxduration = " << tanker.MaxMissionDuration << ",";
+		ss << "altitude = " << tanker.Altitude << ",";
+		ss << "speed = " << tanker.Speed << ",";
+		ss << "tacan = {" << "channel = " << tanker.TacanChannel << ", morse = '" << tanker.TacanMorse << "',},";
+		ss << "freq = " << std::fixed << std::setprecision(3) << tanker.Frequency << ",";
+		ss << "fuelwarninglevel = " << tanker.FuelWarningLevel << ",";
+		ss << "racetrack = { front = " << tanker.RacetrackFront << ", back = " << tanker.RacetrackBack << " },";
+		ss << "modex = " << tanker.Modex << ",";
+		ss << "callsign = {alias = '" << tanker.Callsign.substr(tanker.Callsign.find_last_of('.')) << "',name = " <<
+			tanker.Callsign << ", number = " << tanker.CallsignNb << " }";
+		ss << "},";
+	}
+	// ReSharper restore StringLiteralTypo
+
+	ss << "}";
+	return ss.str();
+}
+
+bool Lua::CheckLua(lua::lua_State* l, const int& r)
 {
 	if (r != 0)
 	{
 		auto err = lua_pcall(l, 0, 0, 0);
-		const std::string error = lua::lua_tostring(l, -1);
+		const std::string error = lua_tostring(l, -1);
 		lua_pop(l, 1);
 		throw std::exception(std::format("Lua error : {}", error).c_str());
 	}

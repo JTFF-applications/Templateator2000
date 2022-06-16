@@ -18,6 +18,7 @@ public:
 	explicit Mission(const std::filesystem::path& path);
 
 	void Init(const std::filesystem::path& path);
+	void Save() const;
 	[[nodiscard]] const bool& IsInitialized() const { return m_initialized; }
 
 	[[nodiscard]] const std::string GetMissionName() const { return m_path.filename().string(); }
@@ -34,6 +35,6 @@ private:
 	std::filesystem::path m_path;
 	bool m_initialized;
 
-	DcsMission m_dcsMission;
+	DcsMission m_dcs_mission;
 	Scripts m_scripts;
 };

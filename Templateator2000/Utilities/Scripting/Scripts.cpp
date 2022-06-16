@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include <libzippp/libzippp.h>
 
 #include "Utilities/Log.h"
@@ -26,6 +28,41 @@ void Scripts::Init(const std::filesystem::path& path)
 	Load();
 }
 
+void Scripts::Save() const
+{
+	if (!m_initialized)
+		return;
+
+	libzippp::ZipArchive archive(m_path.string());
+	archive.open(libzippp::ZipArchive::Write);
+	if (!archive.isOpen())
+		throw std::exception("Failed to open mission for writing !");
+
+	for (const auto& script : m_installed_scripts)
+		if (script == "tankers")
+		{
+			std::fstream file("temp/settings-tankers.lua", std::ios::out);
+			file << Lua::LuaFromTankers(m_tankers);
+			file.close();
+
+			if (!archive.addFile("l10n/DEFAULT/settings-tankers.lua", "temp/settings-tankers.lua"))
+				throw std::exception("Failed to write tanker config file in mission !");
+		}
+		else if (script == "carriers")
+		{
+		}
+		else if (script == "awacs")
+		{
+		}
+		else if (script == "beacons")
+		{
+		}
+		else if (script == "atis")
+		{
+		}
+	archive.close();
+}
+
 void Scripts::Load()
 {
 	if (!m_initialized)
@@ -46,12 +83,7 @@ void Scripts::Load()
 	if (!scripts_injected)
 		throw std::exception("JTFF Scripts are not installed in this mission !");
 
-	std::string scripts_installed = archive.getEntry("scripts.txt").readAsText();
-
-	std::string scripts_installed_line;
-	std::istringstream scripts_installed_stream(scripts_installed);
-	while (std::getline(scripts_installed_stream, scripts_installed_line))
-		m_scripts_installed.push_back(scripts_installed_line);
+	m_installed_scripts = GetInstalledScripts(archive.getEntry("scripts.txt").readAsText());
 
 	// ReSharper disable StringLiteralTypo
 	for (const auto& file : entries)
@@ -65,7 +97,7 @@ void Scripts::Load()
 			json::json tankers = Lua::JsonFromConfigFile(file.readAsText(), "TankersConfig");
 			for (const auto& tanker : tankers)
 			{
-				bool is_escorted = tanker.contains("escortgroupname");
+				const bool is_escorted = tanker.contains("escortgroupname");
 				Tanker tanker_object = {
 					.Type = Tanker::Type::Fixed,
 					.Coalition = tanker["benefit_coalition"] == "coalition.side.BLUE"
@@ -76,6 +108,7 @@ void Scripts::Load()
 					.PatternUnit = tanker["patternUnit"].get<std::string>(),
 					.DepartureBase = tanker["baseUnit"].get<std::string>(),
 					.ParkingSize = tanker["terminalType"].get<std::string>(),
+					.GroupName = tanker["groupName"].get<std::string>(),
 					.EscortGroup = is_escorted ? tanker["escortgroupname"].get<std::string>() : "",
 					.Callsign = tanker["callsign"]["name"].get<std::string>(),
 					.Frequency = std::format("{:.3f}", tanker["freq"].get<float>()),
@@ -109,4 +142,16 @@ void Scripts::Load()
 		}
 	}
 	// ReSharper restore StringLiteralTypo
+}
+
+const std::vector<std::string> Scripts::GetInstalledScripts(const std::string& file_data) const
+{
+	std::vector<std::string> scripts;
+
+	std::string scripts_installed_line;
+	std::istringstream scripts_installed_stream(file_data);
+	while (std::getline(scripts_installed_stream, scripts_installed_line))
+		scripts.push_back(scripts_installed_line);
+
+	return scripts;
 }

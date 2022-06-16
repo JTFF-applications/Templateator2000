@@ -25,7 +25,7 @@ Mission::Mission()
 }
 
 Mission::Mission(const std::filesystem::path& path)
-	: m_path(path), m_initialized(true), m_dcsMission(path), m_scripts(path)
+	: m_path(path), m_initialized(true), m_dcs_mission(path), m_scripts(path)
 {
 }
 
@@ -37,18 +37,23 @@ void Mission::Init(const std::filesystem::path& path)
 	m_initialized = true;
 	m_path = path;
 
-	m_dcsMission.Init(m_path);
+	m_dcs_mission.Init(m_path);
 	m_scripts.Init(m_path);
+}
+
+void Mission::Save() const
+{
+	m_scripts.Save();
 }
 
 const std::map<const std::string, const std::vector<Group>> Mission::GetMissionGroups() const
 {
 	std::map<const std::string, const std::vector<Group>> res;
-	res.emplace("helicopters", m_dcsMission.GetHelicopters());
-	res.emplace("planes", m_dcsMission.GetPlanes());
-	res.emplace("ships", m_dcsMission.GetShips());
-	res.emplace("statics", m_dcsMission.GetStatics());
-	res.emplace("vehicles", m_dcsMission.GetVehicles());
+	res.emplace("helicopters", m_dcs_mission.GetHelicopters());
+	res.emplace("planes", m_dcs_mission.GetPlanes());
+	res.emplace("ships", m_dcs_mission.GetShips());
+	res.emplace("statics", m_dcs_mission.GetStatics());
+	res.emplace("vehicles", m_dcs_mission.GetVehicles());
 	return res;
 }
 

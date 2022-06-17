@@ -22,12 +22,13 @@ public:
 	MainWindow& operator=(const MainWindow& other) = delete;
 	MainWindow& operator=(const MainWindow&& other) = delete;
 
+	virtual void closeEvent(QCloseEvent* event) override;
+
 private slots:
 	// Top Bar
 	void open();
 	void save();
 	void saveAs();
-	void exit();
 
 	void refresh();
 

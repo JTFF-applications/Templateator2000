@@ -20,13 +20,13 @@ QStringList Mission::DataToUnitName(const std::map<const std::string, const std:
 }
 
 Mission::Mission()
-	: m_initialized(false)
+	: m_initialized(false), m_is_saved(true)
 {
 }
 
 Mission::Mission(const std::filesystem::path& path, const std::filesystem::path& mission_path)
 	: m_path(path), m_mission_path(mission_path), m_initialized(true),
-	  m_dcs_mission(path), m_scripts(path)
+	  m_is_saved(true), m_dcs_mission(path), m_scripts(path)
 {
 }
 
@@ -36,6 +36,7 @@ void Mission::Init(const std::filesystem::path& path, const std::filesystem::pat
 		return;
 
 	m_initialized = true;
+	m_is_saved = true;
 	m_path = path;
 	m_mission_path = mission_path;
 
@@ -43,10 +44,18 @@ void Mission::Init(const std::filesystem::path& path, const std::filesystem::pat
 	m_scripts.Init(m_path);
 }
 
-void Mission::Save() const
+void Mission::Save()
 {
 	m_scripts.Save();
+	m_is_saved = true;
 	copy_file(m_path, m_mission_path, std::filesystem::copy_options::overwrite_existing);
+}
+
+void Mission::SaveAs(const std::filesystem::path new_path)
+{
+	m_scripts.Save();
+	m_is_saved = true;
+	copy_file(m_path, new_path, std::filesystem::copy_options::overwrite_existing);
 }
 
 const std::map<const std::string, const std::vector<Group>> Mission::GetMissionGroups() const
@@ -73,6 +82,7 @@ const Tanker& Mission::GetTanker(const std::string& label) const
 void Mission::AddTanker(const Tanker& tanker)
 {
 	m_scripts.m_tankers.push_back(tanker);
+	m_is_saved = false;
 }
 
 void Mission::ModifyTanker(const Tanker& old_tanker, const Tanker& new_tanker)
@@ -83,6 +93,7 @@ void Mission::ModifyTanker(const Tanker& old_tanker, const Tanker& new_tanker)
 		                        return TANKER_PRESENTATION_STRING(old_tanker) == TANKER_PRESENTATION_STRING(tk);
 	                        },
 	                        new_tanker);
+	m_is_saved = false;
 }
 
 void Mission::RemoveTanker(const std::string& label)
@@ -92,5 +103,6 @@ void Mission::RemoveTanker(const std::string& label)
 	                                               {
 		                                               return label == TANKER_PRESENTATION_STRING(tk);
 	                                               }));
+	m_is_saved = false;
 }
 #pragma endregion

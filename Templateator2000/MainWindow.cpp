@@ -1,3 +1,4 @@
+#include <QCloseEvent>
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -13,12 +14,12 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(m_ui.actionOpen, SIGNAL(triggered()), this, SLOT(open()));
 	connect(m_ui.actionSave, SIGNAL(triggered()), this, SLOT(save()));
 	connect(m_ui.actionSaveAs, SIGNAL(triggered()), this, SLOT(saveAs()));
-	connect(m_ui.actionExit, SIGNAL(triggered()), this, SLOT(exit()));
+	connect(m_ui.actionExit, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
 
 	connect(m_ui.actionRefresh, SIGNAL(triggered()), this, SLOT(refresh()));
 
 	connect(m_ui.actionAddTanker, SIGNAL(triggered()), this, SLOT(addTanker()));
-	connect(m_ui.actionAddCarrier, SIGNAL(triggered()), this, SLOT(AaddCarrier()));
+	connect(m_ui.actionAddCarrier, SIGNAL(triggered()), this, SLOT(addCarrier()));
 	connect(m_ui.actionAddBeacon, SIGNAL(triggered()), this, SLOT(addBeacon()));
 	connect(m_ui.actionAddAtis, SIGNAL(triggered()), this, SLOT(addAtis()));
 
@@ -48,6 +49,28 @@ MainWindow::~MainWindow()
 {
 	if (std::filesystem::exists("temp"))
 		std::filesystem::remove_all("temp");
+}
+
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+	if (m_mission.IsInitialized() && !m_mission.IsSaved())
+	{
+		const auto res = QMessageBox::question(this,
+		                                       "Warning",
+		                                       "Mission is not saved, do you want to save it ?",
+		                                       QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+
+		if (res == QMessageBox::Yes)
+		{
+			save();
+			event->accept();
+		}
+		else if (res == QMessageBox::No)
+			event->accept();
+		else
+			event->ignore();
+	}
+	LOG_INFO("Exiting application.");
 }
 
 #pragma region TopBar
@@ -98,10 +121,20 @@ void MainWindow::save()
 
 void MainWindow::saveAs()
 {
-}
-
-void MainWindow::exit()
-{
+	CHECK_MISSION_LOADED()
+	try
+	{
+		const std::string filepath = QFileDialog::getSaveFileName(this, "Save File", "", "MIZ Files (*.miz)").
+			toStdString();
+		if (filepath.empty())
+			return;
+		m_mission.SaveAs(filepath);
+		LOG_TRACE("Mission {} saved sucessfully !", filepath);
+	} catch (const std::exception& except)
+	{
+		QMessageBox::critical(nullptr, "Error", except.what(), QMessageBox::Ok);
+		LOG_ERROR(except.what());
+	}
 }
 
 void MainWindow::refresh()

@@ -1,0 +1,3 @@
+[submodule "Templateator2000/jtff-templates"]
+	path = Templateator2000/jtff-templates
+	url = https://github.com/JTFF-mission-scripts/jtff-templates.git

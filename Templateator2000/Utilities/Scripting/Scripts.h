@@ -17,8 +17,8 @@ public:
 	[[nodiscard]] const std::vector<Tanker>& Tankers() const { return m_tankers; }
 
 private:
-	void Load();
-	[[nodiscard]] const std::vector<std::string> GetInstalledScripts(const std::string& file_data) const;
+	void load();
+	[[nodiscard]] const std::vector<std::string> installedScripts(const std::string& file_data) const;
 
 private:
 	std::filesystem::path m_path;

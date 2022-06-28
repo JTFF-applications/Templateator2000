@@ -10,11 +10,12 @@ const std::vector<const char*> DcsMission::s_coalitions = {"red", "blue", "neutr
 bool DcsMission::IsValidMission(const std::filesystem::path& path)
 {
 	libzippp::ZipArchive archive(path.string());
-	archive.open(libzippp::ZipArchive::ReadOnly);
-	if (!archive.isOpen())
+	if (!archive.open())
 		return false;
 
 	const libzippp::ZipEntry mission_file = archive.getEntry("mission");
+	if (archive.close() != LIBZIPPP_OK)
+		throw std::exception("Failed to close and save temporary mission !");
 	if (!mission_file.isFile())
 		return false;
 	return true;
@@ -33,7 +34,7 @@ DcsMission::DcsMission(const std::filesystem::path& path)
 	m_initialized = true;
 	m_path = path;
 
-	Load();
+	load();
 }
 
 void DcsMission::Init(const std::filesystem::path& path)
@@ -50,16 +51,17 @@ void DcsMission::Init(const std::filesystem::path& path)
 	m_ships.clear();
 	m_vehicles.clear();
 
-	Load();
+	load();
 }
 
-void DcsMission::Load()
+void DcsMission::load()
 {
 	if (!m_initialized)
 		return;
 
 	libzippp::ZipArchive archive(m_path.string());
-	archive.open(libzippp::ZipArchive::ReadOnly);
+	if (!archive.open())
+		throw std::exception("Failed to open temporary mission !");
 	libzippp::ZipEntry mission_file = archive.getEntry("mission");
 
 	try
@@ -143,8 +145,11 @@ void DcsMission::Load()
 						m_ships.emplace_back(group_name, ship_units);
 					}
 			}
+		if (archive.close() != LIBZIPPP_OK)
+			throw std::exception("Failed to close and save temporary mission !");
 	} catch (const std::exception& except)
 	{
+		archive.close();
 		throw std::exception(std::format("Selected mission {} is invalid. Exception thrown : {}",
 		                                 m_path.string(),
 		                                 except.what()).c_str());

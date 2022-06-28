@@ -4,6 +4,8 @@
 
 #include "Utilities/Log.h"
 #include "Utilities/LUA/Lua.h"
+#include "Utilities/Scripting/Injector.h"
+
 #include "Utilities/Scripting/Scripts.h"
 
 Scripts::Scripts()
@@ -14,7 +16,7 @@ Scripts::Scripts()
 Scripts::Scripts(const std::filesystem::path& path)
 	: m_path(path), m_initialized(true)
 {
-	Load();
+	load();
 }
 
 void Scripts::Init(const std::filesystem::path& path)
@@ -25,7 +27,7 @@ void Scripts::Init(const std::filesystem::path& path)
 	m_initialized = true;
 	m_path = path;
 
-	Load();
+	load();
 }
 
 void Scripts::Save() const
@@ -34,8 +36,7 @@ void Scripts::Save() const
 		return;
 
 	libzippp::ZipArchive archive(m_path.string());
-	archive.open(libzippp::ZipArchive::Write);
-	if (!archive.isOpen())
+	if (!archive.open(libzippp::ZipArchive::Write))
 		throw std::exception("Failed to open mission for writing !");
 
 	for (const auto& script : m_installed_scripts)
@@ -60,16 +61,18 @@ void Scripts::Save() const
 		else if (script == "atis")
 		{
 		}
-	archive.close();
+	if (archive.close() != LIBZIPPP_OK)
+		throw std::exception("Failed to close and save temporary mission !");
 }
 
-void Scripts::Load()
+void Scripts::load()
 {
 	if (!m_initialized)
 		return;
 
 	libzippp::ZipArchive archive(m_path.string());
-	archive.open(libzippp::ZipArchive::ReadOnly);
+	if (!archive.open(libzippp::ZipArchive::Write))
+		throw std::exception("Failed to open temporary mission !");
 
 	std::vector<libzippp::ZipEntry> entries = archive.getEntries();
 	bool scripts_injected = false;
@@ -81,9 +84,17 @@ void Scripts::Load()
 	                      });
 
 	if (!scripts_injected)
-		throw std::exception("JTFF Scripts are not installed in this mission !");
+	{
+		throw std::exception("JTFF Scripts are not injected in mission !");
 
-	m_installed_scripts = GetInstalledScripts(archive.getEntry("scripts.txt").readAsText());
+		// Save changes when scripts are injected before continue
+		if (archive.close() != LIBZIPPP_OK)
+			throw std::exception("Failed to close and save temporary mission !");
+		if (!archive.open(libzippp::ZipArchive::Write))
+			throw std::exception("Failed to open temporary mission !");
+	}
+
+	m_installed_scripts = installedScripts(archive.getEntry("scripts.txt").readAsText());
 
 	// ReSharper disable StringLiteralTypo
 	for (const auto& file : entries)
@@ -141,10 +152,13 @@ void Scripts::Load()
 		{
 		}
 	}
+
+	if (archive.close() != LIBZIPPP_OK)
+		throw std::exception("Failed to close and save temporary mission !");
 	// ReSharper restore StringLiteralTypo
 }
 
-const std::vector<std::string> Scripts::GetInstalledScripts(const std::string& file_data) const
+const std::vector<std::string> Scripts::installedScripts(const std::string& file_data) const
 {
 	std::vector<std::string> scripts;
 

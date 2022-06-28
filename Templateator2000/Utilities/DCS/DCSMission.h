@@ -27,7 +27,7 @@ public:
 	[[nodiscard]] const std::vector<Group> GetShips() const { return m_ships; }
 
 private:
-	void Load();
+	void load();
 
 private:
 	const static std::vector<const char*> s_coalitions;

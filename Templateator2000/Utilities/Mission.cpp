@@ -35,13 +35,14 @@ void Mission::Init(const std::filesystem::path& path, const std::filesystem::pat
 	if (m_initialized)
 		return;
 
-	m_initialized = true;
-	m_is_saved = true;
 	m_path = path;
 	m_mission_path = mission_path;
+	m_is_saved = true;
 
 	m_dcs_mission.Init(m_path);
 	m_scripts.Init(m_path);
+
+	m_initialized = true;
 }
 
 void Mission::Save()

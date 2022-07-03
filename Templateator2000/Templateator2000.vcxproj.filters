@@ -115,6 +115,9 @@
     <ClCompile Include="Utilities\Validators\QStringListValidator.cpp">
       <Filter>Source Files\Utilities\Validators</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\Scripting\Injector.cpp">
+      <Filter>Source Files\Utilities\Scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\Log.h">
@@ -149,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="Utilities\Validators\QStringListValidator.h">
       <Filter>Header Files\Utilities\Validators</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Scripting\Injector.h">
+      <Filter>Header Files\Utilities\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

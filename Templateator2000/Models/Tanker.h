@@ -1,5 +1,8 @@
 #pragma once
 
+#include <nlohmann/json.hpp>
+namespace json = nlohmann;
+
 #include <string>
 
 #include "Utilities/Coalitions.h"
@@ -8,6 +11,9 @@
 
 class Tanker
 {
+public:
+	static json::json ToJson(const Tanker& tanker);
+
 public:
 	enum class Type
 	{
@@ -22,3 +28,8 @@ public:
 	int MaxMissionDuration, Altitude, Speed, FuelWarningLevel, Modex, TacanChannel;
 	int RacetrackFront, RacetrackBack, CallsignNb;
 };
+
+inline json::json Tanker::ToJson(const Tanker& tanker)
+{
+	throw std::logic_error("Not implemented");
+}

@@ -3,6 +3,7 @@
 #include <libzippp/libzippp.h>
 
 #include "Utilities/Log.h"
+#include "Utilities/Moose.h"
 #include "Utilities/LUA/Lua.h"
 #include "Utilities/Scripting/Injector.h"
 
@@ -43,7 +44,8 @@ void Scripts::Save() const
 		if (script == "tankers")
 		{
 			std::fstream file("temp/settings-tankers.lua", std::ios::out);
-			file << Lua::LuaFromTankers(m_tankers);
+			for (const auto& tanker : m_tankers)
+				file << Lua::LuaFromJson(Tanker::ToJson(tanker), "TankersConfig");
 			file.close();
 
 			if (!archive.addFile("l10n/DEFAULT/settings-tankers.lua", "temp/settings-tankers.lua"))
@@ -85,7 +87,9 @@ void Scripts::load()
 
 	if (!scripts_injected)
 	{
-		throw std::exception("JTFF Scripts are not injected in mission !");
+		//throw std::exception("JTFF Scripts are not injected in mission !");
+
+		Injector::InjectScripts(archive);
 
 		// Save changes when scripts are injected before continue
 		if (archive.close() != LIBZIPPP_OK)
@@ -105,7 +109,7 @@ void Scripts::load()
 		const std::string name = file.getName();
 		if (name.find("settings-tankers") != std::string::npos)
 		{
-			json::json tankers = Lua::JsonFromConfigFile(file.readAsText(), "TankersConfig");
+			json::json tankers = Lua::JsonFromLua(file.readAsText(), "TankersConfig");
 			for (const auto& tanker : tankers)
 			{
 				const bool is_escorted = tanker.contains("escortgroupname");
@@ -117,15 +121,16 @@ void Scripts::load()
 							               ? Coalition::Red
 							               : Coalition::Neutral,
 					.PatternUnit = tanker["patternUnit"].get<std::string>(),
-					.DepartureBase = tanker["baseUnit"].get<std::string>(),
-					.ParkingSize = tanker["terminalType"].get<std::string>(),
+					.DepartureBase = Moose::GetMooseAirbaseFromName(tanker["baseUnit"].get<std::string>()),
+					.ParkingSize = Moose::GetMooseTerminalFromNumber(tanker["terminalType"].get<int>()),
 					.GroupName = tanker["groupName"].get<std::string>(),
 					.EscortGroup = is_escorted ? tanker["escortgroupname"].get<std::string>() : "",
-					.Callsign = tanker["callsign"]["name"].get<std::string>(),
+					.Callsign = Moose::GetMooseCallsignFromNumber(tanker["callsign"]["name"].get<int>(),
+					                                              "CALLSIGN.Tanker"),
 					.Frequency = std::format("{:.3f}", tanker["freq"].get<float>()),
 					.TacanMorse = tanker["tacan"]["morse"].get<std::string>(),
-					.AutoRespawn = tanker["autorespawn"].get<std::string>() == "true",
-					.AirbossRecovery = tanker["airboss_recovery"].get<std::string>() == "true",
+					.AutoRespawn = tanker["autorespawn"].get<bool>(),
+					.AirbossRecovery = tanker["airboss_recovery"].get<bool>(),
 					.MaxMissionDuration = tanker["missionmaxduration"].get<int>(),
 					.Altitude = tanker["altitude"].get<int>(),
 					.Speed = tanker["speed"].get<int>(),

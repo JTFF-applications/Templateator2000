@@ -66,7 +66,7 @@ void DcsMission::load()
 
 	try
 	{
-		json::json json = Lua::JsonFromString(mission_file.readAsText(), "mission");
+		json::json json = Lua::JsonFromLua(mission_file.readAsText(), "mission");
 		for (const auto& coalition : s_coalitions)
 			for (const auto& country : json["coalition"][coalition]["country"])
 			{

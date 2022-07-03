@@ -59,8 +59,8 @@ void TankerWindow::SetTanker(const Tanker& tk) const
 	m_ui.group->setText(tk.GroupName.c_str());
 	m_ui.pattern->setText(tk.PatternUnit.c_str());
 	m_ui.departure->setText(Moose::GetNameFromMooseAirbase(tk.DepartureBase).c_str());
-	m_ui.parking_size->setText(Moose::GetNameFromMooseParking(tk.ParkingSize).c_str());
-	m_ui.callsign->setCurrentIndex(m_ui.callsign->findText(Moose::GetNameFromMooseCallsign(tk.Callsign).c_str()));
+	m_ui.parking_size->setText(tk.ParkingSize.c_str());
+	m_ui.callsign->setCurrentIndex(m_ui.callsign->findText(tk.Callsign.c_str()));
 	m_ui.escort->setText(tk.EscortGroup.c_str());
 	m_ui.frequency->setText(tk.Frequency.c_str());
 	m_ui.tacan_morse->setText(tk.TacanMorse.c_str());
@@ -89,7 +89,7 @@ void TankerWindow::onOkClicked()
 					               : Coalition::Neutral,
 			.PatternUnit = m_ui.pattern->text().toStdString(),
 			.DepartureBase = Moose::GetMooseAirbaseFromName(m_ui.departure->text().toStdString()),
-			.ParkingSize = Moose::GetMooseParkingFromName(m_ui.parking_size->text().toStdString()),
+			.ParkingSize = m_ui.parking_size->text().toStdString(),
 			.GroupName = m_ui.group->text().toStdString(),
 			.EscortGroup = m_ui.escort->text().toStdString(),
 			.Callsign = Moose::GetMooseCallsignFromName(m_ui.callsign->currentText().toStdString()),

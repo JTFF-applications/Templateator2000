@@ -99,6 +99,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Utilities\Scripting\Injector.cpp" />
     <ClCompile Include="Utilities\Validators\QStringListValidator.cpp" />
     <ClCompile Include="Utilities\DCS\DCSMission.cpp" />
     <ClCompile Include="Utilities\LUA\Lua.cpp" />
@@ -119,6 +120,7 @@
     <ResourceCompile Include="Templateator2000.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Utilities\Scripting\Injector.h" />
     <ClInclude Include="Models\Tanker.h" />
     <ClInclude Include="Utilities\Validators\QStringListValidator.h" />
     <ClInclude Include="Utilities\Coalitions.h" />

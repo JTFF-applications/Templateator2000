@@ -1,5 +1,6 @@
 #include <QCompleter>
 
+#include "Utilities/Coalition.h"
 #include "Utilities/Mission.h"
 #include "Utilities/Moose.h"
 #include "Utilities/Validators/QStringListValidator.h"
@@ -82,17 +83,13 @@ void TankerWindow::onOkClicked()
 	{
 		Tanker tanker = {
 			.Type = m_ui.type->currentText() == "Fixed" ? Tanker::Type::Fixed : Tanker::Type::OnDemand,
-			.Coalition = m_ui.coalition->currentText() == "Blue"
-				             ? Coalition::Blue
-				             : m_ui.coalition->currentText() == "Red"
-					               ? Coalition::Red
-					               : Coalition::Neutral,
+			.Coalition = Coalition::FromString(m_ui.coalition->currentText().toStdString()),
 			.PatternUnit = m_ui.pattern->text().toStdString(),
 			.DepartureBase = Moose::GetMooseAirbaseFromName(m_ui.departure->text().toStdString()),
 			.ParkingSize = m_ui.parking_size->text().toStdString(),
 			.GroupName = m_ui.group->text().toStdString(),
 			.EscortGroup = m_ui.escort->text().toStdString(),
-			.Callsign = Moose::GetMooseCallsignFromName(m_ui.callsign->currentText().toStdString()),
+			.Callsign = m_ui.callsign->currentText().toStdString(),
 			.Frequency = m_ui.frequency->text().toStdString(),
 			.TacanMorse = m_ui.tacan_morse->text().toStdString(),
 			.AutoRespawn = m_ui.auto_respawn->isChecked(),

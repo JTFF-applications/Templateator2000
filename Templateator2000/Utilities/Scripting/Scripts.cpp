@@ -115,11 +115,7 @@ void Scripts::load()
 				const bool is_escorted = tanker.contains("escortgroupname");
 				Tanker tanker_object = {
 					.Type = Tanker::Type::Fixed,
-					.Coalition = tanker["benefit_coalition"] == "coalition.side.BLUE"
-						             ? Coalition::Blue
-						             : tanker["benefit_coalition"] == "coalition.side.RED"
-							               ? Coalition::Red
-							               : Coalition::Neutral,
+					.Coalition = Coalition::FromDcsCoalition(tanker["benefit_coalition"].get<int>()),
 					.PatternUnit = tanker["patternUnit"].get<std::string>(),
 					.DepartureBase = Moose::GetMooseAirbaseFromName(tanker["baseUnit"].get<std::string>()),
 					.ParkingSize = Moose::GetMooseTerminalFromNumber(tanker["terminalType"].get<int>()),

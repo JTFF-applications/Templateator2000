@@ -82,7 +82,7 @@ const std::string Lua::getLibs()
 {
 	std::stringstream result;
 	for (const auto& file : {
-		     "templetator_lua_lib.lua", "dcs_coalitions.lua", "moose_airbases.lua",
+		     "templateator_lua_lib.lua", "dcs_coalitions.lua", "moose_airbases.lua",
 		     "moose_callsigns.lua"
 	     })
 	{

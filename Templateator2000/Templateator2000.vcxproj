@@ -123,7 +123,7 @@
     <ClInclude Include="Utilities\Scripting\Injector.h" />
     <ClInclude Include="Models\Tanker.h" />
     <ClInclude Include="Utilities\Validators\QStringListValidator.h" />
-    <ClInclude Include="Utilities\Coalitions.h" />
+    <ClInclude Include="Utilities\Coalition.h" />
     <ClInclude Include="Utilities\DCS\DCSMission.h" />
     <ClInclude Include="Utilities\LUA\Lua.h" />
     <ClInclude Include="Utilities\DCS\Unit.h" />

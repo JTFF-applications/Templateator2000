@@ -5,7 +5,7 @@ namespace json = nlohmann;
 
 #include <string>
 
-#include "Utilities/Coalitions.h"
+#include "Utilities/Coalition.h"
 
 #define TANKER_PRESENTATION_STRING(tanker) std::format("{}-{} Fq:{} Tcn:{}Y {}", (tanker).Callsign.substr((tanker).Callsign.find_last_of('.') + 1), (tanker).CallsignNb, (tanker).Frequency, (tanker).TacanChannel, (tanker).TacanMorse)
 
@@ -22,7 +22,7 @@ public:
 
 public:
 	Type Type;
-	Coalition Coalition;
+	Coalition::Side Coalition;
 	std::string PatternUnit, DepartureBase, ParkingSize, GroupName, EscortGroup, Callsign, Frequency, TacanMorse;
 	bool AutoRespawn, AirbossRecovery;
 	int MaxMissionDuration, Altitude, Speed, FuelWarningLevel, Modex, TacanChannel;

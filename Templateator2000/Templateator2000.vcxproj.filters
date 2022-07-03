@@ -42,9 +42,6 @@
     <Filter Include="Source Files\Utilities\DCS">
       <UniqueIdentifier>{dc18b6dd-48b3-4f94-a7cf-491700896294}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Utilities\Scripting">
-      <UniqueIdentifier>{a2c9a833-68f7-4c1b-9c26-8eb14cf5c15e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utilities\LUA">
       <UniqueIdentifier>{77ea495a-e0f8-4360-8a25-ac6e6a1dc418}</UniqueIdentifier>
     </Filter>
@@ -59,6 +56,9 @@
     </Filter>
     <Filter Include="Source Files\Utilities\Validators">
       <UniqueIdentifier>{e43d88e0-c005-4e34-b78d-43126fe0326b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\Scripting">
+      <UniqueIdentifier>{a2c9a833-68f7-4c1b-9c26-8eb14cf5c15e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +135,7 @@
     <ClInclude Include="Utilities\LUA\Lua.h">
       <Filter>Header Files\Utilities\LUA</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Coalitions.h">
+    <ClInclude Include="Utilities\Coalition.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\Mission.h">

@@ -83,14 +83,12 @@ void Scripts::load()
 	std::ranges::for_each(entries,
 	                      [&](const libzippp::ZipEntry& entry)
 	                      {
-		                      if (entry.getName() == "scripts.txt")
+		                      if (entry.getName() == "injected_scripts.lua")
 			                      scripts_injected = true;
 	                      });
 
 	if (!scripts_injected)
 	{
-		//throw std::exception("JTFF Scripts are not injected in mission !");
-
 		Injector::InjectScripts(archive);
 
 		// Save changes when scripts are injected before continue
@@ -100,7 +98,7 @@ void Scripts::load()
 			throw std::exception("Failed to open temporary mission !");
 	}
 
-	m_installed_scripts = installedScripts(archive.getEntry("scripts.txt").readAsText());
+	m_installed_scripts = installedScripts(archive.getEntry("l10n/DEFAULT/injected_scripts.lua").readAsText());
 
 	// ReSharper disable StringLiteralTypo
 	for (const auto& file : entries)
@@ -167,10 +165,9 @@ const std::vector<std::string> Scripts::installedScripts(const std::string& file
 {
 	std::vector<std::string> scripts;
 
-	std::string scripts_installed_line;
-	std::istringstream scripts_installed_stream(file_data);
-	while (std::getline(scripts_installed_stream, scripts_installed_line))
-		scripts.push_back(scripts_installed_line);
+	json::json scripts_installed = Lua::JsonFromLua(file_data, "InjectedScripts");
+	for (const auto& pair : scripts_installed.items())
+		scripts.push_back(pair.value());
 
 	return scripts;
 }

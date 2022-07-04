@@ -20,7 +20,7 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	json::json mission_data = Lua::JsonFromLua(mission_data_string, "mission");
 	json::json map_resource = Lua::JsonFromLua(map_resource_string, "mapResource");
 
-	std::fstream injected_scripts("temp/scripts.txt", std::ios::out);
+	json::json injected_scripts = {};
 	std::unordered_map<std::string, std::string> settings_files;
 	// Inject Moose
 	injectOne(mission_data,
@@ -53,6 +53,7 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	          {"010-root_menus.lua", "020-mission_functions.lua", "hypeman.lua"},
 	          16,
 	          "0xffff00ff");
+	settings_files["HypemanConfig"] = "settings-hypeman.lua";
 
 	// Inject SetClients
 	injectOne(mission_data,
@@ -61,7 +62,7 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	          {"110-set_clients.lua"},
 	          21,
 	          "0xff0000ff");
-	injected_scripts << "clients\n";
+	injected_scripts += "clients";
 
 	// Inject Tankers
 	injectOne(mission_data,
@@ -72,7 +73,7 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	          "0xff0000ff");
 	settings_files["TankersConfig"] = "settings-tankers.lua";
 	settings_files["OnDemandTankersConfig"] = "settings-ondemandtankers.lua";
-	injected_scripts << "tankers\n";
+	injected_scripts += "tankers";
 
 	// Inject Airboss
 	injectOne(mission_data,
@@ -83,7 +84,7 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	          "0xff0000ff");
 	settings_files["AirBossConfig"] = "settings-airboss.lua";
 	settings_files["PedrosConfig"] = "settings-pedros.lua";
-	injected_scripts << "airboss\n";
+	injected_scripts += "airboss";
 
 	// Inject Beacons
 	injectOne(mission_data,
@@ -93,7 +94,7 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	          24,
 	          "0xff0000ff");
 	settings_files["BeaconsConfig"] = "settings-beacons.lua";
-	injected_scripts << "beacons\n";
+	injected_scripts += "beacons";
 
 	// Inject Awacs
 	injectOne(mission_data,
@@ -103,7 +104,7 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	          25,
 	          "0xff0000ff");
 	settings_files["AwacsConfig"] = "settings-awacs.lua";
-	injected_scripts << "awacs\n";
+	injected_scripts += "awacs";
 
 	// Inject Atis
 	injectOne(mission_data,
@@ -113,7 +114,7 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	          26,
 	          "0xff0000ff");
 	settings_files["AtisConfig"] = "settings-atis.lua";
-	injected_scripts << "atis\n";
+	injected_scripts += "atis";
 
 	// Inject Mission
 	injectOne(mission_data,
@@ -122,7 +123,7 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	          {"180-mission.lua"},
 	          27,
 	          "0xff0000ff");
-	injected_scripts << "mission\n";
+	injected_scripts += "mission";
 
 	// Add settings file
 	for (const auto& [name, file] : settings_files)
@@ -131,14 +132,21 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 		const std::string temp_path = std::format("temp/{}", file);
 
 		std::fstream file_stream(temp_path, std::ios::out);
-		file_stream << name << " = {}";
-		file_stream.close();
+		if (name == "HypemanConfig")
+		{
+			file_stream << "hypemanInstallPath = \"C:/hypeman-jtff-airboss/src\"\n";
+			file_stream << "missionName = \"Autoscripted Mission By Templateator2000\"\n";
+			file_stream.close();
+		}
+		else
+			file_stream << name << " = {}";
 
+		file_stream.close();
 		addFile(archive, entry_path, temp_path);
 	}
 
 	// Inject settings
-	std::vector<std::string> files(settings_files.size());
+	std::vector<std::string> files;
 	std::ranges::transform(settings_files,
 	                       std::back_inserter(files),
 	                       [](auto& kv) { return kv.second; });
@@ -149,8 +157,17 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	          15,
 	          "0xffff00ff");
 
-	injected_scripts.close();
-	addFile(archive, "scripts.txt", "temp/scripts.txt");
+	// Save injected scripts into mission
+	std::fstream injected_scripts_fs("temp/injected_scripts.lua", std::ios::out);
+	injected_scripts_fs << Lua::LuaFromJson(injected_scripts, "InjectedScripts");
+	injected_scripts_fs.close();
+	addFile(archive, "l10n/DEFAULT/injected_scripts.lua", "temp/injected_scripts.lua");
+	injectOne(mission_data,
+	          map_resource,
+	          "DO NOT DELETE : Injected Scripts",
+	          {"injected_scripts.lua"},
+	          15,
+	          "0x000000ff");
 
 	// Save injected mission files
 	const std::string mission = Lua::LuaFromJson(mission_data, "mission");
@@ -174,9 +191,13 @@ void Injector::addFile(const libzippp::ZipArchive& archive,
                        const std::string& entry_name,
                        const std::string& file)
 {
-	if (!archive.addFile(entry_name, file))
+	std::string destination = entry_name;
+	std::ranges::replace(destination, '\\', '/');
+	permissions(file, std::filesystem::perms::all);
+
+	if (!archive.addFile(destination, file))
 		throw std::exception(std::format("Failed to add/replace {}", file).c_str());
-	LOG_TRACE("{} added or updated.", file);
+	LOG_TRACE("{} added or updated.", destination);
 }
 
 void Injector::addFiles(const libzippp::ZipArchive& archive,
@@ -265,7 +286,7 @@ void Injector::injectOne(json::json& mission_data,
 			{"file", script_file},
 			{"predicate", "a_do_script_file"}
 		};
-		map_resource += {script_file, script_file};
+		map_resource[script_file] = script_file;
 	}
 
 	action_string += std::format("mission.trig.func[{}]=nil;", next_index);

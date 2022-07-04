@@ -38,7 +38,7 @@ std::string Lua::LuaFromJson(const json::json& content, const std::string& table
 
 	std::stringstream exec_buffer;
 	exec_buffer << getLibs() << "\n";
-	exec_buffer << "json_content = JSON:decode([[" << content << "]])\n";
+	exec_buffer << "json_content = JSON:decode([[\n" << content << "\n]])\n";
 	exec_buffer << "str = SaveTable(json_content)\n";
 	const auto lua_content = exec_buffer.str();
 
@@ -72,7 +72,7 @@ int Lua::ExecuteInt(const std::string& code, const std::string& value_name)
 	                       [&](lua::lua_State* l)
 	                       {
 		                       if (lua_isinteger(l, -1))
-			                       return lua_tointeger(l, -1);
+			                       return static_cast<int>(lua_tointeger(l, -1));
 		                       throw std::runtime_error(
 			                       "ASSERT NOT REACHED ! Lua::ExecuteRaw->Moose::GetCallsignFromNumber");
 	                       });

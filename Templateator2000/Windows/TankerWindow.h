@@ -14,7 +14,7 @@ public:
 	TankerWindow(QWidget* parent,
 	             const std::map<const std::string, const std::vector<Group>>& mission_data,
 	             std::function<void(Tanker)> on_ok,
-	             std::function<void(void)> on_cancel);
+	             std::function<void()> on_cancel);
 	virtual ~TankerWindow() override;
 
 	TankerWindow(const TankerWindow&) = delete;

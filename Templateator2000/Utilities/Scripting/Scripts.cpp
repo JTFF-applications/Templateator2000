@@ -44,8 +44,10 @@ void Scripts::Save() const
 		if (script == "tankers")
 		{
 			std::fstream file("temp/settings-tankers.lua", std::ios::out);
+			json::json full_tanker_json = {};
 			for (const auto& tanker : m_tankers)
-				file << Lua::LuaFromJson(Tanker::ToJson(tanker), "TankersConfig");
+				full_tanker_json += Tanker::ToJson(tanker);
+			file << Lua::LuaFromJson(full_tanker_json, "TankersConfig");
 			file.close();
 
 			if (!archive.addFile("l10n/DEFAULT/settings-tankers.lua", "temp/settings-tankers.lua"))
@@ -113,28 +115,30 @@ void Scripts::load()
 			for (const auto& tanker : tankers)
 			{
 				const bool is_escorted = tanker.contains("escortgroupname");
+				const bool is_default_tacan_band = !tanker["tacan"].contains("band");
 				Tanker tanker_object = {
 					.Type = Tanker::Type::Fixed,
 					.Coalition = Coalition::FromDcsCoalition(tanker["benefit_coalition"].get<int>()),
-					.PatternUnit = tanker["patternUnit"].get<std::string>(),
-					.DepartureBase = Moose::GetMooseAirbaseFromName(tanker["baseUnit"].get<std::string>()),
-					.ParkingSize = Moose::GetMooseTerminalFromNumber(tanker["terminalType"].get<int>()),
-					.GroupName = tanker["groupName"].get<std::string>(),
-					.EscortGroup = is_escorted ? tanker["escortgroupname"].get<std::string>() : "",
-					.Callsign = Moose::GetMooseCallsignFromNumber(tanker["callsign"]["name"].get<int>(),
-					                                              "CALLSIGN.Tanker"),
-					.Frequency = std::format("{:.3f}", tanker["freq"].get<float>()),
-					.TacanMorse = tanker["tacan"]["morse"].get<std::string>(),
 					.AutoRespawn = tanker["autorespawn"].get<bool>(),
 					.AirbossRecovery = tanker["airboss_recovery"].get<bool>(),
+					.PatternUnit = tanker["patternUnit"].get<std::string>(),
+					.DepartureBase = Moose::GetMooseAirbaseFromName(tanker["baseUnit"].get<std::string>()),
+					.TerminalType = Moose::GetMooseTerminalFromNumber(tanker["terminalType"].get<int>()),
+					.GroupName = tanker["groupName"].get<std::string>(),
+					.EscortGroupName = is_escorted ? tanker["escortgroupname"].get<std::string>() : "",
+					.Frequency = std::format("{:.3f}", tanker["freq"].get<float>()),
 					.MaxMissionDuration = tanker["missionmaxduration"].get<int>(),
 					.Altitude = tanker["altitude"].get<int>(),
 					.Speed = tanker["speed"].get<int>(),
 					.FuelWarningLevel = tanker["fuelwarninglevel"].get<int>(),
 					.Modex = tanker["modex"].get<int>(),
 					.TacanChannel = tanker["tacan"]["channel"].get<int>(),
+					.TacanBand = is_default_tacan_band ? "Y" : tanker["tacan"]["band"].get<std::string>(),
+					.TacanMorse = tanker["tacan"]["morse"].get<std::string>(),
 					.RacetrackFront = tanker["racetrack"]["front"].get<int>(),
 					.RacetrackBack = tanker["racetrack"]["back"].get<int>(),
+					.Callsign = Moose::GetMooseCallsignFromNumber(tanker["callsign"]["name"].get<int>(),
+					                                              "CALLSIGN.Tanker"),
 					.CallsignNb = tanker["callsign"]["number"].get<int>()
 				};
 				m_tankers.push_back(tanker_object);

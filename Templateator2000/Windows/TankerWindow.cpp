@@ -55,25 +55,29 @@ TankerWindow::~TankerWindow()
 void TankerWindow::SetTanker(const Tanker& tk) const
 {
 	m_ui.type->setCurrentIndex(m_ui.type->findText(tk.Type == Tanker::Type::Fixed ? "Fixed" : "On Demand"));
-	m_ui.coalition->setCurrentIndex(m_ui.coalition->findText(
-		tk.Coalition == Coalition::Blue ? "Blue" : tk.Coalition == Coalition::Red ? "Red" : "Neutral"));
-	m_ui.group->setText(tk.GroupName.c_str());
+	m_ui.coalition->setCurrentIndex(m_ui.coalition->findText(Coalition::ToString(tk.Coalition).c_str()));
+	m_ui.auto_respawn->setChecked(tk.AutoRespawn);
+	m_ui.airboss_recovery->setChecked(tk.AirbossRecovery);
 	m_ui.pattern->setText(tk.PatternUnit.c_str());
 	m_ui.departure->setText(Moose::GetNameFromMooseAirbase(tk.DepartureBase).c_str());
-	m_ui.parking_size->setText(tk.ParkingSize.c_str());
-	m_ui.callsign->setCurrentIndex(m_ui.callsign->findText(tk.Callsign.c_str()));
-	m_ui.escort->setText(tk.EscortGroup.c_str());
+	m_ui.parking_size->setText(tk.TerminalType.c_str());
+	m_ui.group->setText(tk.GroupName.c_str());
+	m_ui.escort->setText(tk.EscortGroupName.c_str());
 	m_ui.frequency->setText(tk.Frequency.c_str());
-	m_ui.tacan_morse->setText(tk.TacanMorse.c_str());
-	m_ui.auto_respawn->setChecked(tk.AutoRespawn);
 	m_ui.max_duration->setValue(tk.MaxMissionDuration);
 	m_ui.altitude->setValue(tk.Altitude);
 	m_ui.speed->setValue(tk.Speed);
 	m_ui.fuel_level->setValue(tk.FuelWarningLevel);
 	m_ui.modex->setValue(tk.Modex);
+
 	m_ui.tacan->setValue(tk.TacanChannel);
+	m_ui.tacan_band->setCurrentIndex(m_ui.tacan_band->findText(tk.TacanBand.c_str()));
+	m_ui.tacan_morse->setText(tk.TacanMorse.c_str());
+
 	m_ui.racetrack_front->setValue(tk.RacetrackFront);
 	m_ui.racetrack_back->setValue(tk.RacetrackBack);
+
+	m_ui.callsign->setCurrentIndex(m_ui.callsign->findText(tk.Callsign.c_str()));
 	m_ui.callsign_nb->setValue(tk.CallsignNb);
 }
 
@@ -84,30 +88,32 @@ void TankerWindow::onOkClicked()
 		Tanker tanker = {
 			.Type = m_ui.type->currentText() == "Fixed" ? Tanker::Type::Fixed : Tanker::Type::OnDemand,
 			.Coalition = Coalition::FromString(m_ui.coalition->currentText().toStdString()),
+			.AutoRespawn = m_ui.auto_respawn->isChecked(),
+			.AirbossRecovery = m_ui.airboss_recovery->isChecked(),
 			.PatternUnit = m_ui.pattern->text().toStdString(),
 			.DepartureBase = Moose::GetMooseAirbaseFromName(m_ui.departure->text().toStdString()),
-			.ParkingSize = m_ui.parking_size->text().toStdString(),
+			.TerminalType = m_ui.parking_size->text().toStdString(),
 			.GroupName = m_ui.group->text().toStdString(),
-			.EscortGroup = m_ui.escort->text().toStdString(),
-			.Callsign = m_ui.callsign->currentText().toStdString(),
+			.EscortGroupName = m_ui.escort->text().toStdString(),
 			.Frequency = m_ui.frequency->text().toStdString(),
-			.TacanMorse = m_ui.tacan_morse->text().toStdString(),
-			.AutoRespawn = m_ui.auto_respawn->isChecked(),
 			.MaxMissionDuration = m_ui.max_duration->value(),
 			.Altitude = m_ui.altitude->value(),
 			.Speed = m_ui.altitude->value(),
 			.FuelWarningLevel = m_ui.fuel_level->value(),
 			.Modex = m_ui.modex->value(),
 			.TacanChannel = m_ui.tacan->value(),
+			.TacanBand = m_ui.tacan_band->currentText().toStdString(),
+			.TacanMorse = m_ui.tacan_morse->text().toStdString(),
 			.RacetrackFront = m_ui.racetrack_front->value(),
 			.RacetrackBack = m_ui.racetrack_back->value(),
+			.Callsign = m_ui.callsign->currentText().toStdString(),
 			.CallsignNb = m_ui.callsign_nb->value()
 		};
 
 		if (!Mission::DataToUnitName(m_mission_data).contains(tanker.PatternUnit.c_str()))
 			throw std::exception("Invalid pattern unit !");
-		if (!tanker.EscortGroup.empty() || Mission::DataToGroupName(m_mission_data).
-		    contains(tanker.EscortGroup.c_str()))
+		if (!tanker.EscortGroupName.empty() || Mission::DataToGroupName(m_mission_data).
+		    contains(tanker.EscortGroupName.c_str()))
 			throw std::exception("Invalid escort group !");
 		if (tanker.Frequency.empty() || tanker.Frequency.size() != 7)
 			throw std::exception("Invalid radio frequency !");

@@ -1,13 +1,15 @@
 #pragma once
 
 #include <nlohmann/json.hpp>
+
+#include "Utilities/Moose.h"
 namespace json = nlohmann;
 
 #include <string>
 
 #include "Utilities/Coalition.h"
 
-#define TANKER_PRESENTATION_STRING(tanker) std::format("{}-{} Fq:{} Tcn:{}Y {}", (tanker).Callsign.substr((tanker).Callsign.find_last_of('.') + 1), (tanker).CallsignNb, (tanker).Frequency, (tanker).TacanChannel, (tanker).TacanMorse)
+#define TANKER_PRESENTATION_STRING(tanker) std::format("{}-{} Fq:{} Tcn:{}{} {}", (tanker).Callsign.substr((tanker).Callsign.find_last_of('.') + 1), (tanker).CallsignNb, (tanker).Frequency, (tanker).TacanChannel, (tanker).TacanBand, (tanker).TacanMorse)
 
 class Tanker
 {
@@ -23,13 +25,61 @@ public:
 public:
 	Type Type;
 	Coalition::Side Coalition;
-	std::string PatternUnit, DepartureBase, ParkingSize, GroupName, EscortGroup, Callsign, Frequency, TacanMorse;
+
+	// GENERAL
 	bool AutoRespawn, AirbossRecovery;
-	int MaxMissionDuration, Altitude, Speed, FuelWarningLevel, Modex, TacanChannel;
-	int RacetrackFront, RacetrackBack, CallsignNb;
+	std::string PatternUnit, DepartureBase, TerminalType, GroupName, EscortGroupName, Frequency;
+	int MaxMissionDuration, Altitude, Speed, FuelWarningLevel, Modex;
+
+	// TACAN
+	int TacanChannel;
+	std::string TacanBand, TacanMorse;
+	
+	// RACETRACK
+	int RacetrackFront, RacetrackBack;
+
+	// CALLSIGN
+	std::string Callsign;
+	int CallsignNb;
 };
 
 inline json::json Tanker::ToJson(const Tanker& tanker)
 {
-	throw std::logic_error("Not implemented");
+	// ReSharper disable StringLiteralTypo
+	json::json tacan = {};
+	tacan["channel"] = tanker.TacanChannel;
+	tacan["band"] = tanker.TacanBand;
+	tacan["morse"] = tanker.TacanMorse;
+
+	json::json racetrack = {};
+	racetrack["front"] = tanker.RacetrackFront;
+	racetrack["back"] = tanker.RacetrackBack;
+
+	json::json callsign = {};
+	callsign["alias"] = tanker.Callsign;
+	callsign["name"] = Moose::GetMooseNumberFromCallsign("Tanker", tanker.Callsign);
+	callsign["number"] = tanker.CallsignNb;
+
+	json::json result = {};
+    result["enable"] = true;
+	result["benefit_coalition"] = tanker.Coalition;
+	result["autorespawn"] = tanker.AutoRespawn;
+	result["airboss_recovery"] = tanker.AirbossRecovery;
+	result["patternUnit"] = tanker.PatternUnit;
+	result["baseUnit"] = Moose::GetNameFromMooseAirbase(tanker.DepartureBase);
+	result["terminalType"] = Moose::GetNumberFromMooseTerminal(tanker.TerminalType);
+	result["groupName"] = tanker.GroupName;
+	result["escortgroupname"] = tanker.EscortGroupName;
+	result["freq"] = std::stod(tanker.Frequency);
+	result["missionmaxduration"] = tanker.MaxMissionDuration;
+	result["altitude"] = tanker.Altitude;
+	result["speed"] = tanker.Speed;
+	result["fuelwarninglevel"] = tanker.FuelWarningLevel;
+    result["modex"] = tanker.Modex;
+    result["racetrack"] = racetrack;
+	result["tacan"] = tacan;
+    result["callsign"] = callsign;
+
+    return result;
+	// ReSharper restore StringLiteralTypo
 }

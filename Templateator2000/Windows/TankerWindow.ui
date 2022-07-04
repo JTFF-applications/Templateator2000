@@ -323,7 +323,7 @@
   <widget class="QLabel" name="tacan_label">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>80</x>
      <y>420</y>
      <width>41</width>
      <height>20</height>
@@ -336,7 +336,7 @@
   <widget class="QSpinBox" name="tacan">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>130</x>
      <y>420</y>
      <width>61</width>
      <height>22</height>
@@ -358,7 +358,7 @@
   <widget class="QLineEdit" name="tacan_morse">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>250</x>
      <y>420</y>
      <width>51</width>
      <height>22</height>
@@ -701,6 +701,26 @@
    <property name="placeholderText">
     <string>Select Tanker Group</string>
    </property>
+  </widget>
+  <widget class="QComboBox" name="tacan_band">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>420</y>
+     <width>41</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Y</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

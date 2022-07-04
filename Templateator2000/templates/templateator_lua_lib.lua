@@ -1089,7 +1089,7 @@ function flatten(t)
    return res
 end
 
-function GetAirbase(dcs_name)
+function GetMooseAirbase(dcs_name)
    for k, v in pairs(AIRBASE.Caucasus) do
        if(v == dcs_name) then
            return 'AIRBASE.Caucasus.'..k

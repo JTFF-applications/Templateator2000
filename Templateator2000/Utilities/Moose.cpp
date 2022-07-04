@@ -185,7 +185,7 @@ const QStringList Moose::GetQtAirbases()
 
 const std::string Moose::GetMooseAirbaseFromName(const std::string& airport_name)
 {
-	return Lua::ExecuteString(std::format("val = GetAirbase(\"{}\")", airport_name), "val");
+	return Lua::ExecuteString(std::format("val = GetMooseAirbase(\"{}\")", airport_name), "val");
 }
 
 const std::string Moose::GetNameFromMooseAirbase(const std::string& moose_airbase)
@@ -201,11 +201,6 @@ const QStringList Moose::GetQtParkings()
 	};
 }
 
-const QStringList Moose::GetQtTankerCallsigns()
-{
-	GET_MAP_FIRST_ROW(TankerCallsigns)
-}
-
 const std::string Moose::GetMooseTerminalFromNumber(const int& nb)
 {
 	return Lua::ExecuteString(std::format("val = find_table_key(AIRBASE.TerminalType, {})", nb), "val");
@@ -213,7 +208,12 @@ const std::string Moose::GetMooseTerminalFromNumber(const int& nb)
 
 int Moose::GetNumberFromMooseTerminal(const std::string& terminal)
 {
-	return Lua::ExecuteInt(std::format("val = AIRBASE.TerminalType[{}]", terminal), "val");
+	return Lua::ExecuteInt(std::format("val = AIRBASE.TerminalType[\"{}\"]", terminal), "val");
+}
+
+const QStringList Moose::GetQtTankerCallsigns()
+{
+	GET_MAP_FIRST_ROW(TankerCallsigns)
 }
 
 const std::string Moose::GetMooseCallsignFromName(const std::string& callsign_name)
@@ -251,5 +251,5 @@ const std::string Moose::GetMooseCallsignFromNumber(const int& nb, const std::st
 
 int Moose::GetMooseNumberFromCallsign(const std::string& aircraft_type, const std::string& callsign)
 {
-	return Lua::ExecuteInt(std::format("(val = CALLSIGN.{}.{})", aircraft_type, callsign), "val");
+	return Lua::ExecuteInt(std::format("val = CALLSIGN.{}.{}", aircraft_type, callsign), "val");
 }

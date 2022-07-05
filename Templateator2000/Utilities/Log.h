@@ -10,6 +10,11 @@ public:
 	Log();
 	~Log() = default;
 
+	Log(const Log& other) = delete;
+	Log(const Log&& other) = delete;
+	Log& operator=(const Log& other) = delete;
+	Log& operator=(const Log&& other) = delete;
+
 	static std::shared_ptr<spdlog::logger>& Get();
 
 private:

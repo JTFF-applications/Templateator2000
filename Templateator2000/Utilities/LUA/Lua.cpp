@@ -96,10 +96,10 @@ bool Lua::checkLua(lua::lua_State* l, const int& r)
 {
 	if (r != 0)
 	{
-		auto err = lua_pcall(l, 0, 0, 0);
+		const int err = lua_pcall(l, 0, 0, 0);
 		const std::string error = lua_tostring(l, -1);
 		lua_pop(l, 1);
-		throw std::exception(std::format("Lua error : {}", error).c_str());
+		throw std::exception(std::format("Lua error : {}, {}", err, error).c_str());
 	}
 	return r == 0;
 }

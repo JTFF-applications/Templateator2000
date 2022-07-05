@@ -18,7 +18,7 @@ public:
 
 private:
 	void load();
-	[[nodiscard]] const std::vector<std::string> installedScripts(const std::string& file_data) const;
+	[[nodiscard]] static const std::vector<std::string> installedScripts(const std::string& file_data);
 
 private:
 	std::filesystem::path m_path;

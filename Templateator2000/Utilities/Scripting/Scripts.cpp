@@ -161,7 +161,7 @@ void Scripts::load()
 	// ReSharper restore StringLiteralTypo
 }
 
-const std::vector<std::string> Scripts::installedScripts(const std::string& file_data) const
+const std::vector<std::string> Scripts::installedScripts(const std::string& file_data)
 {
 	std::vector<std::string> scripts;
 

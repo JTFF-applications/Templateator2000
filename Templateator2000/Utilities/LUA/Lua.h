@@ -19,20 +19,20 @@ public:
 
 	static const std::string ExecuteString(const std::string& code, const std::string& value_name);
 	static int ExecuteInt(const std::string& code, const std::string& value_name);
-	template<typename _Ty>
-	static _Ty ExecuteRaw(const std::string& code,
-	                      const std::string& value_name,
-	                      const std::function<_Ty(lua::lua_State*)>& fn);
+	template<typename Ty>
+	static Ty ExecuteRaw(const std::string& code,
+	                     const std::string& value_name,
+	                     const std::function<Ty(lua::lua_State*)>& fn);
 
 private:
 	static const std::string getLibs();
 	static bool checkLua(lua::lua_State* l, const int& r);
 };
 
-template<typename _Ty>
-_Ty Lua::ExecuteRaw(const std::string& code,
-                    const std::string& value_name,
-                    const std::function<_Ty(lua::lua_State*)>& fn)
+template<typename Ty>
+Ty Lua::ExecuteRaw(const std::string& code,
+                   const std::string& value_name,
+                   const std::function<Ty(lua::lua_State*)>& fn)
 {
 	lua::lua_State* l = lua::luaL_newstate();
 	luaL_openlibs(l);

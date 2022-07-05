@@ -1,7 +1,5 @@
 #pragma once
 
-#include <QStringList>
-
 #include <filesystem>
 
 #include "Utilities/DCS/DCSMission.h"

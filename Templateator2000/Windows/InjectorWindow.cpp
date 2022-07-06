@@ -12,11 +12,14 @@ InjectorWindow::InjectorWindow(const std::function<void(const std::vector<std::s
 	connect(m_ui.cancel_btn, &QPushButton::clicked, this, &InjectorWindow::onCancelClicked);
 
 	for (const auto& script : m_injected_scripts)
-	{
-		const auto item = m_ui.checkboxes->findChild<QCheckBox*>(script.c_str());
-		item->setChecked(true);
-		item->setCheckable(false);
-	}
+		for (int i = 0; i < m_ui.checkboxes->rowCount(); i++)
+			for (int j = 0; j < m_ui.checkboxes->columnCount(); j++)
+			{
+				auto* checkbox = qobject_cast<QCheckBox*>(m_ui.checkboxes->itemAtPosition(i, j)->widget());
+				if (checkbox->objectName() != script.c_str())
+					continue;
+				checkbox->setChecked(true);
+			}
 }
 
 void InjectorWindow::onOkClicked()

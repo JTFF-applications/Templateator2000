@@ -99,6 +99,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Windows\InjectorWindow.cpp" />
     <ClCompile Include="Utilities\Scripting\Injector.cpp" />
     <ClCompile Include="Utilities\Validators\QStringListValidator.cpp" />
     <ClCompile Include="Utilities\DCS\DCSMission.cpp" />
@@ -110,6 +111,7 @@
     <ClCompile Include="Utilities\Scripting\Scripts.cpp" />
     <ClCompile Include="Windows\TankerWindow.cpp" />
     <QtRcc Include="MainWindow.qrc" />
+    <QtUic Include="Windows\InjectorWindow.ui" />
     <QtUic Include="MainWindow.ui" />
     <QtMoc Include="MainWindow.h" />
     <ClCompile Include="Utilities\Log.cpp" />
@@ -120,6 +122,7 @@
     <ResourceCompile Include="Templateator2000.rc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="Windows\InjectorWindow.h" />
     <ClInclude Include="Utilities\Scripting\Injector.h" />
     <ClInclude Include="Models\Tanker.h" />
     <ClInclude Include="Utilities\Validators\QStringListValidator.h" />

@@ -118,6 +118,9 @@
     <ClCompile Include="Utilities\Scripting\Injector.cpp">
       <Filter>Source Files\Utilities\Scripting</Filter>
     </ClCompile>
+    <ClCompile Include="Windows\InjectorWindow.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\Log.h">
@@ -161,9 +164,15 @@
     <QtUic Include="Windows\TankerWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="Windows\InjectorWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Windows\TankerWindow.h">
+      <Filter>Header Files\Windows</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\InjectorWindow.h">
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
   </ItemGroup>

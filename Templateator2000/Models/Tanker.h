@@ -69,7 +69,8 @@ inline json::json Tanker::ToJson(const Tanker& tanker)
 	result["baseUnit"] = Moose::GetNameFromMooseAirbase(tanker.DepartureBase);
 	result["terminalType"] = Moose::GetNumberFromMooseTerminal(tanker.TerminalType);
 	result["groupName"] = tanker.GroupName;
-	result["escortgroupname"] = tanker.EscortGroupName;
+	if(!tanker.EscortGroupName.empty())
+		result["escortgroupname"] = tanker.EscortGroupName;
 	result["freq"] = std::stod(tanker.Frequency);
 	result["missionmaxduration"] = tanker.MaxMissionDuration;
 	result["altitude"] = tanker.Altitude;

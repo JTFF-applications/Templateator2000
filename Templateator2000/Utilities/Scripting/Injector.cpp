@@ -95,7 +95,8 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<st
 	}
 
 	// Inject Atis
-	if (std::ranges::find(installed_scripts, "atis") != installed_scripts.end())
+	if (std::ranges::find(installed_scripts, "atis") != installed_scripts.end() &&
+	    std::ranges::find(was_installed, "atis") == was_installed.end())
 	{
 		injectOne(mission_data,
 		          map_resource,
@@ -107,7 +108,8 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<st
 	}
 
 	// Inject A/A
-	if (std::ranges::find(installed_scripts, "air_to_air") != installed_scripts.end())
+	if (std::ranges::find(installed_scripts, "air_to_air") != installed_scripts.end() &&
+	    std::ranges::find(was_installed, "air_to_air") == was_installed.end())
 	{
 		injectOne(mission_data,
 		          map_resource,
@@ -120,7 +122,8 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<st
 	}
 
 	// Inject A/G
-	if (std::ranges::find(installed_scripts, "air_to_ground") != installed_scripts.end())
+	if (std::ranges::find(installed_scripts, "air_to_ground") != installed_scripts.end() &&
+	    std::ranges::find(was_installed, "air_to_ground") == was_installed.end())
 	{
 		injectOne(mission_data,
 		          map_resource,
@@ -135,7 +138,8 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<st
 	}
 
 	// Inject Airboss
-	if (std::ranges::find(installed_scripts, "airboss") != installed_scripts.end())
+	if (std::ranges::find(installed_scripts, "airboss") != installed_scripts.end() &&
+	    std::ranges::find(was_installed, "airboss") == was_installed.end())
 	{
 		injectOne(mission_data,
 		          map_resource,
@@ -148,7 +152,8 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<st
 	}
 
 	// Inject Awacs
-	if (std::ranges::find(installed_scripts, "awacs") != installed_scripts.end())
+	if (std::ranges::find(installed_scripts, "awacs") != installed_scripts.end() &&
+	    std::ranges::find(was_installed, "awacs") == was_installed.end())
 	{
 		injectOne(mission_data,
 		          map_resource,
@@ -160,7 +165,8 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<st
 	}
 
 	// Inject Beacons
-	if (std::ranges::find(installed_scripts, "beacons") != installed_scripts.end())
+	if (std::ranges::find(installed_scripts, "beacons") != installed_scripts.end() &&
+	    std::ranges::find(was_installed, "beacons") == was_installed.end())
 	{
 		injectOne(mission_data,
 		          map_resource,
@@ -172,7 +178,8 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<st
 	}
 
 	// Inject Mission
-	if (std::ranges::find(installed_scripts, "mission") != installed_scripts.end())
+	if (std::ranges::find(installed_scripts, "mission") != installed_scripts.end() &&
+	    std::ranges::find(was_installed, "mission") == was_installed.end())
 		injectOne(mission_data,
 		          map_resource,
 		          "Mission Specific",
@@ -181,7 +188,8 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<st
 		          "0xff0000ff");
 
 	//Inject Random Air Traffic
-	if (std::ranges::find(installed_scripts, "random_air_traffic") != installed_scripts.end())
+	if (std::ranges::find(installed_scripts, "random_air_traffic") != installed_scripts.end() &&
+	    std::ranges::find(was_installed, "random_air_traffic") == was_installed.end())
 	{
 		injectOne(mission_data,
 		          map_resource,
@@ -193,7 +201,8 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<st
 	}
 
 	// Inject Tankers
-	if (std::ranges::find(installed_scripts, "tankers") != installed_scripts.end())
+	if (std::ranges::find(installed_scripts, "tankers") != installed_scripts.end() &&
+	    std::ranges::find(was_installed, "tankers") == was_installed.end())
 	{
 		injectOne(mission_data,
 		          map_resource,
@@ -225,15 +234,20 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<st
 		addFile(archive, entry_path, temp_path);
 	}
 
+	// Delete old settings if needed
+	if (!was_installed.empty())
+	{
+		deleteOne(mission_data,
+		          map_resource,
+		          "Mission Settings");
+		settings_files["HypemanConfig"] = "settings-hypeman.lua";
+	}
+
 	// Inject settings
 	std::vector<std::string> files;
 	std::ranges::transform(settings_files,
 	                       std::back_inserter(files),
 	                       [](auto& kv) { return kv.second; });
-	if (!was_installed.empty())
-		deleteOne(mission_data,
-		          map_resource,
-		          "Mission Settings");
 
 	injectOne(mission_data,
 	          map_resource,
@@ -427,10 +441,8 @@ void Injector::deleteOne(json::json& mission_data,
 		                                                    return std::ranges::any_of(script_files,
 			                                                    [&value](const std::string& file)
 			                                                    {
-				                                                    return value.get<std::string>().find(
-					                                                           std::format(
-						                                                           "a_do_script_file(getValueResourceByKey({})); ",
-						                                                           file)) != std::string::npos;
+				                                                    return value.get<std::string>().find(file) !=
+				                                                           std::string::npos;
 			                                                    });
 	                                                    });
 
@@ -461,9 +473,9 @@ void Injector::deleteOne(json::json& mission_data,
 	mission_data["trig"]["conditions"].erase(std::ranges::find_if(mission_data["trig"]["conditions"],
 	                                                              [&timing](const json::json& value)
 	                                                              {
-		                                                              return value.get<std::string>() == std::format(
-			                                                                     "return(c_time_after({}))",
-			                                                                     timing);
+		                                                              return value.get<std::string>().find(std::format(
+			                                                                     "c_time_after({})",
+			                                                                     timing)) != std::string::npos;
 	                                                              }));
 	mission_data["trig"]["flag"].erase(--mission_data["trig"]["flag"].end());
 	mission_data["trigrules"].erase(trigrule);

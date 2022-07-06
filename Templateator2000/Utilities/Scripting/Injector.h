@@ -4,7 +4,7 @@
 class Injector
 {
 public:
-	static void InjectScripts(const libzippp::ZipArchive& archive);
+	static void InjectScripts(const libzippp::ZipArchive& archive, std::vector<std::string>& installed_scripts);
 
 private:
 	static void addFile(const libzippp::ZipArchive& archive,
@@ -21,6 +21,9 @@ private:
 	                      const std::vector<std::string>& script_files,
 	                      const int& timing,
 	                      const std::string& hex_color);
+	static void deleteOne(json::json& mission_data,
+	                      json::json& map_resource,
+	                      const std::string& title);
 	static void updateLibraries(const libzippp::ZipArchive& archive);
 	static void updateSources(const libzippp::ZipArchive& archive);
 };

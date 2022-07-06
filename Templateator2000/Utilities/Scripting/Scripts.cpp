@@ -41,7 +41,7 @@ void Scripts::Save() const
 		throw std::exception("Failed to open mission for writing !");
 
 	for (const auto& script : m_installed_scripts)
-		if (script == "tankers")
+		if (script == "tankers" && !m_tankers.empty())
 		{
 			std::fstream file("temp/settings-tankers.lua", std::ios::out);
 			json::json full_tanker_json = {};
@@ -52,18 +52,6 @@ void Scripts::Save() const
 
 			if (!archive.addFile("l10n/DEFAULT/settings-tankers.lua", "temp/settings-tankers.lua"))
 				throw std::exception("Failed to write tanker config file in mission !");
-		}
-		else if (script == "carriers")
-		{
-		}
-		else if (script == "awacs")
-		{
-		}
-		else if (script == "beacons")
-		{
-		}
-		else if (script == "atis")
-		{
 		}
 	if (archive.close() != LIBZIPPP_OK)
 		throw std::exception("Failed to close and save temporary mission !");
@@ -89,7 +77,7 @@ void Scripts::load()
 
 	if (!scripts_injected)
 	{
-		Injector::InjectScripts(archive);
+		Injector::InjectScripts(archive, m_installed_scripts);
 
 		// Save changes when scripts are injected before continue
 		if (archive.close() != LIBZIPPP_OK)
@@ -141,18 +129,6 @@ void Scripts::load()
 				};
 				m_tankers.push_back(tanker_object);
 			}
-		}
-		else if (name.find("settings-carriers") != std::string::npos)
-		{
-		}
-		else if (name.find("settings-beacons") != std::string::npos)
-		{
-		}
-		else if (name.find("settings-awacs") != std::string::npos)
-		{
-		}
-		else if (name.find("settings-atis") != std::string::npos)
-		{
 		}
 	}
 

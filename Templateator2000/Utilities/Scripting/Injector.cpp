@@ -4,12 +4,31 @@
 
 #include "Utilities/Log.h"
 #include "Utilities/LUA/Lua.h"
+#include "Windows/InjectorWindow.h"
 #include "Utilities/Scripting/Injector.h"
 
-void Injector::InjectScripts(const libzippp::ZipArchive& archive)
+void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<std::string>& installed_scripts)
 {
 	// ReSharper disable StringLiteralTypo
 	LOG_INFO("Starting scripts injection in {}", archive.getPath());
+
+	const std::vector<std::string> was_installed = installed_scripts;
+	bool is_cancelled = false;
+	InjectorWindow window([&](const std::vector<std::string>& scripts)
+	                      {
+		                      installed_scripts = scripts;
+	                      },
+	                      [&]
+	                      {
+		                      is_cancelled = true;
+	                      },
+	                      installed_scripts);
+	window.exec();
+	if (is_cancelled)
+	{
+		LOG_INFO("Scripts injection cancelled");
+		return;
+	}
 
 	updateSources(archive);
 	updateLibraries(archive);
@@ -20,110 +39,171 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	json::json mission_data = Lua::JsonFromLua(mission_data_string, "mission");
 	json::json map_resource = Lua::JsonFromLua(map_resource_string, "mapResource");
 
-	json::json injected_scripts = {};
 	std::unordered_map<std::string, std::string> settings_files;
-	// Inject Moose
-	injectOne(mission_data,
-	          map_resource,
-	          "Moose Load",
-	          {"Moose_.lua"},
-	          10,
-	          "0x008000ff");
 
-	// Inject Mist
-	injectOne(mission_data,
-	          map_resource,
-	          "Mist Load",
-	          {"mist_4_5_107.lua"},
-	          13,
-	          "0x008000ff");
+	// Inject basic scripts (Needed for all)
+	if (was_installed.empty())
+	{
+		// Inject Moose
+		injectOne(mission_data,
+		          map_resource,
+		          "Moose Load",
+		          {"Moose_.lua"},
+		          10,
+		          "0x008000ff");
 
-	// Inject Skynet
-	injectOne(mission_data,
-	          map_resource,
-	          "Skynet Load",
-	          {"skynet-iads-compiled.lua"},
-	          15,
-	          "0x008000ff");
+		// Inject Mist
+		injectOne(mission_data,
+		          map_resource,
+		          "Mist Load",
+		          {"mist_4_5_107.lua"},
+		          13,
+		          "0x008000ff");
 
-	// Inject JTFF Libraries
-	injectOne(mission_data,
-	          map_resource,
-	          "JTFF Libraries Load",
-	          {"010-root_menus.lua", "020-mission_functions.lua", "hypeman.lua"},
-	          16,
-	          "0xffff00ff");
-	settings_files["HypemanConfig"] = "settings-hypeman.lua";
+		// Inject Skynet
+		injectOne(mission_data,
+		          map_resource,
+		          "Skynet Load",
+		          {"skynet-iads-compiled.lua"},
+		          15,
+		          "0x008000ff");
 
-	// Inject SetClients
-	injectOne(mission_data,
-	          map_resource,
-	          "Set Clients",
-	          {"110-set_clients.lua"},
-	          21,
-	          "0xff0000ff");
-	injected_scripts += "clients";
+		// Inject JTFF Libraries
+		injectOne(mission_data,
+		          map_resource,
+		          "JTFF Libraries Load",
+		          {"010-root_menus.lua", "020-mission_functions.lua", "hypeman.lua"},
+		          16,
+		          "0xffff00ff");
+		settings_files["HypemanConfig"] = "settings-hypeman.lua";
 
-	// Inject Tankers
-	injectOne(mission_data,
-	          map_resource,
-	          "Tankers",
-	          {"120-tankers.lua"},
-	          22,
-	          "0xff0000ff");
-	settings_files["TankersConfig"] = "settings-tankers.lua";
-	settings_files["OnDemandTankersConfig"] = "settings-ondemandtankers.lua";
-	injected_scripts += "tankers";
+		// Inject SetClients
+		injectOne(mission_data,
+		          map_resource,
+		          "Set Clients",
+		          {"110-set_clients.lua"},
+		          21,
+		          "0xff0000ff");
 
-	// Inject Airboss
-	injectOne(mission_data,
-	          map_resource,
-	          "Airboss",
-	          {"130-airboss.lua", "135-pedro.lua"},
-	          23,
-	          "0xff0000ff");
-	settings_files["AirBossConfig"] = "settings-airboss.lua";
-	settings_files["PedrosConfig"] = "settings-pedros.lua";
-	injected_scripts += "airboss";
-
-	// Inject Beacons
-	injectOne(mission_data,
-	          map_resource,
-	          "Beacons",
-	          {"140-beacons.lua"},
-	          24,
-	          "0xff0000ff");
-	settings_files["BeaconsConfig"] = "settings-beacons.lua";
-	injected_scripts += "beacons";
-
-	// Inject Awacs
-	injectOne(mission_data,
-	          map_resource,
-	          "Awacs",
-	          {"150-awacs.lua"},
-	          25,
-	          "0xff0000ff");
-	settings_files["AwacsConfig"] = "settings-awacs.lua";
-	injected_scripts += "awacs";
+		// Inject Installed Scripts
+		injectOne(mission_data,
+		          map_resource,
+		          "DO NOT DELETE : Injected Scripts",
+		          {"injected_scripts.lua"},
+		          15,
+		          "0x000000ff");
+	}
 
 	// Inject Atis
-	injectOne(mission_data,
-	          map_resource,
-	          "Atis",
-	          {"160-atis.lua"},
-	          26,
-	          "0xff0000ff");
-	settings_files["AtisConfig"] = "settings-atis.lua";
-	injected_scripts += "atis";
+	if (std::ranges::find(installed_scripts, "atis") != installed_scripts.end())
+	{
+		injectOne(mission_data,
+		          map_resource,
+		          "Atis",
+		          {"160-atis.lua"},
+		          26,
+		          "0xff0000ff");
+		settings_files["AtisConfig"] = "settings-atis.lua";
+	}
+
+	// Inject A/A
+	if (std::ranges::find(installed_scripts, "air_to_air") != installed_scripts.end())
+	{
+		injectOne(mission_data,
+		          map_resource,
+		          "A/A",
+		          {"170-cap_zone_training.lua", "173-fox_zone_training.lua"},
+		          27,
+		          "0xff0000ff");
+		settings_files["TrainingCAPConfig"] = "settings-capzone.lua";
+		settings_files["FoxRangesConfig"] = "settings-foxzone.lua";
+	}
+
+	// Inject A/G
+	if (std::ranges::find(installed_scripts, "air_to_ground") != installed_scripts.end())
+	{
+		injectOne(mission_data,
+		          map_resource,
+		          "A/G",
+		          {"190-ranges.lua", "193-training_ranges.lua", "196-fac_ranges.lua", "199-skynet.lua"},
+		          28,
+		          "0xff0000ff");
+		settings_files["RangeConfig"] = "settings-ranges.lua";
+		settings_files["TrainingRangeConfig"] = "settings-training_ranges.lua";
+		settings_files["FACRangeConfig"] = "settings-fac_ranges.lua";
+		settings_files["SkynetConfig"] = "settings-skynet.lua";
+	}
+
+	// Inject Airboss
+	if (std::ranges::find(installed_scripts, "airboss") != installed_scripts.end())
+	{
+		injectOne(mission_data,
+		          map_resource,
+		          "Airboss",
+		          {"130-airboss.lua", "135-pedro.lua"},
+		          23,
+		          "0xff0000ff");
+		settings_files["AirBossConfig"] = "settings-airboss.lua";
+		settings_files["PedrosConfig"] = "settings-pedros.lua";
+	}
+
+	// Inject Awacs
+	if (std::ranges::find(installed_scripts, "awacs") != installed_scripts.end())
+	{
+		injectOne(mission_data,
+		          map_resource,
+		          "Awacs",
+		          {"150-awacs.lua"},
+		          25,
+		          "0xff0000ff");
+		settings_files["AwacsConfig"] = "settings-awacs.lua";
+	}
+
+	// Inject Beacons
+	if (std::ranges::find(installed_scripts, "beacons") != installed_scripts.end())
+	{
+		injectOne(mission_data,
+		          map_resource,
+		          "Beacons",
+		          {"140-beacons.lua"},
+		          24,
+		          "0xff0000ff");
+		settings_files["BeaconsConfig"] = "settings-beacons.lua";
+	}
 
 	// Inject Mission
-	injectOne(mission_data,
-	          map_resource,
-	          "Mission Specific",
-	          {"180-mission.lua"},
-	          27,
-	          "0xff0000ff");
-	injected_scripts += "mission";
+	if (std::ranges::find(installed_scripts, "mission") != installed_scripts.end())
+		injectOne(mission_data,
+		          map_resource,
+		          "Mission Specific",
+		          {"180-mission.lua"},
+		          27,
+		          "0xff0000ff");
+
+	//Inject Random Air Traffic
+	if (std::ranges::find(installed_scripts, "random_air_traffic") != installed_scripts.end())
+	{
+		injectOne(mission_data,
+		          map_resource,
+		          "Random Air Traffic",
+		          {"176-random_air_traffic.lua"},
+		          27,
+		          "0xff0000ff");
+		settings_files["RATConfig"] = "settings-RAT.lua";
+	}
+
+	// Inject Tankers
+	if (std::ranges::find(installed_scripts, "tankers") != installed_scripts.end())
+	{
+		injectOne(mission_data,
+		          map_resource,
+		          "Tankers",
+		          {"120-tankers.lua"},
+		          22,
+		          "0xff0000ff");
+		settings_files["TankersConfig"] = "settings-tankers.lua";
+		settings_files["OnDemandTankersConfig"] = "settings-ondemandtankers.lua";
+	}
 
 	// Add settings file
 	for (const auto& [name, file] : settings_files)
@@ -150,6 +230,11 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 	std::ranges::transform(settings_files,
 	                       std::back_inserter(files),
 	                       [](auto& kv) { return kv.second; });
+	if (!was_installed.empty())
+		deleteOne(mission_data,
+		          map_resource,
+		          "Mission Settings");
+
 	injectOne(mission_data,
 	          map_resource,
 	          "Mission Settings",
@@ -159,15 +244,9 @@ void Injector::InjectScripts(const libzippp::ZipArchive& archive)
 
 	// Save injected scripts into mission
 	std::fstream injected_scripts_fs("temp/injected_scripts.lua", std::ios::out);
-	injected_scripts_fs << Lua::LuaFromJson(injected_scripts, "InjectedScripts");
+	injected_scripts_fs << Lua::LuaFromJson(installed_scripts, "InjectedScripts");
 	injected_scripts_fs.close();
 	addFile(archive, "l10n/DEFAULT/injected_scripts.lua", "temp/injected_scripts.lua");
-	injectOne(mission_data,
-	          map_resource,
-	          "DO NOT DELETE : Injected Scripts",
-	          {"injected_scripts.lua"},
-	          15,
-	          "0x000000ff");
 
 	// Save injected mission files
 	const std::string mission = Lua::LuaFromJson(mission_data, "mission");
@@ -314,6 +393,80 @@ void Injector::injectOne(json::json& mission_data,
 		{"predicate", "triggerOnce"},
 		{"colorItem", hex_color},
 	};
+	// ReSharper restore StringLiteralTypo
+}
+
+void Injector::deleteOne(json::json& mission_data,
+                         json::json& map_resource,
+                         const std::string& title)
+{
+	// ReSharper disable StringLiteralTypo
+
+	// Get trigrule object for this title
+	const auto& trigrule = std::ranges::find_if(mission_data["trigrules"],
+	                                            [&title](const json::json& rule)
+	                                            {
+		                                            return rule["comment"] == title;
+	                                            });
+
+	std::vector<std::string> script_files;
+	for (const auto& action_object : (*trigrule)["actions"])
+	{
+		const std::string& file = action_object["file"];
+		if (map_resource.contains(file))
+		{
+			script_files.push_back(file);
+			map_resource.erase(file);
+		}
+	}
+
+	// Get action string (to erase mission_data["trig"]["actions"] and find next_index)
+	const auto& action_string_it = std::ranges::find_if(mission_data["trig"]["actions"],
+	                                                    [&script_files](const json::json& value)
+	                                                    {
+		                                                    return std::ranges::any_of(script_files,
+			                                                    [&value](const std::string& file)
+			                                                    {
+				                                                    return value.get<std::string>().find(
+					                                                           std::format(
+						                                                           "a_do_script_file(getValueResourceByKey({})); ",
+						                                                           file)) != std::string::npos;
+			                                                    });
+	                                                    });
+
+	const std::string& action_string = *action_string_it;
+	const size_t first_slash = action_string.find_last_of('[') + 1;
+	const size_t second_slash = action_string.find_last_of(']') - first_slash;
+
+	// Get next index (to find mission_data["trig"]["func"])
+	const int next_index = std::stoi(action_string.substr(first_slash, second_slash));
+
+	// Get timing (to erase mission_data["trig"]["conditions"])
+	const int timing = (*std::ranges::find_if((*trigrule)["rules"],
+	                                          [](const json::json& rule)
+	                                          {
+		                                          return rule.contains("seconds");
+	                                          }))["seconds"];
+
+	// Erase all data from mission_data
+	mission_data["trig"]["actions"].erase(action_string_it);
+	mission_data["trig"]["func"].erase(std::ranges::find_if(mission_data["trig"]["func"],
+	                                                        [&next_index](const json::json& value)
+	                                                        {
+		                                                        return value == std::format(
+			                                                               "if mission.trig.conditions[{}]() then mission.trig.actions[{}]() end",
+			                                                               next_index,
+			                                                               next_index);
+	                                                        }));
+	mission_data["trig"]["conditions"].erase(std::ranges::find_if(mission_data["trig"]["conditions"],
+	                                                              [&timing](const json::json& value)
+	                                                              {
+		                                                              return value.get<std::string>() == std::format(
+			                                                                     "return(c_time_after({}))",
+			                                                                     timing);
+	                                                              }));
+	mission_data["trig"]["flag"].erase(--mission_data["trig"]["flag"].end());
+	mission_data["trigrules"].erase(trigrule);
 	// ReSharper restore StringLiteralTypo
 }
 

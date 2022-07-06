@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(m_ui.actionExit, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
 
 	connect(m_ui.actionRefresh, SIGNAL(triggered()), this, SLOT(refresh()));
-	connect(m_ui.actionInjectNewScripts, SIGNAL(triggered()), this, SLOT(injectNewScripts()));
+	connect(m_ui.actionManageScripts, SIGNAL(triggered()), this, SLOT(manageScripts()));
 
 	connect(m_ui.actionAddTanker, SIGNAL(triggered()), this, SLOT(addTanker()));
 	connect(m_ui.actionAddCarrier, SIGNAL(triggered()), this, SLOT(addCarrier()));
@@ -142,12 +142,12 @@ void MainWindow::refresh()
 {
 }
 
-void MainWindow::injectNewScripts()
+void MainWindow::manageScripts()
 {
 	CHECK_MISSION_LOADED()
 	try
 	{
-		m_mission.InjectNewScripts();
+		m_mission.ManageScripts();
 	} catch (const std::exception& except)
 	{
 		QMessageBox::critical(nullptr, "Error", except.what(), QMessageBox::Ok);

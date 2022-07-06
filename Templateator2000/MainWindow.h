@@ -31,7 +31,7 @@ private slots:
 	void saveAs();
 
 	void refresh();
-	void injectNewScripts();
+	void manageScripts();
 
 	void help();
 	void about();

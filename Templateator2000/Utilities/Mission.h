@@ -18,7 +18,7 @@ public:
 	void Init(const std::filesystem::path& path, const std::filesystem::path& mission_path);
 	void Save();
 	void SaveAs(std::filesystem::path new_path);
-	void InjectNewScripts();
+	void ManageScripts();
 
 	[[nodiscard]] const bool& IsInitialized() const { return m_initialized; }
 	[[nodiscard]] const bool& IsSaved() const { return m_is_saved; }

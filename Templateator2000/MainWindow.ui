@@ -494,7 +494,7 @@
      <string>Mission</string>
     </property>
     <addaction name="actionRefresh"/>
-    <addaction name="actionInjectNewScripts"/>
+    <addaction name="actionManageScripts"/>
    </widget>
    <widget class="QMenu" name="menuScripts">
     <property name="title">
@@ -588,9 +588,9 @@
     <string>Export</string>
    </property>
   </action>
-  <action name="actionInjectNewScripts">
+  <action name="actionManageScripts">
    <property name="text">
-    <string>Inject New Scripts</string>
+    <string>Manage Scripts</string>
    </property>
   </action>
  </widget>

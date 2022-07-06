@@ -59,9 +59,9 @@ void Mission::SaveAs(const std::filesystem::path new_path)
 	copy_file(m_path, new_path, std::filesystem::copy_options::overwrite_existing);
 }
 
-void Mission::InjectNewScripts()
+void Mission::ManageScripts()
 {
-	m_scripts.InjectNewScripts();
+	m_scripts.Manage();
 }
 
 const std::map<const std::string, const std::vector<Group>> Mission::GetMissionGroups() const

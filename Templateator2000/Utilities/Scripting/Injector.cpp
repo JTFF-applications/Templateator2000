@@ -7,7 +7,7 @@
 #include "Windows/InjectorWindow.h"
 #include "Utilities/Scripting/Injector.h"
 
-void Injector::InjectScripts(const libzippp::ZipArchive& archive, std::vector<std::string>& installed_scripts)
+void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<std::string>& installed_scripts)
 {
 	// ReSharper disable StringLiteralTypo
 	LOG_INFO("Starting scripts injection in {}", archive.getPath());

@@ -57,6 +57,19 @@ void Scripts::Save() const
 		throw std::exception("Failed to close and save temporary mission !");
 }
 
+void Scripts::InjectNewScripts()
+{
+	libzippp::ZipArchive archive(m_path.string());
+	if (!archive.open(libzippp::ZipArchive::Write))
+		throw std::exception("Failed to open mission for writing !");
+
+	m_installed_scripts = installedScripts(archive.getEntry("l10n/DEFAULT/injected_scripts.lua").readAsText());
+	Injector::InjectScripts(archive, m_installed_scripts);
+
+	if (archive.close() != LIBZIPPP_OK)
+		throw std::exception("Failed to close and save temporary mission !");
+}
+
 void Scripts::load()
 {
 	if (!m_initialized)
@@ -71,7 +84,8 @@ void Scripts::load()
 	std::ranges::for_each(entries,
 	                      [&](const libzippp::ZipEntry& entry)
 	                      {
-		                      if (entry.getName() == "injected_scripts.lua")
+		                      auto name = entry.getName();
+		                      if (entry.getName() == "l10n/DEFAULT/injected_scripts.lua")
 			                      scripts_injected = true;
 	                      });
 

@@ -14,6 +14,7 @@ public:
 
 	void Init(const std::filesystem::path& path);
 	void Save() const;
+	void InjectNewScripts();
 	[[nodiscard]] const std::vector<Tanker>& Tankers() const { return m_tankers; }
 
 private:

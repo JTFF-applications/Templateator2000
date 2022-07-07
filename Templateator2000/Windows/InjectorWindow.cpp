@@ -19,6 +19,8 @@ InjectorWindow::InjectorWindow(const std::function<void(const std::vector<std::s
 				if (checkbox->objectName() != script.c_str())
 					continue;
 				checkbox->setChecked(true);
+				checkbox->setAttribute(Qt::WA_TransparentForMouseEvents);
+				checkbox->setFocusPolicy(Qt::NoFocus);
 			}
 }
 

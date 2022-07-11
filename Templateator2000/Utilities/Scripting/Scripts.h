@@ -3,6 +3,7 @@
 #include <filesystem>
 
 #include "Models/Atis.h"
+#include "Models/Beacon.h"
 #include "Models/Tanker.h"
 
 class Scripts
@@ -18,6 +19,7 @@ public:
 	void Manage();
 	[[nodiscard]] const std::vector<Tanker>& GetTankers() const { return m_tankers; }
 	[[nodiscard]] const std::vector<Atis>& GetAtis() const { return m_atis; }
+	[[nodiscard]] const std::vector<Beacon>& GetBeacons() const { return m_beacons; }
 
 private:
 	void load();
@@ -30,4 +32,5 @@ private:
 	std::vector<std::string> m_installed_scripts;
 	std::vector<Tanker> m_tankers;
 	std::vector<Atis> m_atis;
+	std::vector<Beacon> m_beacons;
 };

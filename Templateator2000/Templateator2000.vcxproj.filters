@@ -124,6 +124,9 @@
     <ClCompile Include="Windows\AtisWindow.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="Windows\BeaconWindow.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\Log.h">
@@ -168,6 +171,9 @@
     <ClInclude Include="Models\Models.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
+    <ClInclude Include="Models\Beacon.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Windows\TankerWindow.ui">
@@ -179,6 +185,9 @@
     <QtUic Include="Windows\AtisWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="Windows\BeaconWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Windows\TankerWindow.h">
@@ -188,6 +197,9 @@
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
     <QtMoc Include="Windows\AtisWindow.h">
+      <Filter>Header Files\Windows</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\BeaconWindow.h">
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
   </ItemGroup>

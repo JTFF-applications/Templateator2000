@@ -65,6 +65,18 @@ void Scripts::Save() const
 			if (!archive.addFile("l10n/DEFAULT/settings-atis.lua", "temp/settings-atis.lua"))
 				throw std::exception("Failed to write atis config file in mission !");
 		}
+		else if (script == "beacons" && !m_beacons.empty())
+		{
+			std::fstream file("temp/settings-beacons.lua", std::ios::out);
+			json::json full_beacons_json = {};
+			for (const auto& beacon : m_beacons)
+				full_beacons_json += Beacon::ToJson(beacon);
+			file << Lua::LuaFromJson(full_beacons_json, "BeaconsConfig");
+			file.close();
+
+			if (!archive.addFile("l10n/DEFAULT/settings-beacons.lua", "temp/settings-beacons.lua"))
+				throw std::exception("Failed to write beacons config file in mission !");
+		}
 	if (archive.close() != LIBZIPPP_OK)
 		throw std::exception("Failed to close and save temporary mission !");
 }
@@ -132,6 +144,12 @@ void Scripts::load()
 			json::json atis_list = Lua::JsonFromLua(file.readAsText(), "AtisConfig");
 			for (const auto& atis : atis_list)
 				m_atis.push_back(Atis::FromJson(atis));
+		}
+		else if (name.find("settings-beacons") != std::string::npos)
+		{
+			json::json beacons = Lua::JsonFromLua(file.readAsText(), "BeaconsConfig");
+			for (const auto& beacon : beacons)
+				m_beacons.push_back(Beacon::FromJson(beacon));
 		}
 	}
 

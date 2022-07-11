@@ -4,6 +4,7 @@
 
 #include "Utilities/Log.h"
 #include "Windows/AtisWindow.h"
+#include "Windows/BeaconWindow.h"
 #include "Windows/TankerWindow.h"
 #include "MainWindow.h"
 
@@ -106,6 +107,7 @@ void MainWindow::open()
 	m_ui.selected_mission->setText(std::format("Selected mission : {}", m_mission.GetMissionName()).c_str());
 	fillTankers();
 	fillAtis();
+	fillBeacons();
 }
 
 void MainWindow::save()
@@ -191,6 +193,20 @@ void MainWindow::addCarrier()
 
 void MainWindow::addBeacon()
 {
+	CHECK_MISSION_LOADED()
+	BeaconWindow win(
+		nullptr,
+		m_mission.GetMissionGroups(),
+		[&](const Beacon& beacon)
+		{
+			m_mission.AddBeacon(beacon);
+			m_ui.beacon->addItem(BEACON_PRESENTATION_STRING(beacon).c_str());
+			LOG_TRACE("Beacon {} added !", beacon.Name);
+		},
+		[&]
+		{
+		});
+	win.exec();
 }
 
 void MainWindow::addAtis()
@@ -230,6 +246,15 @@ void MainWindow::removeCarrier()
 
 void MainWindow::removeBeacon()
 {
+	CHECK_MISSION_LOADED()
+	for (const auto& item : m_ui.beacon->selectedItems())
+	{
+		const std::string beacon_label = item->text().toStdString();
+		const Beacon& beacon = m_mission.GetBeacon(beacon_label);
+		m_mission.RemoveBeacon(beacon_label);
+		LOG_TRACE("Beacon {} removed !", beacon.Name);
+	}
+	qDeleteAll(m_ui.beacon->selectedItems());
 }
 
 void MainWindow::removeAtis()
@@ -275,6 +300,26 @@ void MainWindow::editCarrier()
 
 void MainWindow::editBeacon()
 {
+	CHECK_MISSION_LOADED()
+	for (const auto& item : m_ui.beacon->selectedItems())
+	{
+		const std::string beacon_label = item->text().toStdString();
+		const auto& old_beacon = m_mission.GetBeacon(beacon_label);
+		BeaconWindow win(
+			nullptr,
+			m_mission.GetMissionGroups(),
+			[&](const Beacon& new_beacon)
+			{
+				m_mission.ModifyBeacon(old_beacon, new_beacon);
+				item->setText(BEACON_PRESENTATION_STRING(new_beacon).c_str());
+				LOG_TRACE("Beacon {} modified !", old_beacon.Name);
+			},
+			[&]
+			{
+			});
+		win.SetBeacon(old_beacon);
+		win.exec();
+	}
 }
 
 void MainWindow::editAtis()
@@ -316,6 +361,14 @@ void MainWindow::fillAtis() const
 	const auto& atis_list = m_mission.GetScripts().GetAtis();
 	for (const auto& atis : atis_list)
 		m_ui.atis->addItem(ATIS_PRESENTATION_STRING(atis).c_str());
+	LOG_TRACE("Atis filled !");
+}
+
+void MainWindow::fillBeacons() const
+{
+	const auto& beacons = m_mission.GetScripts().GetBeacons();
+	for (const auto& beacon : beacons)
+		m_ui.beacon->addItem(BEACON_PRESENTATION_STRING(beacon).c_str());
 	LOG_TRACE("Atis filled !");
 }
 #pragma endregion

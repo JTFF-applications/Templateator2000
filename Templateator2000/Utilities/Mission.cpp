@@ -150,3 +150,41 @@ void Mission::RemoveAtis(const std::string& label)
 	m_is_saved = false;
 }
 #pragma endregion
+
+#pragma region Beacons
+const Beacon& Mission::GetBeacon(const std::string& label) const
+{
+	return *std::ranges::find_if(m_scripts.m_beacons,
+	                             [&](const Beacon& beacon)
+	                             {
+		                             return label == BEACON_PRESENTATION_STRING(beacon);
+	                             });
+}
+
+void Mission::AddBeacon(const Beacon& beacon)
+{
+	m_scripts.m_beacons.push_back(beacon);
+	m_is_saved = false;
+}
+
+void Mission::ModifyBeacon(const Beacon& old_beacon, const Beacon& new_beacon)
+{
+	std::ranges::replace_if(m_scripts.m_beacons,
+	                        [&](const Beacon& beacon)
+	                        {
+		                        return BEACON_PRESENTATION_STRING(old_beacon) == BEACON_PRESENTATION_STRING(beacon);
+	                        },
+	                        new_beacon);
+	m_is_saved = false;
+}
+
+void Mission::RemoveBeacon(const std::string& label)
+{
+	m_scripts.m_beacons.erase(std::ranges::find_if(m_scripts.m_beacons,
+	                                               [&](const Beacon& beacon)
+	                                               {
+		                                               return label == BEACON_PRESENTATION_STRING(beacon);
+	                                               }));
+	m_is_saved = false;
+}
+#pragma endregion

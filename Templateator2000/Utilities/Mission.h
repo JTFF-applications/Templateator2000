@@ -3,6 +3,7 @@
 #include <filesystem>
 
 #include "Models/Atis.h"
+#include "Models/Beacon.h"
 #include "Models/Tanker.h"
 #include "Utilities/DCS/DCSMission.h"
 #include "Utilities/Scripting/Scripts.h"
@@ -40,6 +41,12 @@ public:
 	void AddAtis(const Atis& atis);
 	void ModifyAtis(const Atis& old_atis, const Atis& new_atis);
 	void RemoveAtis(const std::string& label);
+
+	// Beacons
+	[[nodiscard]] const Beacon& GetBeacon(const std::string& label) const;
+	void AddBeacon(const Beacon& beacon);
+	void ModifyBeacon(const Beacon& old_beacon, const Beacon& new_beacon);
+	void RemoveBeacon(const std::string& label);
 
 private:
 	std::filesystem::path m_path, m_mission_path;

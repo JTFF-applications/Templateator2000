@@ -55,6 +55,7 @@ private slots:
 private:
 	void fillTankers() const;
 	void fillAtis() const;
+	void fillBeacons() const;
 
 private:
 	Ui::MainWindowClass m_ui {};

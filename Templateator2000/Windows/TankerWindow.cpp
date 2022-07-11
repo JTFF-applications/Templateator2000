@@ -8,8 +8,8 @@
 
 TankerWindow::TankerWindow(QWidget* parent,
                            const std::map<const std::string, const std::vector<Group>>& mission_data,
-                           std::function<void(Tanker)> on_ok,
-                           std::function<void()> on_cancel)
+                           const std::function<void(Tanker)>& on_ok,
+                           const std::function<void()>& on_cancel)
 	: QDialog(parent), m_mission_data(mission_data), m_on_ok(on_ok), m_on_cancel(on_cancel)
 {
 	m_ui.setupUi(this);
@@ -70,15 +70,15 @@ void TankerWindow::SetTanker(const Tanker& tk) const
 	m_ui.fuel_level->setValue(tk.FuelWarningLevel);
 	m_ui.modex->setValue(tk.Modex);
 
-	m_ui.tacan->setValue(tk.TacanChannel);
-	m_ui.tacan_band->setCurrentIndex(m_ui.tacan_band->findText(tk.TacanBand.c_str()));
-	m_ui.tacan_morse->setText(tk.TacanMorse.c_str());
+	m_ui.tacan->setValue(tk.Tacan.Channel);
+	m_ui.tacan_band->setCurrentIndex(m_ui.tacan_band->findText(tk.Tacan.Band.c_str()));
+	m_ui.tacan_morse->setText(tk.Tacan.Morse.c_str());
 
-	m_ui.racetrack_front->setValue(tk.RacetrackFront);
-	m_ui.racetrack_back->setValue(tk.RacetrackBack);
+	m_ui.racetrack_front->setValue(tk.Racetrack.Front);
+	m_ui.racetrack_back->setValue(tk.Racetrack.Back);
 
-	m_ui.callsign->setCurrentIndex(m_ui.callsign->findText(tk.Callsign.c_str()));
-	m_ui.callsign_nb->setValue(tk.CallsignNb);
+	m_ui.callsign->setCurrentIndex(m_ui.callsign->findText(tk.Callsign.Name.c_str()));
+	m_ui.callsign_nb->setValue(tk.Callsign.Number);
 }
 
 void TankerWindow::onOkClicked()
@@ -101,13 +101,19 @@ void TankerWindow::onOkClicked()
 			.Speed = m_ui.altitude->value(),
 			.FuelWarningLevel = m_ui.fuel_level->value(),
 			.Modex = m_ui.modex->value(),
-			.TacanChannel = m_ui.tacan->value(),
-			.TacanBand = m_ui.tacan_band->currentText().toStdString(),
-			.TacanMorse = m_ui.tacan_morse->text().toStdString(),
-			.RacetrackFront = m_ui.racetrack_front->value(),
-			.RacetrackBack = m_ui.racetrack_back->value(),
-			.Callsign = m_ui.callsign->currentText().toStdString(),
-			.CallsignNb = m_ui.callsign_nb->value()
+			.Tacan = {
+				.Channel = m_ui.tacan->value(),
+				.Band = m_ui.tacan_band->currentText().toStdString(),
+				.Morse = m_ui.tacan_morse->text().toStdString(),
+			},
+			.Racetrack = {
+				.Front = m_ui.racetrack_front->value(),
+				.Back = m_ui.racetrack_back->value(),
+			},
+			.Callsign = {
+				.Name = m_ui.callsign->currentText().toStdString(),
+				.Number = m_ui.callsign_nb->value()
+			}
 		};
 
 		if (!Mission::DataToUnitName(m_mission_data).contains(tanker.PatternUnit.c_str()))
@@ -117,7 +123,7 @@ void TankerWindow::onOkClicked()
 			throw std::exception("Invalid escort group !");
 		if (tanker.Frequency.empty() || tanker.Frequency.size() != 7)
 			throw std::exception("Invalid radio frequency !");
-		if (tanker.TacanMorse.empty() || tanker.TacanMorse.size() != 3)
+		if (tanker.Tacan.Morse.empty() || tanker.Tacan.Morse.size() != 3)
 			throw std::exception("Invalid tacan morse code !");
 
 		close();

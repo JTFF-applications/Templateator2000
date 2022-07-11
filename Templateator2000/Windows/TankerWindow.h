@@ -13,8 +13,8 @@ class TankerWindow final : public QDialog
 public:
 	TankerWindow(QWidget* parent,
 	             const std::map<const std::string, const std::vector<Group>>& mission_data,
-	             std::function<void(Tanker)> on_ok,
-	             std::function<void()> on_cancel);
+	             const std::function<void(Tanker)>& on_ok,
+	             const std::function<void()>& on_cancel);
 	virtual ~TankerWindow() override;
 
 	TankerWindow(const TankerWindow&) = delete;

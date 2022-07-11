@@ -253,3 +253,27 @@ int Moose::GetMooseNumberFromCallsign(const std::string& aircraft_type, const st
 {
 	return Lua::ExecuteInt(std::format("val = CALLSIGN.{}.{}", aircraft_type, callsign), "val");
 }
+
+int Moose::GetNumberFromModulation(const std::string& modulation)
+{
+	/*
+	 *  0 = AM
+	 *  1 = FM
+	 */
+
+	if (modulation != "AM" && modulation != "FM")
+		throw std::exception(std::format("Unknown modulation {} !", modulation).c_str());
+	return modulation == "FM";
+}
+
+std::string Moose::GetModulationFromNumber(const int& number)
+{
+	/*
+	 *  0 = AM
+	 *  1 = FM
+	 */
+
+	if (number == 0)
+		return "AM";
+	return "FM";
+}

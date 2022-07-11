@@ -53,6 +53,18 @@ void Scripts::Save() const
 			if (!archive.addFile("l10n/DEFAULT/settings-tankers.lua", "temp/settings-tankers.lua"))
 				throw std::exception("Failed to write tanker config file in mission !");
 		}
+		else if (script == "atis" && !m_atis.empty())
+		{
+			std::fstream file("temp/settings-atis.lua", std::ios::out);
+			json::json full_atis_json = {};
+			for (const auto& atis : m_atis)
+				full_atis_json += Atis::ToJson(atis);
+			file << Lua::LuaFromJson(full_atis_json, "AtisConfig");
+			file.close();
+
+			if (!archive.addFile("l10n/DEFAULT/settings-atis.lua", "temp/settings-atis.lua"))
+				throw std::exception("Failed to write atis config file in mission !");
+		}
 	if (archive.close() != LIBZIPPP_OK)
 		throw std::exception("Failed to close and save temporary mission !");
 }
@@ -113,36 +125,13 @@ void Scripts::load()
 		{
 			json::json tankers = Lua::JsonFromLua(file.readAsText(), "TankersConfig");
 			for (const auto& tanker : tankers)
-			{
-				const bool is_escorted = tanker.contains("escortgroupname");
-				const bool is_default_tacan_band = !tanker["tacan"].contains("band");
-				Tanker tanker_object = {
-					.Type = Tanker::Type::Fixed,
-					.Coalition = Coalition::FromDcsCoalition(tanker["benefit_coalition"].get<int>()),
-					.AutoRespawn = tanker["autorespawn"].get<bool>(),
-					.AirbossRecovery = tanker["airboss_recovery"].get<bool>(),
-					.PatternUnit = tanker["patternUnit"].get<std::string>(),
-					.DepartureBase = Moose::GetMooseAirbaseFromName(tanker["baseUnit"].get<std::string>()),
-					.TerminalType = Moose::GetMooseTerminalFromNumber(tanker["terminalType"].get<int>()),
-					.GroupName = tanker["groupName"].get<std::string>(),
-					.EscortGroupName = is_escorted ? tanker["escortgroupname"].get<std::string>() : "",
-					.Frequency = std::format("{:.3f}", tanker["freq"].get<float>()),
-					.MaxMissionDuration = tanker["missionmaxduration"].get<int>(),
-					.Altitude = tanker["altitude"].get<int>(),
-					.Speed = tanker["speed"].get<int>(),
-					.FuelWarningLevel = tanker["fuelwarninglevel"].get<int>(),
-					.Modex = tanker["modex"].get<int>(),
-					.TacanChannel = tanker["tacan"]["channel"].get<int>(),
-					.TacanBand = is_default_tacan_band ? "Y" : tanker["tacan"]["band"].get<std::string>(),
-					.TacanMorse = tanker["tacan"]["morse"].get<std::string>(),
-					.RacetrackFront = tanker["racetrack"]["front"].get<int>(),
-					.RacetrackBack = tanker["racetrack"]["back"].get<int>(),
-					.Callsign = Moose::GetMooseCallsignFromNumber(tanker["callsign"]["name"].get<int>(),
-					                                              "CALLSIGN.Tanker"),
-					.CallsignNb = tanker["callsign"]["number"].get<int>()
-				};
-				m_tankers.push_back(tanker_object);
-			}
+				m_tankers.push_back(Tanker::FromJson(tanker));
+		}
+		else if (name.find("settings-atis") != std::string::npos)
+		{
+			json::json atis_list = Lua::JsonFromLua(file.readAsText(), "AtisConfig");
+			for (const auto& atis : atis_list)
+				m_atis.push_back(Atis::FromJson(atis));
 		}
 	}
 

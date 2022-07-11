@@ -3,6 +3,7 @@
 #include <QMessageBox>
 
 #include "Utilities/Log.h"
+#include "Windows/AtisWindow.h"
 #include "Windows/TankerWindow.h"
 #include "MainWindow.h"
 
@@ -104,6 +105,7 @@ void MainWindow::open()
 
 	m_ui.selected_mission->setText(std::format("Selected mission : {}", m_mission.GetMissionName()).c_str());
 	fillTankers();
+	fillAtis();
 }
 
 void MainWindow::save()
@@ -175,7 +177,7 @@ void MainWindow::addTanker()
 		{
 			m_mission.AddTanker(tk);
 			m_ui.tankers->addItem(TANKER_PRESENTATION_STRING(tk).c_str());
-			LOG_TRACE("Tanker {}-{} added !", tk.Callsign, tk.CallsignNb);
+			LOG_TRACE("Tanker {}-{} added !", tk.Callsign.Name, tk.Callsign.Number);
 		},
 		[&]
 		{
@@ -193,6 +195,20 @@ void MainWindow::addBeacon()
 
 void MainWindow::addAtis()
 {
+	CHECK_MISSION_LOADED()
+	AtisWindow win(
+		nullptr,
+		m_mission.GetMissionGroups(),
+		[&](const Atis& atis)
+		{
+			m_mission.AddAtis(atis);
+			m_ui.atis->addItem(ATIS_PRESENTATION_STRING(atis).c_str());
+			LOG_TRACE("GetAtis for {} added !", atis.AirportName);
+		},
+		[&]
+		{
+		});
+	win.exec();
 }
 
 void MainWindow::removeTanker()
@@ -203,7 +219,7 @@ void MainWindow::removeTanker()
 		const std::string tanker_label = item->text().toStdString();
 		const Tanker& tk = m_mission.GetTanker(tanker_label);
 		m_mission.RemoveTanker(tanker_label);
-		LOG_TRACE("Tanker {}-{} removed !", tk.Callsign, tk.CallsignNb);
+		LOG_TRACE("Tanker {}-{} removed !", tk.Callsign.Name, tk.Callsign.Number);
 	}
 	qDeleteAll(m_ui.tankers->selectedItems());
 }
@@ -218,6 +234,15 @@ void MainWindow::removeBeacon()
 
 void MainWindow::removeAtis()
 {
+	CHECK_MISSION_LOADED()
+	for (const auto& item : m_ui.atis->selectedItems())
+	{
+		const std::string atis_label = item->text().toStdString();
+		const Atis& atis = m_mission.GetAtis(atis_label);
+		m_mission.RemoveAtis(atis_label);
+		LOG_TRACE("Atis {} removed !", atis.AirportName);
+	}
+	qDeleteAll(m_ui.atis->selectedItems());
 }
 
 void MainWindow::editTanker()
@@ -234,7 +259,7 @@ void MainWindow::editTanker()
 			{
 				m_mission.ModifyTanker(old_tk, new_tk);
 				item->setText(TANKER_PRESENTATION_STRING(new_tk).c_str());
-				LOG_TRACE("Tanker {}-{} modified !", old_tk.Callsign, old_tk.CallsignNb);
+				LOG_TRACE("Tanker {}-{} modified !", old_tk.Callsign.Name, old_tk.Callsign.Number);
 			},
 			[&]
 			{
@@ -254,15 +279,43 @@ void MainWindow::editBeacon()
 
 void MainWindow::editAtis()
 {
+	CHECK_MISSION_LOADED()
+	for (const auto& item : m_ui.atis->selectedItems())
+	{
+		const std::string atis_label = item->text().toStdString();
+		const auto& old_atis = m_mission.GetAtis(atis_label);
+		AtisWindow win(
+			nullptr,
+			m_mission.GetMissionGroups(),
+			[&](const Atis& new_atis)
+			{
+				m_mission.ModifyAtis(old_atis, new_atis);
+				item->setText(ATIS_PRESENTATION_STRING(new_atis).c_str());
+				LOG_TRACE("Atis {} modified !", old_atis.AirportName);
+			},
+			[&]
+			{
+			});
+		win.SetAtis(old_atis);
+		win.exec();
+	}
 }
 #pragma endregion
 
 #pragma region Fill UI
 void MainWindow::fillTankers() const
 {
-	const auto& tankers = m_mission.GetScripts().Tankers();
+	const auto& tankers = m_mission.GetScripts().GetTankers();
 	for (const auto& tanker : tankers)
 		m_ui.tankers->addItem(TANKER_PRESENTATION_STRING(tanker).c_str());
-	LOG_TRACE("Tankers filled !");
+	LOG_TRACE("GetTankers filled !");
+}
+
+void MainWindow::fillAtis() const
+{
+	const auto& atis_list = m_mission.GetScripts().GetAtis();
+	for (const auto& atis : atis_list)
+		m_ui.atis->addItem(ATIS_PRESENTATION_STRING(atis).c_str());
+	LOG_TRACE("Atis filled !");
 }
 #pragma endregion

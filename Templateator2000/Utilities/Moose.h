@@ -26,4 +26,8 @@ public:
 	static const std::string GetNameFromMooseCallsign(const std::string& callsign);
 	static const std::string GetMooseCallsignFromNumber(const int& nb, const std::string& moose_table);
 	static int GetMooseNumberFromCallsign(const std::string& aircraft_type, const std::string& callsign);
+
+	// OTHERS
+	static int GetNumberFromModulation(const std::string& modulation);
+	static std::string GetModulationFromNumber(const int& number);
 };

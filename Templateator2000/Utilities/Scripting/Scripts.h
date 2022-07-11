@@ -2,6 +2,7 @@
 
 #include <filesystem>
 
+#include "Models/Atis.h"
 #include "Models/Tanker.h"
 
 class Scripts
@@ -15,7 +16,8 @@ public:
 	void Init(const std::filesystem::path& path);
 	void Save() const;
 	void Manage();
-	[[nodiscard]] const std::vector<Tanker>& Tankers() const { return m_tankers; }
+	[[nodiscard]] const std::vector<Tanker>& GetTankers() const { return m_tankers; }
+	[[nodiscard]] const std::vector<Atis>& GetAtis() const { return m_atis; }
 
 private:
 	void load();
@@ -27,4 +29,5 @@ private:
 
 	std::vector<std::string> m_installed_scripts;
 	std::vector<Tanker> m_tankers;
+	std::vector<Atis> m_atis;
 };

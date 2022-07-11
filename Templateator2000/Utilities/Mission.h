@@ -2,6 +2,8 @@
 
 #include <filesystem>
 
+#include "Models/Atis.h"
+#include "Models/Tanker.h"
 #include "Utilities/DCS/DCSMission.h"
 #include "Utilities/Scripting/Scripts.h"
 
@@ -32,6 +34,12 @@ public:
 	void AddTanker(const Tanker& tanker);
 	void ModifyTanker(const Tanker& old_tanker, const Tanker& new_tanker);
 	void RemoveTanker(const std::string& label);
+
+	// Atis
+	[[nodiscard]] const Atis& GetAtis(const std::string& label) const;
+	void AddAtis(const Atis& atis);
+	void ModifyAtis(const Atis& old_atis, const Atis& new_atis);
+	void RemoveAtis(const std::string& label);
 
 private:
 	std::filesystem::path m_path, m_mission_path;

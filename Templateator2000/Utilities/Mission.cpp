@@ -112,3 +112,41 @@ void Mission::RemoveTanker(const std::string& label)
 	m_is_saved = false;
 }
 #pragma endregion
+
+#pragma region Atis
+const Atis& Mission::GetAtis(const std::string& label) const
+{
+	return *std::ranges::find_if(m_scripts.m_atis,
+	                             [&](const Atis& atis)
+	                             {
+		                             return label == ATIS_PRESENTATION_STRING(atis);
+	                             });
+}
+
+void Mission::AddAtis(const Atis& atis)
+{
+	m_scripts.m_atis.push_back(atis);
+	m_is_saved = false;
+}
+
+void Mission::ModifyAtis(const Atis& old_atis, const Atis& new_atis)
+{
+	std::ranges::replace_if(m_scripts.m_atis,
+	                        [&](const Atis& atis)
+	                        {
+		                        return ATIS_PRESENTATION_STRING(old_atis) == ATIS_PRESENTATION_STRING(atis);
+	                        },
+	                        new_atis);
+	m_is_saved = false;
+}
+
+void Mission::RemoveAtis(const std::string& label)
+{
+	m_scripts.m_atis.erase(std::ranges::find_if(m_scripts.m_atis,
+	                                            [&](const Atis& atis)
+	                                            {
+		                                            return label == ATIS_PRESENTATION_STRING(atis);
+	                                            }));
+	m_is_saved = false;
+}
+#pragma endregion

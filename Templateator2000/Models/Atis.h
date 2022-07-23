@@ -10,7 +10,7 @@ namespace json = nlohmann;
 
 #define ATIS_PRESENTATION_STRING(atis) std::format("{} Fq:{} Tcn:{}{}", (atis).AirportName, (atis).Radio.Frequency, (atis).Tacan.Channel, (atis).Tacan.Band)
 
-class Atis
+class Atis final
 {
 public:
 	static Atis FromJson(const json::json& atis);

@@ -23,7 +23,7 @@ inline Beacon Beacon::FromJson(const json::json& beacon)
 	// ReSharper disable StringLiteralTypo
 	Beacon res = {
 		.Name = beacon["name"],
-		.UnitName = beacon["unitname"],
+		.UnitName = beacon["unitName"],
 		.Tacan = {
 			.Channel = beacon["tacan"]["channel"],
 			.Band = beacon["tacan"]["band"],
@@ -40,7 +40,7 @@ inline json::json Beacon::ToJson(const Beacon& beacon)
 	json::json res;
 	res["enable"] = true;
 	res["name"] = beacon.Name;
-	res["unitname"] = beacon.UnitName;
+	res["unitName"] = beacon.UnitName;
 	res["tacan"] = models::Tacan::ToJson(beacon.Tacan);
 	return res;
 	// ReSharper restore StringLiteralTypo

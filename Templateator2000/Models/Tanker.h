@@ -99,7 +99,7 @@ inline json::json Tanker::ToJson(const Tanker& tanker)
     result["modex"] = tanker.Modex;
     result["racetrack"] = models::RaceTrack::ToJson(tanker.Racetrack);
 	result["tacan"] = models::Tacan::ToJson(tanker.Tacan);
-    result["callsign"] = models::Callsign::ToJson(tanker.Callsign);
+    result["callsign"] = models::Callsign::ToJson(tanker.Callsign, "Tanker");
 
     return result;
 	// ReSharper restore StringLiteralTypo

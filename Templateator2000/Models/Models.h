@@ -99,11 +99,11 @@ namespace models
 	class Callsign final
 	{
 	public:
-		static json::json ToJson(const Callsign& callsign)
+		static json::json ToJson(const Callsign& callsign, const std::string& aircraft_type)
 		{
 			json::json res = {};
 			res["alias"] = callsign.Name;
-			res["name"] = Moose::GetMooseNumberFromCallsign("Tanker", callsign.Name);
+			res["name"] = Moose::GetMooseNumberFromCallsign(aircraft_type, callsign.Name);
 			res["number"] = callsign.Number;
 			return res;
 		}

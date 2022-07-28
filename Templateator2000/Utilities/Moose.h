@@ -20,8 +20,9 @@ public:
 	static int GetNumberFromMooseTerminal(const std::string& terminal);
 
 	// Callsigns (MOOSE.CALLSIGN)
-	static const std::map<const std::string, const std::string> TankerCallsigns;
+	static const std::map<const std::string, const std::string> TankerCallsigns, AwacsCallsigns;
 	static const QStringList GetQtTankerCallsigns();
+	static const QStringList GetQtAwacsCallsigns();
 	static const std::string GetMooseCallsignFromName(const std::string& callsign_name);
 	static const std::string GetNameFromMooseCallsign(const std::string& callsign);
 	static const std::string GetMooseCallsignFromNumber(const int& nb, const std::string& moose_table);

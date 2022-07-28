@@ -163,6 +163,15 @@ const std::map<const std::string, const std::string> Moose::TankerCallsigns =
 	{"Arco", "CALLSIGN.Tanker.Arco"},
 	{"Shell", "CALLSIGN.Tanker.Shell"},
 };
+
+const std::map<const std::string, const std::string> Moose::AwacsCallsigns =
+{
+	{"Overlord", "CALLSIGN.AWACS.Overlord"},
+	{"Magic", "CALLSIGN.AWACS.Magic"},
+	{"Wizard", "CALLSIGN.AWACS.Wizard"},
+	{"Focus", "CALLSIGN.AWACS.Focus"},
+	{"Darkstar", "CALLSIGN.AWACS.Darkstar"},
+};
 // ReSharper restore StringLiteralTypo
 
 #define GET_MAP_FIRST_ROW(MAP) 	QStringList res;\
@@ -214,6 +223,11 @@ int Moose::GetNumberFromMooseTerminal(const std::string& terminal)
 const QStringList Moose::GetQtTankerCallsigns()
 {
 	GET_MAP_FIRST_ROW(TankerCallsigns)
+}
+
+const QStringList Moose::GetQtAwacsCallsigns()
+{
+	GET_MAP_FIRST_ROW(AwacsCallsigns)
 }
 
 const std::string Moose::GetMooseCallsignFromName(const std::string& callsign_name)

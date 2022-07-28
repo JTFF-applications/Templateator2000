@@ -40,16 +40,19 @@ private slots:
 	void addTanker();
 	void addCarrier();
 	void addBeacon();
+	void addAwacs();
 	void addAtis();
 
 	void removeTanker();
 	void removeCarrier();
 	void removeBeacon();
+	void removeAwacs();
 	void removeAtis();
 
 	void editTanker();
 	void editCarrier();
 	void editBeacon();
+	void editAwacs();
 	void editAtis();
 
 private:
@@ -57,6 +60,7 @@ private:
 	void fillAtis() const;
 	void fillBeacons() const;
 	void fillCarriers() const;
+	void fillAwacs() const;
 
 private:
 	Ui::MainWindowClass m_ui {};

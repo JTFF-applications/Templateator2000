@@ -4,6 +4,7 @@
 
 #include "Utilities/Log.h"
 #include "Windows/AtisWindow.h"
+#include "Windows/AwacsWindow.h"
 #include "Windows/BeaconWindow.h"
 #include "Windows/CarrierWindow.h"
 #include "Windows/TankerWindow.h"
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(m_ui.actionAddTanker, SIGNAL(triggered()), this, SLOT(addTanker()));
 	connect(m_ui.actionAddCarrier, SIGNAL(triggered()), this, SLOT(addCarrier()));
 	connect(m_ui.actionAddBeacon, SIGNAL(triggered()), this, SLOT(addBeacon()));
+	connect(m_ui.actionAddAwacs, SIGNAL(triggered()), this, SLOT(addAwacs()));
 	connect(m_ui.actionAddAtis, SIGNAL(triggered()), this, SLOT(addAtis()));
 
 	connect(m_ui.actionHelp, SIGNAL(triggered()), this, SLOT(help()));
@@ -33,15 +35,18 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(m_ui.tanker_add_btn, SIGNAL(clicked()), this, SLOT(addTanker()));
 	connect(m_ui.carrier_add_btn, SIGNAL(clicked()), this, SLOT(addCarrier()));
 	connect(m_ui.beacon_add_btn, SIGNAL(clicked()), this, SLOT(addBeacon()));
+	connect(m_ui.awacs_add_btn, SIGNAL(clicked()), this, SLOT(addAwacs()));
 	connect(m_ui.atis_add_btn, SIGNAL(clicked()), this, SLOT(addAtis()));
 
 	connect(m_ui.tanker_rm_btn, SIGNAL(clicked()), this, SLOT(removeTanker()));
 	connect(m_ui.carrier_rm_btn, SIGNAL(clicked()), this, SLOT(removeCarrier()));
 	connect(m_ui.beacon_rm_btn, SIGNAL(clicked()), this, SLOT(removeBeacon()));
+	connect(m_ui.awacs_rm_btn, SIGNAL(clicked()), this, SLOT(removeAwacs()));
 	connect(m_ui.atis_rm_btn, SIGNAL(clicked()), this, SLOT(removeAtis()));
 
 	connect(m_ui.tanker_edit_btn, SIGNAL(clicked()), this, SLOT(editTanker()));
 	connect(m_ui.carrier_edit_btn, SIGNAL(clicked()), this, SLOT(editCarrier()));
+	connect(m_ui.awacs_edit_btn, SIGNAL(clicked()), this, SLOT(editAwacs()));
 	connect(m_ui.beacon_edit_btn, SIGNAL(clicked()), this, SLOT(editBeacon()));
 	connect(m_ui.atis_edit_btn, SIGNAL(clicked()), this, SLOT(editAtis()));
 
@@ -110,6 +115,7 @@ void MainWindow::open()
 	fillAtis();
 	fillBeacons();
 	fillCarriers();
+	fillAwacs();
 }
 
 void MainWindow::save()
@@ -225,6 +231,24 @@ void MainWindow::addBeacon()
 	win.exec();
 }
 
+void MainWindow::addAwacs()
+{
+	CHECK_MISSION_LOADED()
+	AwacsWindow win(
+		nullptr,
+		m_mission.GetMissionGroups(),
+		[&](const Awacs& awacs)
+		{
+			m_mission.AddAwacs(awacs);
+			m_ui.awacs->addItem(AWACS_PRESENTATION_STRING(awacs).c_str());
+			LOG_TRACE("Awacs {}-{} added !", awacs.Callsign.Name, awacs.Callsign.Number);
+		},
+		[&]
+		{
+		});
+	win.exec();
+}
+
 void MainWindow::addAtis()
 {
 	CHECK_MISSION_LOADED()
@@ -280,6 +304,19 @@ void MainWindow::removeBeacon()
 		LOG_TRACE("Beacon {} removed !", beacon.Name);
 	}
 	qDeleteAll(m_ui.beacon->selectedItems());
+}
+
+void MainWindow::removeAwacs()
+{
+	CHECK_MISSION_LOADED()
+	for (const auto& item : m_ui.awacs->selectedItems())
+	{
+		const std::string awacs_label = item->text().toStdString();
+		const Awacs& awacs = m_mission.GetAwacs(awacs_label);
+		m_mission.RemoveAwacs(awacs_label);
+		LOG_TRACE("Awacs {}-{} removed !", awacs.Callsign.Name, awacs.Callsign.Number);
+	}
+	qDeleteAll(m_ui.awacs->selectedItems());
 }
 
 void MainWindow::removeAtis()
@@ -367,6 +404,30 @@ void MainWindow::editBeacon()
 	}
 }
 
+void MainWindow::editAwacs()
+{
+	CHECK_MISSION_LOADED()
+	for (const auto& item : m_ui.awacs->selectedItems())
+	{
+		const std::string awacs_label = item->text().toStdString();
+		const auto& old_awacs = m_mission.GetAwacs(awacs_label);
+		AwacsWindow win(
+			nullptr,
+			m_mission.GetMissionGroups(),
+			[&](const Awacs& new_awacs)
+			{
+				m_mission.ModifyAwacs(old_awacs, new_awacs);
+				item->setText(AWACS_PRESENTATION_STRING(new_awacs).c_str());
+				LOG_TRACE("Awacs {}-{} modified !", old_awacs.Callsign.Name, old_awacs.Callsign.Number);
+			},
+			[&]
+			{
+			});
+		win.SetAwacs(old_awacs);
+		win.exec();
+	}
+}
+
 void MainWindow::editAtis()
 {
 	CHECK_MISSION_LOADED()
@@ -423,5 +484,13 @@ void MainWindow::fillCarriers() const
 	for (const auto& carrier : carriers)
 		m_ui.carrier->addItem(CARRIER_PRESENTATION_STRING(carrier).c_str());
 	LOG_TRACE("Carriers filled !");
+}
+
+void MainWindow::fillAwacs() const
+{
+	const auto& awacs_list = m_mission.GetScripts().GetAwacs();
+	for (const auto& awacs : awacs_list)
+		m_ui.awacs->addItem(AWACS_PRESENTATION_STRING(awacs).c_str());
+	LOG_TRACE("Awacs filled !");
 }
 #pragma endregion

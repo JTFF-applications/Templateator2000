@@ -3,6 +3,7 @@
 #include <filesystem>
 
 #include "Models/Atis.h"
+#include "Models/Awacs.h"
 #include "Models/Beacon.h"
 #include "Models/Carrier.h"
 #include "Models/Tanker.h"
@@ -54,6 +55,12 @@ public:
 	void AddCarrier(const Carrier& carrier);
 	void ModifyCarrier(const Carrier& old_carrier, const Carrier& new_carrier);
 	void RemoveCarrier(const std::string& label);
+
+	// Awacs
+	[[nodiscard]] const Awacs& GetAwacs(const std::string& label) const;
+	void AddAwacs(const Awacs& awacs);
+	void ModifyAwacs(const Awacs& old_awacs, const Awacs& new_awacs);
+	void RemoveAwacs(const std::string& label);
 
 private:
 	std::filesystem::path m_path, m_mission_path;

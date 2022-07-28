@@ -88,6 +88,18 @@ void Scripts::Save() const
 			if (!archive.addFile("l10n/DEFAULT/settings-airboss.lua", "temp/settings-airboss.lua"))
 				throw std::exception("Failed to write airboss config file in mission !");
 		}
+		else if (script == "awacs" && !m_awacs.empty())
+		{
+			std::fstream file("temp/settings-awacs.lua", std::ios::out);
+			json::json full_awacs_json = {};
+			for (const auto& awacs : m_awacs)
+				full_awacs_json += Awacs::ToJson(awacs);
+			file << Lua::LuaFromJson(full_awacs_json, "AwacsConfig");
+			file.close();
+
+			if (!archive.addFile("l10n/DEFAULT/settings-awacs.lua", "temp/settings-awacs.lua"))
+				throw std::exception("Failed to write awacs config file in mission !");
+		}
 	if (archive.close() != LIBZIPPP_OK)
 		throw std::exception("Failed to close and save temporary mission !");
 }
@@ -167,6 +179,12 @@ void Scripts::load()
 			json::json carriers = Lua::JsonFromLua(file.readAsText(), "AirBossConfig");
 			for (const auto& carrier : carriers)
 				m_carriers.push_back(Carrier::FromJson(carrier));
+		}
+		else if (name.find("settings-awacs") != std::string::npos)
+		{
+			json::json awacs_list = Lua::JsonFromLua(file.readAsText(), "AwacsConfig");
+			for (const auto& awacs : awacs_list)
+				m_awacs.push_back(Awacs::FromJson(awacs));
 		}
 	}
 

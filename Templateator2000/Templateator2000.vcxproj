@@ -100,6 +100,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Windows\AtisWindow.cpp" />
+    <ClCompile Include="Windows\AwacsWindow.cpp" />
     <ClCompile Include="Windows\BeaconWindow.cpp" />
     <ClCompile Include="Windows\CarrierWindow.cpp" />
     <ClCompile Include="Windows\InjectorWindow.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="Windows\TankerWindow.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="Windows\AtisWindow.ui" />
+    <QtUic Include="Windows\AwacsWindow.ui" />
     <QtUic Include="Windows\BeaconWindow.ui" />
     <QtUic Include="Windows\CarrierWindow.ui" />
     <QtUic Include="Windows\InjectorWindow.ui" />
@@ -128,7 +130,9 @@
     <ResourceCompile Include="Templateator2000.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Models\Awacs.h" />
     <ClInclude Include="Models\Beacon.h" />
+    <QtMoc Include="Windows\AwacsWindow.h" />
     <QtMoc Include="Windows\CarrierWindow.h" />
     <QtMoc Include="Windows\BeaconWindow.h" />
     <QtMoc Include="Windows\InjectorWindow.h" />

@@ -3,6 +3,7 @@
 #include <filesystem>
 
 #include "Models/Atis.h"
+#include "Models/Awacs.h"
 #include "Models/Beacon.h"
 #include "Models/Carrier.h"
 #include "Models/Tanker.h"
@@ -22,6 +23,7 @@ public:
 	[[nodiscard]] const std::vector<Atis>& GetAtis() const { return m_atis; }
 	[[nodiscard]] const std::vector<Beacon>& GetBeacons() const { return m_beacons; }
 	[[nodiscard]] const std::vector<Carrier>& GetCarriers() const { return m_carriers; }
+	[[nodiscard]] const std::vector<Awacs>& GetAwacs() const { return m_awacs; };
 
 private:
 	void load();
@@ -36,4 +38,5 @@ private:
 	std::vector<Atis> m_atis;
 	std::vector<Beacon> m_beacons;
 	std::vector<Carrier> m_carriers;
+	std::vector<Awacs> m_awacs;
 };

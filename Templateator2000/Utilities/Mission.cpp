@@ -226,3 +226,41 @@ void Mission::RemoveCarrier(const std::string& label)
 	m_is_saved = false;
 }
 #pragma endregion
+
+#pragma region Awacs
+const Awacs& Mission::GetAwacs(const std::string& label) const
+{
+	return *std::ranges::find_if(m_scripts.m_awacs,
+	                             [&](const Awacs& awacs)
+	                             {
+		                             return label == AWACS_PRESENTATION_STRING(awacs);
+	                             });
+}
+
+void Mission::AddAwacs(const Awacs& awacs)
+{
+	m_scripts.m_awacs.push_back(awacs);
+	m_is_saved = false;
+}
+
+void Mission::ModifyAwacs(const Awacs& old_awacs, const Awacs& new_awacs)
+{
+	std::ranges::replace_if(m_scripts.m_awacs,
+	                        [&](const Awacs& awacs)
+	                        {
+		                        return AWACS_PRESENTATION_STRING(old_awacs) == AWACS_PRESENTATION_STRING(awacs);
+	                        },
+	                        new_awacs);
+	m_is_saved = false;
+}
+
+void Mission::RemoveAwacs(const std::string& label)
+{
+	m_scripts.m_awacs.erase(std::ranges::find_if(m_scripts.m_awacs,
+	                                             [&](const Awacs& awacs)
+	                                             {
+		                                             return label == AWACS_PRESENTATION_STRING(awacs);
+	                                             }));
+	m_is_saved = false;
+}
+#pragma endregion

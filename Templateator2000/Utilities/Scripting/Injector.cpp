@@ -95,42 +95,42 @@ void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<st
 	}
 
 	// Inject Atis
-	if (std::ranges::find(installed_scripts, "atis") != installed_scripts.end() &&
-	    std::ranges::find(was_installed, "atis") == was_installed.end())
+	if (std::ranges::find(installed_scripts, "atis") != installed_scripts.end())
 	{
-		injectOne(mission_data,
-		          map_resource,
-		          "Atis",
-		          {"160-atis.lua"},
-		          26,
-		          "0xff0000ff");
+		if (std::ranges::find(was_installed, "atis") == was_installed.end())
+			injectOne(mission_data,
+			          map_resource,
+			          "Atis",
+			          {"160-atis.lua"},
+			          26,
+			          "0xff0000ff");
 		settings_files["AtisConfig"] = "settings-atis.lua";
 	}
 
 	// Inject A/A
-	if (std::ranges::find(installed_scripts, "air_to_air") != installed_scripts.end() &&
-	    std::ranges::find(was_installed, "air_to_air") == was_installed.end())
+	if (std::ranges::find(installed_scripts, "air_to_air") != installed_scripts.end())
 	{
-		injectOne(mission_data,
-		          map_resource,
-		          "A/A",
-		          {"170-cap_zone_training.lua", "173-fox_zone_training.lua"},
-		          27,
-		          "0xff0000ff");
+		if (std::ranges::find(was_installed, "air_to_air") == was_installed.end())
+			injectOne(mission_data,
+			          map_resource,
+			          "A/A",
+			          {"170-cap_zone_training.lua", "173-fox_zone_training.lua"},
+			          27,
+			          "0xff0000ff");
 		settings_files["TrainingCAPConfig"] = "settings-capzone.lua";
 		settings_files["FoxRangesConfig"] = "settings-foxzone.lua";
 	}
 
 	// Inject A/G
-	if (std::ranges::find(installed_scripts, "air_to_ground") != installed_scripts.end() &&
-	    std::ranges::find(was_installed, "air_to_ground") == was_installed.end())
+	if (std::ranges::find(installed_scripts, "air_to_ground") != installed_scripts.end())
 	{
-		injectOne(mission_data,
-		          map_resource,
-		          "A/G",
-		          {"190-ranges.lua", "193-training_ranges.lua", "196-fac_ranges.lua", "199-skynet.lua"},
-		          28,
-		          "0xff0000ff");
+		if (std::ranges::find(was_installed, "air_to_ground") == was_installed.end())
+			injectOne(mission_data,
+			          map_resource,
+			          "A/G",
+			          {"190-ranges.lua", "193-training_ranges.lua", "196-fac_ranges.lua", "199-skynet.lua"},
+			          28,
+			          "0xff0000ff");
 		settings_files["RangeConfig"] = "settings-ranges.lua";
 		settings_files["TrainingRangeConfig"] = "settings-training_ranges.lua";
 		settings_files["FACRangeConfig"] = "settings-fac_ranges.lua";
@@ -138,78 +138,78 @@ void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<st
 	}
 
 	// Inject Airboss
-	if (std::ranges::find(installed_scripts, "airboss") != installed_scripts.end() &&
-	    std::ranges::find(was_installed, "airboss") == was_installed.end())
+	if (std::ranges::find(installed_scripts, "airboss") != installed_scripts.end())
 	{
-		injectOne(mission_data,
-		          map_resource,
-		          "Airboss",
-		          {"130-airboss.lua", "135-pedro.lua"},
-		          23,
-		          "0xff0000ff");
+		if (std::ranges::find(was_installed, "airboss") == was_installed.end())
+			injectOne(mission_data,
+			          map_resource,
+			          "Airboss",
+			          {"130-airboss.lua", "135-pedro.lua"},
+			          23,
+			          "0xff0000ff");
 		settings_files["AirBossConfig"] = "settings-airboss.lua";
 		settings_files["PedrosConfig"] = "settings-pedros.lua";
 	}
 
 	// Inject Awacs
-	if (std::ranges::find(installed_scripts, "awacs") != installed_scripts.end() &&
-	    std::ranges::find(was_installed, "awacs") == was_installed.end())
+	if (std::ranges::find(installed_scripts, "awacs") != installed_scripts.end())
 	{
-		injectOne(mission_data,
-		          map_resource,
-		          "Awacs",
-		          {"150-awacs.lua"},
-		          25,
-		          "0xff0000ff");
+		if (std::ranges::find(was_installed, "awacs") == was_installed.end())
+			injectOne(mission_data,
+			          map_resource,
+			          "Awacs",
+			          {"150-awacs.lua"},
+			          25,
+			          "0xff0000ff");
 		settings_files["AwacsConfig"] = "settings-awacs.lua";
 	}
 
 	// Inject Beacons
-	if (std::ranges::find(installed_scripts, "beacons") != installed_scripts.end() &&
-	    std::ranges::find(was_installed, "beacons") == was_installed.end())
+	if (std::ranges::find(installed_scripts, "beacons") != installed_scripts.end())
 	{
-		injectOne(mission_data,
-		          map_resource,
-		          "Beacons",
-		          {"140-beacons.lua"},
-		          24,
-		          "0xff0000ff");
+		if (std::ranges::find(was_installed, "beacons") == was_installed.end())
+			injectOne(mission_data,
+			          map_resource,
+			          "Beacons",
+			          {"140-beacons.lua"},
+			          24,
+			          "0xff0000ff");
 		settings_files["BeaconsConfig"] = "settings-beacons.lua";
 	}
 
 	// Inject Mission
-	if (std::ranges::find(installed_scripts, "mission") != installed_scripts.end() &&
-	    std::ranges::find(was_installed, "mission") == was_installed.end())
-		injectOne(mission_data,
-		          map_resource,
-		          "Mission Specific",
-		          {"180-mission.lua"},
-		          27,
-		          "0xff0000ff");
+	if (std::ranges::find(installed_scripts, "mission") != installed_scripts.end())
+		if (std::ranges::find(was_installed, "mission") == was_installed.end())
+			injectOne(mission_data,
+			          map_resource,
+			          "Mission Specific",
+			          {"180-mission.lua"},
+			          27,
+			          "0xff0000ff");
 
 	//Inject Random Air Traffic
-	if (std::ranges::find(installed_scripts, "random_air_traffic") != installed_scripts.end() &&
-	    std::ranges::find(was_installed, "random_air_traffic") == was_installed.end())
+	if (std::ranges::find(installed_scripts, "random_air_traffic") != installed_scripts.end())
 	{
-		injectOne(mission_data,
-		          map_resource,
-		          "Random Air Traffic",
-		          {"176-random_air_traffic.lua"},
-		          27,
-		          "0xff0000ff");
+		if (std::ranges::find(was_installed, "random_air_traffic") == was_installed.end())
+			injectOne(mission_data,
+			          map_resource,
+			          "Random Air Traffic",
+			          {"176-random_air_traffic.lua"},
+			          27,
+			          "0xff0000ff");
 		settings_files["RATConfig"] = "settings-RAT.lua";
 	}
 
 	// Inject Tankers
-	if (std::ranges::find(installed_scripts, "tankers") != installed_scripts.end() &&
-	    std::ranges::find(was_installed, "tankers") == was_installed.end())
+	if (std::ranges::find(installed_scripts, "tankers") != installed_scripts.end())
 	{
-		injectOne(mission_data,
-		          map_resource,
-		          "Tankers",
-		          {"120-tankers.lua"},
-		          22,
-		          "0xff0000ff");
+		if (std::ranges::find(was_installed, "tankers") == was_installed.end())
+			injectOne(mission_data,
+			          map_resource,
+			          "Tankers",
+			          {"120-tankers.lua"},
+			          22,
+			          "0xff0000ff");
 		settings_files["TankersConfig"] = "settings-tankers.lua";
 		settings_files["OnDemandTankersConfig"] = "settings-ondemandtankers.lua";
 	}
@@ -219,6 +219,9 @@ void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<st
 	{
 		const std::string entry_path = std::format("l10n/DEFAULT/{}", file);
 		const std::string temp_path = std::format("temp/{}", file);
+
+		if (archive.hasEntry(entry_path))
+			continue;
 
 		std::fstream file_stream(temp_path, std::ios::out);
 		if (name == "HypemanConfig")
@@ -247,7 +250,7 @@ void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<st
 	std::vector<std::string> files;
 	std::ranges::transform(settings_files,
 	                       std::back_inserter(files),
-	                       [](auto& kv) { return kv.second; });
+	                       [](const auto& kv) { return kv.second; });
 
 	injectOne(mission_data,
 	          map_resource,

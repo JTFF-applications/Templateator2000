@@ -4,6 +4,7 @@
 
 #include "Models/Atis.h"
 #include "Models/Beacon.h"
+#include "Models/Carrier.h"
 #include "Models/Tanker.h"
 
 class Scripts
@@ -20,6 +21,7 @@ public:
 	[[nodiscard]] const std::vector<Tanker>& GetTankers() const { return m_tankers; }
 	[[nodiscard]] const std::vector<Atis>& GetAtis() const { return m_atis; }
 	[[nodiscard]] const std::vector<Beacon>& GetBeacons() const { return m_beacons; }
+	[[nodiscard]] const std::vector<Carrier>& GetCarriers() const { return m_carriers; }
 
 private:
 	void load();
@@ -33,4 +35,5 @@ private:
 	std::vector<Tanker> m_tankers;
 	std::vector<Atis> m_atis;
 	std::vector<Beacon> m_beacons;
+	std::vector<Carrier> m_carriers;
 };

@@ -4,6 +4,7 @@
 
 #include "Models/Atis.h"
 #include "Models/Beacon.h"
+#include "Models/Carrier.h"
 #include "Models/Tanker.h"
 #include "Utilities/DCS/DCSMission.h"
 #include "Utilities/Scripting/Scripts.h"
@@ -47,6 +48,12 @@ public:
 	void AddBeacon(const Beacon& beacon);
 	void ModifyBeacon(const Beacon& old_beacon, const Beacon& new_beacon);
 	void RemoveBeacon(const std::string& label);
+
+	// Carriers
+	[[nodiscard]] const Carrier& GetCarrier(const std::string& label) const;
+	void AddCarrier(const Carrier& carrier);
+	void ModifyCarrier(const Carrier& old_carrier, const Carrier& new_carrier);
+	void RemoveCarrier(const std::string& label);
 
 private:
 	std::filesystem::path m_path, m_mission_path;

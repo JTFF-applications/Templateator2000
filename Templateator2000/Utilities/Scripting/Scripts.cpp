@@ -6,7 +6,6 @@
 #include "Utilities/Moose.h"
 #include "Utilities/LUA/Lua.h"
 #include "Utilities/Scripting/Injector.h"
-
 #include "Utilities/Scripting/Scripts.h"
 
 Scripts::Scripts()
@@ -76,6 +75,18 @@ void Scripts::Save() const
 
 			if (!archive.addFile("l10n/DEFAULT/settings-beacons.lua", "temp/settings-beacons.lua"))
 				throw std::exception("Failed to write beacons config file in mission !");
+		}
+		else if (script == "airboss" && !m_carriers.empty())
+		{
+			std::fstream file("temp/settings-airboss.lua", std::ios::out);
+			json::json full_carriers_json = {};
+			for (const auto& carrier : m_carriers)
+				full_carriers_json += Carrier::ToJson(carrier);
+			file << Lua::LuaFromJson(full_carriers_json, "AirBossConfig");
+			file.close();
+
+			if (!archive.addFile("l10n/DEFAULT/settings-airboss.lua", "temp/settings-airboss.lua"))
+				throw std::exception("Failed to write airboss config file in mission !");
 		}
 	if (archive.close() != LIBZIPPP_OK)
 		throw std::exception("Failed to close and save temporary mission !");
@@ -150,6 +161,12 @@ void Scripts::load()
 			json::json beacons = Lua::JsonFromLua(file.readAsText(), "BeaconsConfig");
 			for (const auto& beacon : beacons)
 				m_beacons.push_back(Beacon::FromJson(beacon));
+		}
+		else if (name.find("settings-airboss") != std::string::npos)
+		{
+			json::json carriers = Lua::JsonFromLua(file.readAsText(), "AirBossConfig");
+			for (const auto& carrier : carriers)
+				m_carriers.push_back(Carrier::FromJson(carrier));
 		}
 	}
 

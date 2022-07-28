@@ -56,6 +56,7 @@ private:
 	void fillTankers() const;
 	void fillAtis() const;
 	void fillBeacons() const;
+	void fillCarriers() const;
 
 private:
 	Ui::MainWindowClass m_ui {};

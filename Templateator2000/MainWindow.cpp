@@ -5,6 +5,7 @@
 #include "Utilities/Log.h"
 #include "Windows/AtisWindow.h"
 #include "Windows/BeaconWindow.h"
+#include "Windows/CarrierWindow.h"
 #include "Windows/TankerWindow.h"
 #include "MainWindow.h"
 
@@ -108,6 +109,7 @@ void MainWindow::open()
 	fillTankers();
 	fillAtis();
 	fillBeacons();
+	fillCarriers();
 }
 
 void MainWindow::save()
@@ -189,6 +191,20 @@ void MainWindow::addTanker()
 
 void MainWindow::addCarrier()
 {
+	CHECK_MISSION_LOADED()
+	CarrierWindow win(
+		nullptr,
+		m_mission.GetMissionGroups(),
+		[&](const Carrier& carrier)
+		{
+			m_mission.AddCarrier(carrier);
+			m_ui.carrier->addItem(CARRIER_PRESENTATION_STRING(carrier).c_str());
+			LOG_TRACE("Carrier {} added !", carrier.Alias);
+		},
+		[&]
+		{
+		});
+	win.exec();
 }
 
 void MainWindow::addBeacon()
@@ -242,6 +258,15 @@ void MainWindow::removeTanker()
 
 void MainWindow::removeCarrier()
 {
+	CHECK_MISSION_LOADED()
+	for (const auto& item : m_ui.carrier->selectedItems())
+	{
+		const std::string carrier_label = item->text().toStdString();
+		const Carrier& carrier = m_mission.GetCarrier(carrier_label);
+		m_mission.RemoveCarrier(carrier_label);
+		LOG_TRACE("Carrier {} removed !", carrier.Alias);
+	}
+	qDeleteAll(m_ui.carrier->selectedItems());
 }
 
 void MainWindow::removeBeacon()
@@ -296,6 +321,26 @@ void MainWindow::editTanker()
 
 void MainWindow::editCarrier()
 {
+	CHECK_MISSION_LOADED()
+	for (const auto& item : m_ui.carrier->selectedItems())
+	{
+		const std::string carrier_label = item->text().toStdString();
+		const auto& old_carrier = m_mission.GetCarrier(carrier_label);
+		CarrierWindow win(
+			nullptr,
+			m_mission.GetMissionGroups(),
+			[&](const Carrier& new_carrier)
+			{
+				m_mission.ModifyCarrier(old_carrier, new_carrier);
+				item->setText(CARRIER_PRESENTATION_STRING(new_carrier).c_str());
+				LOG_TRACE("Carrier {} modified !", old_carrier.Alias);
+			},
+			[&]
+			{
+			});
+		win.SetCarrier(old_carrier);
+		win.exec();
+	}
 }
 
 void MainWindow::editBeacon()
@@ -370,5 +415,13 @@ void MainWindow::fillBeacons() const
 	for (const auto& beacon : beacons)
 		m_ui.beacon->addItem(BEACON_PRESENTATION_STRING(beacon).c_str());
 	LOG_TRACE("Atis filled !");
+}
+
+void MainWindow::fillCarriers() const
+{
+	const auto& carriers = m_mission.GetScripts().GetCarriers();
+	for (const auto& carrier : carriers)
+		m_ui.carrier->addItem(CARRIER_PRESENTATION_STRING(carrier).c_str());
+	LOG_TRACE("Carriers filled !");
 }
 #pragma endregion

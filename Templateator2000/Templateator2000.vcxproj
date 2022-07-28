@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="Windows\AtisWindow.cpp" />
     <ClCompile Include="Windows\BeaconWindow.cpp" />
+    <ClCompile Include="Windows\CarrierWindow.cpp" />
     <ClCompile Include="Windows\InjectorWindow.cpp" />
     <ClCompile Include="Utilities\Scripting\Injector.cpp" />
     <ClCompile Include="Utilities\Validators\QStringListValidator.cpp" />
@@ -115,6 +116,7 @@
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="Windows\AtisWindow.ui" />
     <QtUic Include="Windows\BeaconWindow.ui" />
+    <QtUic Include="Windows\CarrierWindow.ui" />
     <QtUic Include="Windows\InjectorWindow.ui" />
     <QtUic Include="MainWindow.ui" />
     <QtMoc Include="MainWindow.h" />
@@ -127,10 +129,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Models\Beacon.h" />
+    <QtMoc Include="Windows\CarrierWindow.h" />
     <QtMoc Include="Windows\BeaconWindow.h" />
     <QtMoc Include="Windows\InjectorWindow.h" />
     <QtMoc Include="Windows\AtisWindow.h" />
     <ClInclude Include="Models\Atis.h" />
+    <ClInclude Include="Models\Carrier.h" />
     <ClInclude Include="Models\Models.h" />
     <ClInclude Include="Utilities\Scripting\Injector.h" />
     <ClInclude Include="Models\Tanker.h" />

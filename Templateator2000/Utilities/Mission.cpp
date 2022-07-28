@@ -188,3 +188,41 @@ void Mission::RemoveBeacon(const std::string& label)
 	m_is_saved = false;
 }
 #pragma endregion
+
+#pragma region Carriers
+const Carrier& Mission::GetCarrier(const std::string& label) const
+{
+	return *std::ranges::find_if(m_scripts.m_carriers,
+	                             [&](const Carrier& carrier)
+	                             {
+		                             return label == CARRIER_PRESENTATION_STRING(carrier);
+	                             });
+}
+
+void Mission::AddCarrier(const Carrier& carrier)
+{
+	m_scripts.m_carriers.push_back(carrier);
+	m_is_saved = false;
+}
+
+void Mission::ModifyCarrier(const Carrier& old_carrier, const Carrier& new_carrier)
+{
+	std::ranges::replace_if(m_scripts.m_carriers,
+	                        [&](const Carrier& carrier)
+	                        {
+		                        return CARRIER_PRESENTATION_STRING(old_carrier) == CARRIER_PRESENTATION_STRING(carrier);
+	                        },
+	                        new_carrier);
+	m_is_saved = false;
+}
+
+void Mission::RemoveCarrier(const std::string& label)
+{
+	m_scripts.m_carriers.erase(std::ranges::find_if(m_scripts.m_carriers,
+	                                                [&](const Carrier& carrier)
+	                                                {
+		                                                return label == CARRIER_PRESENTATION_STRING(carrier);
+	                                                }));
+	m_is_saved = false;
+}
+#pragma endregion

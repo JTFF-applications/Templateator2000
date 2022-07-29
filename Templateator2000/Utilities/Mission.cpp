@@ -62,6 +62,7 @@ void Mission::SaveAs(const std::filesystem::path new_path)
 void Mission::ManageScripts()
 {
 	m_scripts.Manage();
+	m_is_saved = false;
 }
 
 const std::map<const std::string, const std::vector<Group>> Mission::GetMissionGroups() const

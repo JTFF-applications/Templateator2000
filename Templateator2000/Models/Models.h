@@ -125,7 +125,7 @@ namespace models
 				                       std::back_inserter(recoveries),
 				                       [&](const json::json& recovery)
 				                       {
-					                       AlphaStrikeRecovery res = {
+					                       const AlphaStrikeRecovery res = {
 						                       .Start = recovery["recovery_start_minutes"],
 						                       .Duration = recovery["recovery_duration_minutes"],
 						                       .RecoveryMode = recovery["recovery_case"]
@@ -133,7 +133,7 @@ namespace models
 					                       return res;
 				                       });
 
-			const RecoveryOps res = {
+			RecoveryOps res = {
 				.Type = is_cyclic ? Cyclic : AlphaStrike,
 				.EventDuration = is_cyclic ? recovery_ops["cyclic"]["event_duration_minutes"].get<int>() : 0,
 				.EventIaDuration = is_cyclic ? recovery_ops["cyclic"]["event_ia_reserved_minutes"].get<int>() : 0,

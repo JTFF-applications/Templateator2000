@@ -1,7 +1,5 @@
 #pragma once
 
-#include <QDialog>
-
 #include "Models/Beacon.h"
 #include "Utilities/DCS/Group.h"
 #include "ui_BeaconWindow.h"

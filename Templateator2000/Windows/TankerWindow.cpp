@@ -3,6 +3,7 @@
 #include "Utilities/Coalition.h"
 #include "Utilities/Mission.h"
 #include "Utilities/Moose.h"
+#include "Utilities/LUA/Lua.h"
 #include "Utilities/Validators/QStringListValidator.h"
 #include "Windows/TankerWindow.h"
 
@@ -59,7 +60,7 @@ void TankerWindow::SetTanker(const Tanker& tk) const
 	m_ui.auto_respawn->setChecked(tk.AutoRespawn);
 	m_ui.airboss_recovery->setChecked(tk.AirbossRecovery);
 	m_ui.pattern->setText(tk.PatternUnit.c_str());
-	m_ui.departure->setText(Moose::GetNameFromMooseAirbase(tk.DepartureBase).c_str());
+	m_ui.departure->setText(tk.DepartureBase.c_str());
 	m_ui.parking_size->setText(tk.TerminalType.c_str());
 	m_ui.group->setText(tk.GroupName.c_str());
 	m_ui.escort->setText(tk.EscortGroupName.c_str());
@@ -91,7 +92,7 @@ void TankerWindow::onOkClicked()
 			.AutoRespawn = m_ui.auto_respawn->isChecked(),
 			.AirbossRecovery = m_ui.airboss_recovery->isChecked(),
 			.PatternUnit = m_ui.pattern->text().toStdString(),
-			.DepartureBase = Moose::GetMooseAirbaseFromName(m_ui.departure->text().toStdString()),
+			.DepartureBase = m_ui.departure->text().toStdString(),
 			.TerminalType = m_ui.parking_size->text().toStdString(),
 			.GroupName = m_ui.group->text().toStdString(),
 			.EscortGroupName = m_ui.escort->text().toStdString(),
@@ -118,12 +119,23 @@ void TankerWindow::onOkClicked()
 
 		if (!Mission::DataToUnitName(m_mission_data).contains(tanker.PatternUnit.c_str()))
 			throw std::exception("Invalid pattern unit !");
-		if (!tanker.EscortGroupName.empty() || Mission::DataToGroupName(m_mission_data).
+		try
+		{
+			Moose::GetMooseAirbaseFromName(tanker.DepartureBase);
+		} catch ([[maybe_unused]] const std::exception& except)
+		{
+			throw std::exception("Invalid departure base !");
+		}
+		if (!Moose::GetQtParkings().contains(tanker.TerminalType.c_str()))
+			throw std::exception("Invalid terminal type !");
+		if (!Mission::DataToUnitName(m_mission_data).contains(tanker.GroupName.c_str()))
+			throw std::exception("Invalid group name !");
+		if (!tanker.EscortGroupName.empty() && !Mission::DataToGroupName(m_mission_data).
 		    contains(tanker.EscortGroupName.c_str()))
 			throw std::exception("Invalid escort group !");
-		if (tanker.Frequency.empty() || tanker.Frequency.size() != 7)
+		if (tanker.Frequency.size() != 7)
 			throw std::exception("Invalid radio frequency !");
-		if (tanker.Tacan.Morse.empty() || tanker.Tacan.Morse.size() != 3)
+		if (tanker.Tacan.Morse.size() != 3)
 			throw std::exception("Invalid tacan morse code !");
 
 		close();
@@ -131,6 +143,7 @@ void TankerWindow::onOkClicked()
 	} catch (const std::exception& except)
 	{
 		m_ui.error_msg->setText(except.what());
+		LOG_ERROR(except.what());
 	}
 }
 

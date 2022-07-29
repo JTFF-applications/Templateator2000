@@ -408,7 +408,7 @@
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>C:\SRS</string>
    </property>
    <property name="maxLength">
     <number>7</number>

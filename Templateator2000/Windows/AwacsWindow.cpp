@@ -2,6 +2,7 @@
 
 #include "Utilities/Mission.h"
 #include "Utilities/Moose.h"
+#include "Utilities/LUA/Lua.h"
 #include "Utilities/Validators/QStringListValidator.h"
 
 #include "Windows/AwacsWindow.h"
@@ -116,12 +117,23 @@ void AwacsWindow::onOkClicked()
 
 		if (!Mission::DataToUnitName(m_mission_data).contains(awacs.PatternUnit.c_str()))
 			throw std::exception("Invalid pattern unit !");
+		if (!Mission::DataToUnitName(m_mission_data).contains(awacs.GroupName.c_str()))
+			throw std::exception("Invalid group name !");
+		try
+		{
+			Moose::GetNameFromMooseAirbase(awacs.DepartureBase);
+		} catch (const std::exception& except)
+		{
+			throw std::exception("Invalid departure base !");
+		}
+		if (!Moose::GetQtParkings().contains(awacs.TerminalType.c_str()))
+			throw std::exception("Invalid terminal type !");
 		if (!awacs.EscortGroupName.empty() || Mission::DataToGroupName(m_mission_data).
 		    contains(awacs.EscortGroupName.c_str()))
 			throw std::exception("Invalid escort group !");
-		if (awacs.Frequency.empty() || awacs.Frequency.size() != 7)
+		if (awacs.Frequency.size() != 7)
 			throw std::exception("Invalid radio frequency !");
-		if (awacs.Tacan.Morse.empty() || awacs.Tacan.Morse.size() != 3)
+		if (awacs.Tacan.Morse.size() != 3)
 			throw std::exception("Invalid tacan morse code !");
 
 		close();
@@ -129,6 +141,7 @@ void AwacsWindow::onOkClicked()
 	} catch (const std::exception& except)
 	{
 		m_ui.error_msg->setText(except.what());
+		LOG_ERROR(except.what());
 	}
 }
 

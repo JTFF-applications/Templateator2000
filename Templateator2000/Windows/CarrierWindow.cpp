@@ -166,55 +166,84 @@ void CarrierWindow::onOkClicked()
 		recoveries.emplace_back(std::stoi(start), std::stoi(duration), std::stoi(case_number));
 	}
 
-	Carrier carrier = {
-		.Coalition = Coalition::FromString(m_ui.coalition->currentText().toStdString()),
-		.Name = m_ui.name->text().toStdString(),
-		.Alias = m_ui.alias->text().toStdString(),
-		.RecoveryTanker = m_ui.tanker->text().toStdString(),
-		.AirbossDifficulty = m_ui.difficulty->currentText().toStdString(),
-		.BaseFq = m_ui.base_frequency->text().toStdString(),
-		.MarshallFq = m_ui.marshall_frequency->text().toStdString(),
-		.LsoFq = m_ui.lso_frequency->text().toStdString(),
-		.MarshallRelayUnit = m_ui.marshall_relay->text().toStdString(),
-		.LsoRelayUnit = m_ui.lso_relay->text().toStdString(),
-		.StatPath = m_ui.stat_path->text().toStdString(),
-		.TrapsheetsPath = m_ui.trapsheet_path->text().toStdString(),
-		.MenuMarkZone = m_ui.menu_mark_zone->isChecked(),
-		.MenuSmokeZone = m_ui.menu_smoke_zone->isChecked(),
-		.NiceGuy = m_ui.nice_guy->isChecked(),
-		.HandleAi = m_ui.handle_ai->isChecked(),
-		.InfinitePatrol = m_ui.infinite_patrol->isChecked(),
-		.SingleCarrier = m_ui.single_carrier->isChecked(),
-		.ControlArea = m_ui.control_area->value(),
-		.RecoveryMode = m_ui.recovery_mode->value(),
-		.MaxPatterns = m_ui.max_patterns->value(),
-		.MaxStacks = m_ui.max_stacks->value(),
-		.RecoveryOps = {
-			.Type = m_ui.recovery_type->currentText() == "Cyclic"
-				        ? models::RecoveryOps::Type::Cyclic
-				        : models::RecoveryOps::Type::AlphaStrike,
-			.EventDuration = m_ui.event_duration->value(),
-			.EventIaDuration = m_ui.event_ia_duration->value(),
-			.Recoveries = recoveries
-		},
-		.MenuRecovery = {
-			.Duration = 30,
-			.WindOnDeck = 30,
-			.Offset = 0,
-			.UTurn = true
-		},
-		.Tacan = {
-			.Channel = m_ui.tacan->value(),
-			.Band = m_ui.tacan_band->currentText().toStdString(),
-			.Morse = m_ui.tacan_morse->text().toStdString()
-		},
-		.Icls = {
-			.Channel = m_ui.icls_channel->value(),
-			.Morse = m_ui.icls_morse->text().toStdString()
-		}
-	};
-	close();
-	std::invoke(m_on_ok, carrier);
+	try
+	{
+		Carrier carrier = {
+			.Coalition = Coalition::FromString(m_ui.coalition->currentText().toStdString()),
+			.Name = m_ui.name->text().toStdString(),
+			.Alias = m_ui.alias->text().toStdString(),
+			.RecoveryTanker = m_ui.tanker->text().toStdString(),
+			.AirbossDifficulty = m_ui.difficulty->currentText().toStdString(),
+			.BaseFq = m_ui.base_frequency->text().toStdString(),
+			.MarshallFq = m_ui.marshall_frequency->text().toStdString(),
+			.LsoFq = m_ui.lso_frequency->text().toStdString(),
+			.MarshallRelayUnit = m_ui.marshall_relay->text().toStdString(),
+			.LsoRelayUnit = m_ui.lso_relay->text().toStdString(),
+			.StatPath = m_ui.stat_path->text().toStdString(),
+			.TrapsheetsPath = m_ui.trapsheet_path->text().toStdString(),
+			.MenuMarkZone = m_ui.menu_mark_zone->isChecked(),
+			.MenuSmokeZone = m_ui.menu_smoke_zone->isChecked(),
+			.NiceGuy = m_ui.nice_guy->isChecked(),
+			.HandleAi = m_ui.handle_ai->isChecked(),
+			.InfinitePatrol = m_ui.infinite_patrol->isChecked(),
+			.SingleCarrier = m_ui.single_carrier->isChecked(),
+			.ControlArea = m_ui.control_area->value(),
+			.RecoveryMode = m_ui.recovery_mode->value(),
+			.MaxPatterns = m_ui.max_patterns->value(),
+			.MaxStacks = m_ui.max_stacks->value(),
+			.RecoveryOps = {
+				.Type = m_ui.recovery_type->currentText() == "Cyclic"
+					        ? models::RecoveryOps::Type::Cyclic
+					        : models::RecoveryOps::Type::AlphaStrike,
+				.EventDuration = m_ui.event_duration->value(),
+				.EventIaDuration = m_ui.event_ia_duration->value(),
+				.Recoveries = recoveries
+			},
+			.MenuRecovery = {
+				.Duration = 30,
+				.WindOnDeck = 30,
+				.Offset = 0,
+				.UTurn = true
+			},
+			.Tacan = {
+				.Channel = m_ui.tacan->value(),
+				.Band = m_ui.tacan_band->currentText().toStdString(),
+				.Morse = m_ui.tacan_morse->text().toStdString()
+			},
+			.Icls = {
+				.Channel = m_ui.icls_channel->value(),
+				.Morse = m_ui.icls_morse->text().toStdString()
+			}
+		};
+
+		if (!Mission::DataToUnitName(m_mission_data).contains(carrier.Name.c_str()))
+			throw std::exception("Invalid name !");
+		if (!Mission::DataToUnitName(m_mission_data).contains(carrier.MarshallRelayUnit.c_str()))
+			throw std::exception("Invalid marshall relay !");
+		if (!Mission::DataToUnitName(m_mission_data).contains(carrier.LsoRelayUnit.c_str()))
+			throw std::exception("Invalid lso relay !");
+		if (carrier.Alias.empty())
+			throw std::exception("Alias can't be empty !");
+		if (!carrier.RecoveryTanker.empty() || Mission::DataToGroupName(m_mission_data).
+		    contains(carrier.RecoveryTanker.c_str()))
+			throw std::exception("Invalid recovery tanker !");
+		if (carrier.BaseFq.size() != 7 && carrier.MarshallFq.size() != 7 && carrier.LsoFq.size() != 7)
+			throw std::exception("Invalid radio frequency !");
+		if (carrier.Tacan.Morse.size() != 3)
+			throw std::exception("Invalid tacan morse code !");
+		if (carrier.Icls.Morse.size() != 3)
+			throw std::exception("Invalid icls morse code !");
+		if (carrier.RecoveryOps.Type == models::RecoveryOps::Type::AlphaStrike
+		    && carrier.RecoveryOps.Recoveries.empty())
+			throw std::exception("No recovery selected !");
+
+		close();
+		std::invoke(m_on_ok, carrier);
+	} catch (const std::exception& except)
+	{
+		m_ui.error_msg->setText(except.what());
+		LOG_ERROR(except.what());
+	}
 }
 
 void CarrierWindow::onCancelClicked()

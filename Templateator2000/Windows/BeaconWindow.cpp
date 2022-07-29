@@ -35,7 +35,7 @@ void BeaconWindow::SetBeacon(const Beacon& beacon) const
 	m_ui.name->setText(beacon.Name.c_str());
 	m_ui.unit_name->setText(beacon.UnitName.c_str());
 	m_ui.tacan->setValue(beacon.Tacan.Channel);
-	m_ui.tacan_band->setCurrentIndex(m_ui.tacan_band->findData(beacon.Tacan.Band.c_str()));
+	m_ui.tacan_band->setCurrentIndex(m_ui.tacan_band->findText(beacon.Tacan.Band.c_str()));
 	m_ui.tacan_morse->setText(beacon.Tacan.Morse.c_str());
 }
 
@@ -53,12 +53,9 @@ void BeaconWindow::onOkClicked()
 			}
 		};
 
-		QString unit_name = beacon.UnitName.c_str();
-		int nb = 0;
-
 		if (beacon.Name.empty())
 			throw std::exception("Name is empty !");
-		if (beacon.UnitName.empty() || m_ui.unit_name->validator()->validate(unit_name, nb) == QValidator::Invalid)
+		if (!Mission::DataToUnitName(m_mission_data).contains(beacon.UnitName.c_str()))
 			throw std::exception("Invalid unit name !");
 		if (beacon.Tacan.Morse.empty())
 			throw std::exception("Invalid tacan parameters !");

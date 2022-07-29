@@ -48,7 +48,7 @@ inline Tanker Tanker::FromJson(const json::json& tanker)
 		.AutoRespawn = tanker["autorespawn"].get<bool>(),
 		.AirbossRecovery = tanker["airboss_recovery"].get<bool>(),
 		.PatternUnit = tanker["patternUnit"].get<std::string>(),
-		.DepartureBase = Moose::GetMooseAirbaseFromName(tanker["baseUnit"].get<std::string>()),
+		.DepartureBase = tanker["baseUnit"].get<std::string>(),
 		.TerminalType = Moose::GetMooseTerminalFromNumber(tanker["terminalType"].get<int>()),
 		.GroupName = tanker["groupName"].get<std::string>(),
 		.EscortGroupName = is_escorted ? tanker["escortgroupname"].get<std::string>() : "",
@@ -86,7 +86,7 @@ inline json::json Tanker::ToJson(const Tanker& tanker)
 	result["autorespawn"] = tanker.AutoRespawn;
 	result["airboss_recovery"] = tanker.AirbossRecovery;
 	result["patternUnit"] = tanker.PatternUnit;
-	result["baseUnit"] = Moose::GetNameFromMooseAirbase(tanker.DepartureBase);
+	result["baseUnit"] = tanker.DepartureBase;
 	result["terminalType"] = Moose::GetNumberFromMooseTerminal(tanker.TerminalType);
 	result["groupName"] = tanker.GroupName;
 	if(!tanker.EscortGroupName.empty())

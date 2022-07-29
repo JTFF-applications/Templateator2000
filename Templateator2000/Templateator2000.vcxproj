@@ -99,6 +99,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Windows\AboutDialog.cpp" />
     <ClCompile Include="Windows\AtisWindow.cpp" />
     <ClCompile Include="Windows\AwacsWindow.cpp" />
     <ClCompile Include="Windows\BeaconWindow.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="Utilities\Scripting\Scripts.cpp" />
     <ClCompile Include="Windows\TankerWindow.cpp" />
     <QtRcc Include="MainWindow.qrc" />
+    <QtUic Include="Windows\AboutDialog.ui" />
     <QtUic Include="Windows\AtisWindow.ui" />
     <QtUic Include="Windows\AwacsWindow.ui" />
     <QtUic Include="Windows\BeaconWindow.ui" />
@@ -130,6 +132,7 @@
     <ResourceCompile Include="Templateator2000.rc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="Windows\AboutDialog.h" />
     <ClInclude Include="Models\Awacs.h" />
     <ClInclude Include="Models\Beacon.h" />
     <QtMoc Include="Windows\AwacsWindow.h" />

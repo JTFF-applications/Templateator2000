@@ -4,6 +4,7 @@
 #include <QMessageBox>
 
 #include "Utilities/Log.h"
+#include "Windows/AboutDialog.h"
 #include "Windows/AtisWindow.h"
 #include "Windows/AwacsWindow.h"
 #include "Windows/BeaconWindow.h"
@@ -175,6 +176,8 @@ void MainWindow::help()
 
 void MainWindow::about()
 {
+	AboutDialog dialog;
+	dialog.exec();
 }
 #pragma endregion
 

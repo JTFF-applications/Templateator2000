@@ -34,7 +34,7 @@ private slots:
 	void manageScripts();
 
 	static void help();
-	void about();
+	static void about();
 
 	// Buttons
 	void addTanker();

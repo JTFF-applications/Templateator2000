@@ -1,4 +1,5 @@
 #include <QCloseEvent>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -169,6 +170,7 @@ void MainWindow::manageScripts()
 
 void MainWindow::help()
 {
+	QDesktopServices::openUrl(QUrl("https://github.com/JTFF-applications/Templateator2000"));
 }
 
 void MainWindow::about()

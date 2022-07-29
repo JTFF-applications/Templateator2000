@@ -33,7 +33,7 @@ private slots:
 	void refresh();
 	void manageScripts();
 
-	void help();
+	static void help();
 	void about();
 
 	// Buttons

@@ -395,6 +395,8 @@ void Injector::injectOne(json::json& mission_data,
 			{"file", script_file},
 			{"predicate", "a_do_script_file"}
 		};
+		if (map_resource.is_array())
+			map_resource = {};
 		map_resource[script_file] = script_file;
 	}
 

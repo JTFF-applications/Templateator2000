@@ -14,7 +14,8 @@ private:
 	                     const std::string& extension,
 	                     const std::filesystem::path& source_path,
 	                     const std::filesystem::path& destination_path);
-	static void addSounds(const libzippp::ZipArchive& archive);
+	static void addSounds(const libzippp::ZipArchive& archive,
+	                      const std::string& folder);
 	static void injectOne(json::json& mission_data,
 	                      json::json& map_resource,
 	                      const std::string& title,

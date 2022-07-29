@@ -32,7 +32,7 @@ void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<st
 
 	updateSources(archive);
 	updateLibraries(archive);
-	addSounds(archive);
+	addSounds(archive, "General");
 
 	const std::string mission_data_string = archive.getEntry("mission").readAsText();
 	const std::string map_resource_string = archive.getEntry("l10n/DEFAULT/mapResource").readAsText();
@@ -98,12 +98,16 @@ void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<st
 	if (std::ranges::find(installed_scripts, "atis") != installed_scripts.end())
 	{
 		if (std::ranges::find(was_installed, "atis") == was_installed.end())
+		{
 			injectOne(mission_data,
 			          map_resource,
 			          "Atis",
 			          {"160-atis.lua"},
 			          26,
 			          "0xff0000ff");
+			addSounds(archive, "ATIS");
+		}
+
 		settings_files["AtisConfig"] = "settings-atis.lua";
 	}
 
@@ -125,12 +129,15 @@ void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<st
 	if (std::ranges::find(installed_scripts, "air_to_ground") != installed_scripts.end())
 	{
 		if (std::ranges::find(was_installed, "air_to_ground") == was_installed.end())
+		{
 			injectOne(mission_data,
 			          map_resource,
 			          "A/G",
 			          {"190-ranges.lua", "193-training_ranges.lua", "196-fac_ranges.lua", "199-skynet.lua"},
 			          28,
 			          "0xff0000ff");
+			addSounds(archive, "RANGE");
+		}
 		settings_files["RangeConfig"] = "settings-ranges.lua";
 		settings_files["TrainingRangeConfig"] = "settings-training_ranges.lua";
 		settings_files["FACRangeConfig"] = "settings-fac_ranges.lua";
@@ -141,12 +148,15 @@ void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<st
 	if (std::ranges::find(installed_scripts, "airboss") != installed_scripts.end())
 	{
 		if (std::ranges::find(was_installed, "airboss") == was_installed.end())
+		{
 			injectOne(mission_data,
 			          map_resource,
 			          "Airboss",
 			          {"130-airboss.lua", "135-pedro.lua"},
 			          23,
 			          "0xff0000ff");
+			addSounds(archive, "AIRBOSS");
+		}
 		settings_files["AirBossConfig"] = "settings-airboss.lua";
 		settings_files["PedrosConfig"] = "settings-pedros.lua";
 	}
@@ -318,14 +328,17 @@ void Injector::addFiles(const libzippp::ZipArchive& archive,
 	}
 }
 
-void Injector::addSounds(const libzippp::ZipArchive& archive)
+void Injector::addSounds(const libzippp::ZipArchive& archive, const std::string& folder)
 {
-	const int err = archive.deleteEntry("General/");
-	if (err != LIBZIPPP_ERROR_INVALID_PARAMETER && err < 0)
-		throw std::exception("Failed to delete 'General' folder in mission.");
+	if (folder == "General")
+	{
+		const int err = archive.deleteEntry("General/");
+		if (err != LIBZIPPP_ERROR_INVALID_PARAMETER && err < 0)
+			throw std::exception("Failed to delete 'General' folder in mission.");
+	}
 
 	std::filesystem::recursive_directory_iterator begin_iterator(
-		std::filesystem::path("jtff-templates/resources/sounds").make_preferred());
+		std::filesystem::path(std::format("jtff-templates/resources/sounds/{}", folder)).make_preferred());
 	const std::filesystem::recursive_directory_iterator end_iterator;
 	std::error_code ec;
 	while (begin_iterator != end_iterator)

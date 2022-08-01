@@ -114,7 +114,19 @@
     <ClCompile Include="Utilities\Moose.cpp" />
     <ClCompile Include="Utilities\DCS\Group.cpp" />
     <ClCompile Include="Utilities\Scripting\Scripts.cpp" />
-    <ClCompile Include="Windows\TankerWindow.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerCarrierPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerChooseEscortPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerDeparturePage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerEscortPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerFlightPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerIntroPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerMissionPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerModelPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerParkingPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerRadioPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerRespawnPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerTacanPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\TankerWizard.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="Windows\AboutDialog.ui" />
     <QtUic Include="Windows\AtisWindow.ui" />
@@ -128,10 +140,22 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <None Include="Templateator2000.ico" />
-    <QtUic Include="Windows\TankerWindow.ui" />
     <ResourceCompile Include="Templateator2000.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Windows\Wizards\Tanker\TankerWizard.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerTacanPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerRespawnPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerRadioPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerParkingPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerModelPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerMissionPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerIntroPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerFlightPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerEscortPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerDeparturePage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerChooseEscortPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerCarrierPage.h" />
     <QtMoc Include="Windows\AboutDialog.h" />
     <ClInclude Include="Models\Awacs.h" />
     <ClInclude Include="Models\Beacon.h" />
@@ -155,7 +179,6 @@
     <ClInclude Include="Utilities\DCS\Group.h" />
     <ClInclude Include="Utilities\Log.h" />
     <ClInclude Include="Utilities\Scripting\Scripts.h" />
-    <QtMoc Include="Windows\TankerWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -192,6 +192,19 @@ const QStringList Moose::GetQtAirbases()
 	return res;
 }
 
+const std::vector<std::string> Moose::GetAirbasesByMap(const std::string& map)
+{
+	const std::string json_string = Lua::ExecuteString(std::format("val = JSON:encode(GetAirbasesByMap(\"{}\"))", map),
+	                                                   "val");
+	json::json json = json::json::parse(json_string);
+
+	std::vector<std::string> res;
+	res.reserve(json.size());
+	for (const auto& airport : json)
+		res.push_back(airport);
+	return res;
+}
+
 const std::string Moose::GetMooseAirbaseFromName(const std::string& airport_name)
 {
 	return Lua::ExecuteString(std::format("val = GetMooseAirbase(\"{}\")", airport_name), "val");

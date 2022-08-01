@@ -1131,3 +1131,11 @@ function GetMooseAirbase(dcs_name)
        end
    end
 end
+
+function GetAirbasesByMap(map)
+   local airbases = {}
+   for k, v in pairs(AIRBASE[map]) do
+      table.insert(airbases, v)
+   end
+   return airbases
+end

@@ -11,6 +11,7 @@ public:
 	// Airbases (MOOSE.AIRBASE)
 	static const std::map<const std::string, const std::map<const std::string, const std::string>> Airbases;
 	static const QStringList GetQtAirbases();
+	static const std::vector<std::string> GetAirbasesByMap(const std::string& map);
 	static const std::string GetMooseAirbaseFromName(const std::string& airport_name);
 	static const std::string GetNameFromMooseAirbase(const std::string& moose_airbase);
 

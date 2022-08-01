@@ -29,6 +29,7 @@ public:
 	[[nodiscard]] const bool& IsSaved() const { return m_is_saved; }
 
 	[[nodiscard]] const std::string GetMissionName() const { return m_path.filename().string(); }
+	[[nodiscard]] const DcsMission GetMission() const { return m_dcs_mission; }
 	[[nodiscard]] const Scripts& GetScripts() const { return m_scripts; }
 	[[nodiscard]] const std::map<const std::string, const std::vector<Group>> GetMissionGroups() const;
 

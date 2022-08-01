@@ -9,7 +9,7 @@
 #include "Windows/AwacsWindow.h"
 #include "Windows/BeaconWindow.h"
 #include "Windows/CarrierWindow.h"
-#include "Windows/TankerWindow.h"
+#include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "MainWindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
@@ -185,19 +185,16 @@ void MainWindow::about()
 void MainWindow::addTanker()
 {
 	CHECK_MISSION_LOADED()
-	TankerWindow win(
-		nullptr,
-		m_mission.GetMissionGroups(),
-		[&](const Tanker& tk)
-		{
-			m_mission.AddTanker(tk);
-			m_ui.tankers->addItem(TANKER_PRESENTATION_STRING(tk).c_str());
-			LOG_TRACE("Tanker {}-{} added !", tk.Callsign.Name, tk.Callsign.Number);
-		},
-		[&]
-		{
-		});
-	win.exec();
+	TankerWizard wizard(m_mission);
+	wizard.exec();
+
+	if (!wizard.IsDone())
+		return;
+
+	const auto& tk = wizard.GetTanker();
+	m_mission.AddTanker(tk);
+	m_ui.tankers->addItem(TANKER_PRESENTATION_STRING(tk).c_str());
+	LOG_TRACE("Tanker {}-{} added !", tk.Callsign.Name, tk.Callsign.Number);
 }
 
 void MainWindow::addCarrier()
@@ -344,20 +341,18 @@ void MainWindow::editTanker()
 	{
 		const std::string tanker_label = item->text().toStdString();
 		const auto& old_tk = m_mission.GetTanker(tanker_label);
-		TankerWindow win(
-			nullptr,
-			m_mission.GetMissionGroups(),
-			[&](const Tanker& new_tk)
-			{
-				m_mission.ModifyTanker(old_tk, new_tk);
-				item->setText(TANKER_PRESENTATION_STRING(new_tk).c_str());
-				LOG_TRACE("Tanker {}-{} modified !", old_tk.Callsign.Name, old_tk.Callsign.Number);
-			},
-			[&]
-			{
-			});
-		win.SetTanker(old_tk);
-		win.exec();
+
+		TankerWizard wizard(m_mission);
+		wizard.SetTanker(old_tk);
+		wizard.exec();
+
+		if (!wizard.IsDone())
+			return;
+
+		const auto& new_tk = wizard.GetTanker();
+		m_mission.ModifyTanker(old_tk, new_tk);
+		item->setText(TANKER_PRESENTATION_STRING(new_tk).c_str());
+		LOG_TRACE("Tanker {}-{} modified !", old_tk.Callsign.Name, old_tk.Callsign.Number);
 	}
 }
 

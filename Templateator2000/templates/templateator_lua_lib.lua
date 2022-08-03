@@ -1120,7 +1120,7 @@ function GetMooseAirbase(dcs_name)
            return 'AIRBASE.TheChannel.'..k
        end
    end
-    for k, v in pairs(AIRBASE.MarianaIsland) do
+    for k, v in pairs(AIRBASE.MarianaIslands) do
        if(v == dcs_name) then
            return 'AIRBASE.MarianaIsland.'..k
        end

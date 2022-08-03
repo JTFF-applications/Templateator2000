@@ -34,11 +34,11 @@ inline Awacs Awacs::FromJson(const json::json& awacs)
 	const bool is_escorted = awacs.contains("escortgroupname");
 	const bool is_default_tacan_band = !awacs["tacan"].contains("band");
 	Awacs res = {
-		.Coalition = Coalition::FromDcsCoalition(awacs["benefit_coalition"].get<int>()),
+		.Coalition = Coalition::FromDcsCoalition(awacs["benefit_coaleition"].get<int>()),
 		.AutoRespawn = awacs["autorespawn"].get<bool>(),
 		.AirbossRecovery = awacs["airboss_recovery"].get<bool>(),
 		.PatternUnit = awacs["patternUnit"].get<std::string>(),
-		.DepartureBase = Moose::GetMooseAirbaseFromName(awacs["baseUnit"].get<std::string>()),
+		.DepartureBase = awacs["baseUnit"].get<std::string>(),
 		.TerminalType = Moose::GetMooseTerminalFromNumber(awacs["terminalType"].get<int>()),
 		.GroupName = awacs["groupName"].get<std::string>(),
 		.EscortGroupName = is_escorted ? awacs["escortgroupname"].get<std::string>() : "",
@@ -76,7 +76,7 @@ inline json::json Awacs::ToJson(const Awacs& awacs)
 	result["autorespawn"] = awacs.AutoRespawn;
 	result["airboss_recovery"] = awacs.AirbossRecovery;
 	result["patternUnit"] = awacs.PatternUnit;
-	result["baseUnit"] = Moose::GetNameFromMooseAirbase(awacs.DepartureBase);
+	result["baseUnit"] = awacs.DepartureBase;
 	result["terminalType"] = Moose::GetNumberFromMooseTerminal(awacs.TerminalType);
 	result["groupName"] = awacs.GroupName;
 	if (!awacs.EscortGroupName.empty())

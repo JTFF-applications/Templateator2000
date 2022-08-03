@@ -90,7 +90,7 @@ void AwacsWindow::onOkClicked()
 			.AutoRespawn = m_ui.auto_respawn->isChecked(),
 			.AirbossRecovery = m_ui.airboss_recovery->isChecked(),
 			.PatternUnit = m_ui.pattern->text().toStdString(),
-			.DepartureBase = Moose::GetMooseAirbaseFromName(m_ui.departure->text().toStdString()),
+			.DepartureBase = m_ui.departure->text().toStdString(),
 			.TerminalType = m_ui.parking_size->text().toStdString(),
 			.GroupName = m_ui.group->text().toStdString(),
 			.EscortGroupName = m_ui.escort->text().toStdString(),
@@ -121,16 +121,16 @@ void AwacsWindow::onOkClicked()
 			throw std::exception("Invalid group name !");
 		try
 		{
-			Moose::GetNameFromMooseAirbase(awacs.DepartureBase);
+			Moose::GetMooseAirbaseFromName(awacs.DepartureBase);
 		} catch (const std::exception& except)
 		{
 			throw std::exception("Invalid departure base !");
 		}
 		if (!Moose::GetQtParkings().contains(awacs.TerminalType.c_str()))
 			throw std::exception("Invalid terminal type !");
-		if (!awacs.EscortGroupName.empty() || Mission::DataToGroupName(m_mission_data).
-		    contains(awacs.EscortGroupName.c_str()))
-			throw std::exception("Invalid escort group !");
+		//if (!awacs.EscortGroupName.empty() && Mission::DataToGroupName(m_mission_data).
+		// contains(awacs.EscortGroupName.c_str()))
+		//throw std::exception("Invalid escort group !");
 		if (awacs.Frequency.size() != 7)
 			throw std::exception("Invalid radio frequency !");
 		if (awacs.Tacan.Morse.size() != 3)

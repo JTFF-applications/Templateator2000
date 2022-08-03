@@ -1,6 +1,7 @@
 #include <filesystem>
 #include <format>
 #include <fstream>
+#include <regex>
 #include <sstream>
 
 #include "Utilities/Log.h"
@@ -36,9 +37,13 @@ std::string Lua::LuaFromJson(const json::json& content, const std::string& table
 	lua::lua_State* l = lua::luaL_newstate();
 	luaL_openlibs(l);
 
+	std::string json = json::to_string(content);
+	json = std::regex_replace(json, std::regex("\\[\\["), "\n[\n[\n");
+	json = std::regex_replace(json, std::regex("\\]\\]"), "\n]\n]\n");
+
 	std::stringstream exec_buffer;
 	exec_buffer << getLibs() << "\n";
-	exec_buffer << "json_content = JSON:decode([[\n" << content << "\n]])\n";
+	exec_buffer << "json_content = JSON:decode([[\n" << json << "\n]])\n";
 	exec_buffer << "str = SaveTable(json_content)\n";
 	const auto lua_content = exec_buffer.str();
 

@@ -224,9 +224,9 @@ void CarrierWindow::onOkClicked()
 			throw std::exception("Invalid lso relay !");
 		if (carrier.Alias.empty())
 			throw std::exception("Alias can't be empty !");
-		if (!carrier.RecoveryTanker.empty() || Mission::DataToGroupName(m_mission_data).
-		    contains(carrier.RecoveryTanker.c_str()))
-			throw std::exception("Invalid recovery tanker !");
+		//if (!carrier.RecoveryTanker.empty() || Mission::DataToGroupName(m_mission_data).
+		//    contains(carrier.RecoveryTanker.c_str()))
+		//	throw std::exception("Invalid recovery tanker !");
 		if (carrier.BaseFq.size() != 7 && carrier.MarshallFq.size() != 7 && carrier.LsoFq.size() != 7)
 			throw std::exception("Invalid radio frequency !");
 		if (carrier.Tacan.Morse.size() != 3)

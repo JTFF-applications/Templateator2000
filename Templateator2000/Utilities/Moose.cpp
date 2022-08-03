@@ -61,7 +61,7 @@ const std::map<const std::string, const std::map<const std::string, const std::s
 			{"Abu Musa", "AIRBASE.PersianGulf.Abu_Musa_Island_Airport"},
 			{"Al-Bateen", "AIRBASE.PersianGulf.Al-Bateen_Airport"},
 			{"Al Ain", "AIRBASE.PersianGulf.Al_Ain_International_Airport"},
-			{"Al Dhafra", "AIRBASE.PersianGulf.Al_Dhafra_AB"},
+			{"Al Dhafra AFB", "AIRBASE.PersianGulf.Al_Dhafra_AB"},
 			{"Al Maktoum", "AIRBASE.PersianGulf.Al_Maktoum_Intl"},
 			{"Al Minhad", "AIRBASE.PersianGulf.Al_Minhad_AB"},
 			{"Bandar e Jask", "AIRBASE.PersianGulf.Bandar_e_Jask_airfield"},

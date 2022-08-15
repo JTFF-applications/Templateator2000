@@ -4,7 +4,7 @@
 TankerEscortPage::TankerEscortPage(QWidget* parent)
 	: QWizardPage(parent)
 {
-	setTitle("Tanker Mission Information 2/2");
+	setTitle("Tanker Mission Information 3/3");
 
 	m_escort_label = new QLabel("Do you want the tanker to be escorted during its mission?<br>", this);
 	WRAPPED_HTML_LABEL(m_escort_label)

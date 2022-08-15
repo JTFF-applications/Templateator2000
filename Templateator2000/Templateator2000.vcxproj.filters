@@ -169,7 +169,7 @@
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerIntroPage.cpp">
       <Filter>Source Files\Windows\Wizards\Tanker\Pages</Filter>
     </ClCompile>
-    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerMissionPage.cpp">
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerFixedPage.cpp">
       <Filter>Source Files\Windows\Wizards\Tanker\Pages</Filter>
     </ClCompile>
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerModelPage.cpp">
@@ -189,6 +189,15 @@
     </ClCompile>
     <ClCompile Include="Windows\Wizards\Tanker\TankerWizard.cpp">
       <Filter>Source Files\Windows\Wizards\Tanker</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerMissionPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Tanker\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerOnDemandPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Tanker\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerOnDemandFlightPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Tanker\Pages</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -304,7 +313,7 @@
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerIntroPage.h">
       <Filter>Header Files\Windows\Wizards\Tanker\Pages</Filter>
     </QtMoc>
-    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerMissionPage.h">
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerFixedPage.h">
       <Filter>Header Files\Windows\Wizards\Tanker\Pages</Filter>
     </QtMoc>
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerModelPage.h">
@@ -320,6 +329,15 @@
       <Filter>Header Files\Windows\Wizards\Tanker\Pages</Filter>
     </QtMoc>
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerTacanPage.h">
+      <Filter>Header Files\Windows\Wizards\Tanker\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerMissionPage.h">
+      <Filter>Header Files\Windows\Wizards\Tanker\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerOnDemandPage.h">
+      <Filter>Header Files\Windows\Wizards\Tanker\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerOnDemandFlightPage.h">
       <Filter>Header Files\Windows\Wizards\Tanker\Pages</Filter>
     </QtMoc>
   </ItemGroup>

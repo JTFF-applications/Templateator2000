@@ -1,5 +1,7 @@
 #pragma once
 
+#include <format>
+
 #include "Utilities/Moose.h"
 
 namespace models
@@ -96,13 +98,28 @@ namespace models
 		int Front, Back;
 	};
 
+	class Orbit final
+	{
+	public:
+		static json::json ToJson(const Orbit& orbit)
+		{
+			json::json res = {};
+			res["heading"] = orbit.Heading;
+			res["length"] = orbit.Length;
+			return res;
+		}
+
+	public:
+		int Heading, Length;
+	};
+
 	class Callsign final
 	{
 	public:
 		static json::json ToJson(const Callsign& callsign, const std::string& aircraft_type)
 		{
 			json::json res = {};
-			res["alias"] = callsign.Name;
+			res["alias"] = std::format("{}-{}", callsign.Name, callsign.Number);
 			res["name"] = Moose::GetMooseNumberFromCallsign(aircraft_type, callsign.Name);
 			res["number"] = callsign.Number;
 			return res;

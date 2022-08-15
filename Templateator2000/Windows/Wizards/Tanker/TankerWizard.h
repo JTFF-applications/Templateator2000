@@ -6,10 +6,13 @@
 #include "Windows/Wizards/Tanker/Pages/TankerChooseEscortPage.h"
 #include "Windows/Wizards/Tanker/Pages/TankerDeparturePage.h"
 #include "Windows/Wizards/Tanker/Pages/TankerEscortPage.h"
+#include "Windows/Wizards/Tanker/Pages/TankerFixedPage.h"
 #include "Windows/Wizards/Tanker/Pages/TankerFlightPage.h"
 #include "Windows/Wizards/Tanker/Pages/TankerIntroPage.h"
 #include "Windows/Wizards/Tanker/Pages/TankerMissionPage.h"
 #include "Windows/Wizards/Tanker/Pages/TankerModelPage.h"
+#include "Windows/Wizards/Tanker/Pages/TankerOnDemandFlightPage.h"
+#include "Windows/Wizards/Tanker/Pages/TankerOnDemandPage.h"
 #include "Windows/Wizards/Tanker/Pages/TankerParkingPage.h"
 #include "Windows/Wizards/Tanker/Pages/TankerRadioPage.h"
 #include "Windows/Wizards/Tanker/Pages/TankerRespawnPage.h"
@@ -30,15 +33,18 @@ public:
 	enum
 	{
 		IntroPage, RespawnPage, ModelPage, DeparturePage,
-		ParkingPage, CarrierPage, FlightPage, MissionPage,
-		EscortPage, ChooseEscortPage, RadioPage, TacanPage
+		ParkingPage, CarrierPage, OnDemandFlightPage, FlightPage,
+		MissionPage, FixedPage, OnDemandPage, EscortPage,
+		ChooseEscortPage, RadioPage, TacanPage
 	};
 
 	[[nodiscard]] Tanker GetTanker() const;
 	void SetTanker(const Tanker& tanker);
 
 	[[nodiscard]] bool IsDone() const { return m_done; }
+	[[nodiscard]] bool IsCustomValues() const;
 	[[nodiscard]] Coalition::Side Coalition() const;
+	[[nodiscard]] enum Tanker::Type Type() const;
 
 private slots:
 	void configureTankerModel() const;
@@ -57,8 +63,11 @@ private:
 	TankerDeparturePage* m_departure_page;
 	TankerParkingPage* m_parking_page;
 	TankerCarrierPage* m_carrier_page;
+	TankerOnDemandFlightPage* m_ondemand_flight_page;
 	TankerFlightPage* m_flight_page;
 	TankerMissionPage* m_mission_page;
+	TankerFixedPage* m_fixed_page;
+	TankerOnDemandPage* m_ondemand_page;
 	TankerEscortPage* m_escort_page;
 	TankerChooseEscortPage* m_choose_escort_page;
 	TankerRadioPage* m_radio_page;

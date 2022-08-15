@@ -9,14 +9,10 @@ namespace json = nlohmann;
 #include "Utilities/Coalition.h"
 #include "Utilities/Moose.h"
 
-#define TANKER_PRESENTATION_STRING(tanker) std::format("{}-{} Fq:{} Tcn:{}{} {}", (tanker).Callsign.Name.substr((tanker).Callsign.Name.find_last_of('.') + 1), (tanker).Callsign.Number, (tanker).Frequency, (tanker).Tacan.Channel, (tanker).Tacan.Band, (tanker).Tacan.Morse)
+#define TANKER_PRESENTATION_STRING(tanker) std::format("{} {}-{} Fq:{} Tcn:{}{} {}", ((tanker).Type == Tanker::Type::Fixed) ? "FIXED" : "ON DEMAND", (tanker).Callsign.Name.substr((tanker).Callsign.Name.find_last_of('.') + 1), (tanker).Callsign.Number, (tanker).Frequency, (tanker).Tacan.Channel, (tanker).Tacan.Band, (tanker).Tacan.Morse)
 
 class Tanker final
 {
-public:
-	static Tanker FromJson(const json::json& tanker);
-	static json::json ToJson(const Tanker& tanker);
-
 public:
 	enum class Type
 	{
@@ -24,60 +20,79 @@ public:
 	};
 
 public:
+	static Tanker FromJson(const json::json& tanker, const Tanker::Type& type);
+	static json::json ToJson(const Tanker& tanker, const Tanker::Type& type);
+
+public:
 	Type Type;
 	Coalition::Side Coalition;
 
 	// GENERAL
 	bool AutoRespawn, AirbossRecovery;
-	std::string PatternUnit, DepartureBase, TerminalType, GroupName, EscortGroupName, Frequency;
-	int MaxMissionDuration, Altitude, Speed, FuelWarningLevel, Modex;
+	std::string DepartureBase, TerminalType, GroupName, EscortGroupName, Frequency;
+	int MaxMissionDuration, FuelWarningLevel, Modex;
 
 	models::Tacan Tacan;
-	models::RaceTrack Racetrack;
 	models::Callsign Callsign;
+
+	// FIXED
+	std::string PatternUnit;
+	int Altitude, Speed;
+	models::RaceTrack Racetrack;
+
+	// ON DEMAND
+	std::string Name;
+	models::Orbit Orbit;
 };
 
-inline Tanker Tanker::FromJson(const json::json& tanker)
+inline Tanker Tanker::FromJson(const json::json& tanker, const enum Tanker::Type& type)
 {
 	// ReSharper disable StringLiteralTypo
 	const bool is_escorted = tanker.contains("escortgroupname");
 	const bool is_default_tacan_band = !tanker["tacan"].contains("band");
+	const bool is_fixed = type == Type::Fixed;
+	const bool ondemand_has_infos = type == Type::OnDemand && tanker.contains("altitude");
+
 	Tanker res = {
-		.Type = Tanker::Type::Fixed,
-		.Coalition = Coalition::FromDcsCoalition(tanker["benefit_coalition"].get<int>()),
-		.AutoRespawn = tanker["autorespawn"].get<bool>(),
-		.AirbossRecovery = tanker["airboss_recovery"].get<bool>(),
-		.PatternUnit = tanker["patternUnit"].get<std::string>(),
-		.DepartureBase = tanker["baseUnit"].get<std::string>(),
-		.TerminalType = Moose::GetMooseTerminalFromNumber(tanker["terminalType"].get<int>()),
-		.GroupName = tanker["groupName"].get<std::string>(),
-		.EscortGroupName = is_escorted ? tanker["escortgroupname"].get<std::string>() : "",
+		.Type = type,
+		.Coalition = Coalition::FromDcsCoalition(tanker["benefit_coalition"]),
+		.AutoRespawn = tanker["autorespawn"],
+		.AirbossRecovery = tanker["airboss_recovery"],
+		.DepartureBase = tanker["baseUnit"],
+		.TerminalType = Moose::GetMooseTerminalFromNumber(tanker["terminalType"]),
+		.GroupName = tanker["groupName"],
+		.EscortGroupName = is_escorted ? tanker["escortgroupname"] : "",
 		.Frequency = std::format("{:.3f}", tanker["freq"].get<float>()),
-		.MaxMissionDuration = tanker["missionmaxduration"].get<int>(),
-		.Altitude = tanker["altitude"].get<int>(),
-		.Speed = tanker["speed"].get<int>(),
-		.FuelWarningLevel = tanker["fuelwarninglevel"].get<int>(),
-		.Modex = tanker["modex"].get<int>(),
+		.MaxMissionDuration = tanker["missionmaxduration"],
+		.FuelWarningLevel = tanker["fuelwarninglevel"],
+		.Modex = tanker["modex"],
 		.Tacan = {
-			.Channel = tanker["tacan"]["channel"].get<int>(),
-			.Band = is_default_tacan_band ? "Y" : tanker["tacan"]["band"].get<std::string>(),
-			.Morse = tanker["tacan"]["morse"].get<std::string>(),
-		},
-		.Racetrack = {
-			.Front = tanker["racetrack"]["front"].get<int>(),
-			.Back = tanker["racetrack"]["back"].get<int>(),
+			.Channel = tanker["tacan"]["channel"],
+			.Band = is_default_tacan_band ? "Y" : tanker["tacan"]["band"],
+			.Morse = tanker["tacan"]["morse"],
 		},
 		.Callsign = {
-			.Name = Moose::GetMooseCallsignFromNumber(tanker["callsign"]["name"].get<int>(),
-													  "CALLSIGN.Tanker"),
-			.Number = tanker["callsign"]["number"].get<int>()
-		}
+			.Name = Moose::GetMooseCallsignFromNumber(tanker["callsign"]["name"],"CALLSIGN.Tanker"),
+			.Number = tanker["callsign"]["number"]
+		},
+		.PatternUnit = is_fixed ? tanker["patternUnit"] : "",
+		.Altitude = ondemand_has_infos ? tanker["altitude"].get<int>() : 0,
+		.Speed = ondemand_has_infos ? tanker["speed"].get<int>() : 0,
+		.Racetrack = {
+			.Front = is_fixed ? tanker["racetrack"]["front"].get<int>() : 0,
+			.Back = is_fixed ? tanker["racetrack"]["back"].get<int>() : 0,
+		},
+		.Name = !is_fixed ? tanker["type"] : "",
+		.Orbit = {
+			.Heading = !is_fixed ? tanker["orbit"]["heading"].get<int>() : 0,
+			.Length = !is_fixed ? tanker["orbit"]["length"].get<int>() : 0,
+		},
 	};
 	return res;
 	// ReSharper restore StringLiteralTypo
 }
 
-inline json::json Tanker::ToJson(const Tanker& tanker)
+inline json::json Tanker::ToJson(const Tanker& tanker, const enum Type& type)
 {
 	// ReSharper disable StringLiteralTypo
 	json::json result = {};
@@ -85,7 +100,6 @@ inline json::json Tanker::ToJson(const Tanker& tanker)
 	result["benefit_coalition"] = tanker.Coalition;
 	result["autorespawn"] = tanker.AutoRespawn;
 	result["airboss_recovery"] = tanker.AirbossRecovery;
-	result["patternUnit"] = tanker.PatternUnit;
 	result["baseUnit"] = tanker.DepartureBase;
 	result["terminalType"] = Moose::GetNumberFromMooseTerminal(tanker.TerminalType);
 	result["groupName"] = tanker.GroupName;
@@ -93,13 +107,25 @@ inline json::json Tanker::ToJson(const Tanker& tanker)
 		result["escortgroupname"] = tanker.EscortGroupName;
 	result["freq"] = std::stod(tanker.Frequency);
 	result["missionmaxduration"] = tanker.MaxMissionDuration;
-	result["altitude"] = tanker.Altitude;
-	result["speed"] = tanker.Speed;
 	result["fuelwarninglevel"] = tanker.FuelWarningLevel;
     result["modex"] = tanker.Modex;
-    result["racetrack"] = models::RaceTrack::ToJson(tanker.Racetrack);
 	result["tacan"] = models::Tacan::ToJson(tanker.Tacan);
     result["callsign"] = models::Callsign::ToJson(tanker.Callsign, "Tanker");
+
+	if (tanker.Altitude != 0)
+		result["altitude"] = tanker.Altitude;
+	if (tanker.Speed != 0)
+		result["speed"] = tanker.Speed;
+	if(tanker.Type == Type::Fixed)
+	{
+		result["patternUnit"] = tanker.PatternUnit;
+		result["racetrack"] = models::RaceTrack::ToJson(tanker.Racetrack);
+	}
+	else if (tanker.Type == Type::OnDemand)
+	{
+		result["type"] = tanker.Name;
+		result["orbit"] = models::Orbit::ToJson(tanker.Orbit);
+	}
 
     return result;
 	// ReSharper restore StringLiteralTypo

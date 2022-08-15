@@ -39,12 +39,19 @@ void TankerModelPage::initializePage()
 	m_group_list->addItems(tanker_groups);
 
 	QStringList pattern_units;
-	std::ranges::transform(m_mission.GetMission().OrbitUnits(reinterpret_cast<TankerWizard*>(wizard())->Coalition()),
-	                       std::back_inserter(pattern_units),
-	                       [](const std::string& type) { return QString::fromStdString(type); });
+	std::ranges::transform(
+		m_mission.GetMission().OrbitUnits(reinterpret_cast<TankerWizard*>(wizard())->Coalition()),
+		std::back_inserter(pattern_units),
+		[](const std::string& type) { return QString::fromStdString(type); });
 	pattern_units.sort(Qt::CaseInsensitive);
 	m_pattern_list->clear();
 	m_pattern_list->addItems(pattern_units);
+
+	if (reinterpret_cast<TankerWizard*>(wizard())->Type() == Tanker::Type::OnDemand)
+	{
+		m_pattern_label->setVisible(false);
+		m_pattern_list->setVisible(false);
+	}
 
 	emit init();
 

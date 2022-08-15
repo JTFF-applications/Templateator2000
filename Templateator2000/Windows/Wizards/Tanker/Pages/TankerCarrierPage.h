@@ -14,6 +14,8 @@ class TankerCarrierPage final : public QWizardPage
 public:
 	explicit TankerCarrierPage(QWidget* parent = nullptr);
 
+	virtual int nextId() const override;
+
 private:
 	QLabel* m_modex_label;
 	QLineEdit* m_modex;

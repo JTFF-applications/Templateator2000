@@ -120,8 +120,11 @@
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerEscortPage.cpp" />
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerFlightPage.cpp" />
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerIntroPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerFixedPage.cpp" />
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerMissionPage.cpp" />
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerModelPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerOnDemandFlightPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerOnDemandPage.cpp" />
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerParkingPage.cpp" />
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerRadioPage.cpp" />
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerRespawnPage.cpp" />
@@ -143,13 +146,16 @@
     <ResourceCompile Include="Templateator2000.rc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerMissionPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerOnDemandPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerOnDemandFlightPage.h" />
     <ClInclude Include="Windows\Wizards\Tanker\TankerWizard.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerTacanPage.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerRespawnPage.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerRadioPage.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerParkingPage.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerModelPage.h" />
-    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerMissionPage.h" />
+    <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerFixedPage.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerIntroPage.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerFlightPage.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerEscortPage.h" />

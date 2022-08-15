@@ -42,15 +42,28 @@ void Scripts::Save() const
 	for (const auto& script : m_installed_scripts)
 		if (script == "tankers" && !m_tankers.empty())
 		{
-			std::fstream file("temp/settings-tankers.lua", std::ios::out);
-			json::json full_tanker_json = {};
+			std::fstream fixed_file("temp/settings-tankers.lua", std::ios::out);
+			std::fstream ondemand_file("temp/settings-ondemandtankers.lua", std::ios::out);
+
+			json::json full_fixed_tanker_json = {};
+			json::json full_ondemand_tanker_json = {};
+
 			for (const auto& tanker : m_tankers)
-				full_tanker_json += Tanker::ToJson(tanker);
-			file << Lua::LuaFromJson(full_tanker_json, "TankersConfig");
-			file.close();
+				if (tanker.Type == Tanker::Type::Fixed)
+					full_fixed_tanker_json += Tanker::ToJson(tanker, tanker.Type);
+				else
+					full_ondemand_tanker_json += Tanker::ToJson(tanker, tanker.Type);
+
+			fixed_file << Lua::LuaFromJson(full_fixed_tanker_json, "TankersConfig");
+			ondemand_file << Lua::LuaFromJson(full_ondemand_tanker_json, "OnDemandTankersConfig");
+
+			fixed_file.close();
+			ondemand_file.close();
 
 			if (!archive.addFile("l10n/DEFAULT/settings-tankers.lua", "temp/settings-tankers.lua"))
-				throw std::exception("Failed to write tanker config file in mission !");
+				throw std::exception("Failed to write fixed tanker config file in mission !");
+			if (!archive.addFile("l10n/DEFAULT/settings-ondemandtankers.lua", "temp/settings-ondemandtankers.lua"))
+				throw std::exception("Failed to write on demand tanker config file in mission !");
 		}
 		else if (script == "atis" && !m_atis.empty())
 		{
@@ -160,7 +173,13 @@ void Scripts::load()
 		{
 			json::json tankers = Lua::JsonFromLua(file.readAsText(), "TankersConfig");
 			for (const auto& tanker : tankers)
-				m_tankers.push_back(Tanker::FromJson(tanker));
+				m_tankers.push_back(Tanker::FromJson(tanker, Tanker::Type::Fixed));
+		}
+		else if (name.find("settings-ondemandtankers") != std::string::npos)
+		{
+			json::json tankers = Lua::JsonFromLua(file.readAsText(), "OnDemandTankersConfig");
+			for (const auto& tanker : tankers)
+				m_tankers.push_back(Tanker::FromJson(tanker, Tanker::Type::OnDemand));
 		}
 		else if (name.find("settings-atis") != std::string::npos)
 		{

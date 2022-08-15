@@ -25,5 +25,7 @@ TankerParkingPage::TankerParkingPage(QWidget* parent)
 
 int TankerParkingPage::nextId() const
 {
-	return TankerWizard::FlightPage;
+	if (reinterpret_cast<TankerWizard*>(wizard())->Type() == Tanker::Type::Fixed)
+		return TankerWizard::FlightPage;
+	return TankerWizard::OnDemandFlightPage;
 }

@@ -30,3 +30,10 @@ TankerCarrierPage::TankerCarrierPage(QWidget* parent)
 	m_layout->addWidget(m_airboss_no);
 	setLayout(m_layout);
 }
+
+int TankerCarrierPage::nextId() const
+{
+	if (reinterpret_cast<TankerWizard*>(wizard())->Type() == Tanker::Type::Fixed)
+		return TankerWizard::FlightPage;
+	return TankerWizard::OnDemandFlightPage;
+}

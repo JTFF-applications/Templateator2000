@@ -34,6 +34,9 @@ json::json Lua::JsonFromLua(const std::string& content, const std::string& table
 
 std::string Lua::LuaFromJson(const json::json& content, const std::string& table_name)
 {
+	if (content.is_null())
+		return table_name + " = {}";
+
 	lua::lua_State* l = lua::luaL_newstate();
 	luaL_openlibs(l);
 

@@ -78,6 +78,18 @@
     <Filter Include="Header Files\Windows\Wizards\Tanker\Pages">
       <UniqueIdentifier>{9f12023f-8401-4252-a9ea-0c18dee0069c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Windows\Wizards\Beacon">
+      <UniqueIdentifier>{1d4baaf7-b3ac-4bba-bbad-98a7aa04b580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Windows\Wizards\Beacon\Pages">
+      <UniqueIdentifier>{48e499fc-27d1-4520-9f0f-e637c89891cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Windows\Wizards\Beacon">
+      <UniqueIdentifier>{16d96469-110d-42be-936a-b5ea1dc7aad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Windows\Wizards\Beacon\Pages">
+      <UniqueIdentifier>{fa3149bf-ad77-4eba-94e0-dcf3d101385e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MainWindow.qrc">
@@ -139,9 +151,6 @@
     <ClCompile Include="Windows\AtisWindow.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="Windows\BeaconWindow.cpp">
-      <Filter>Source Files\Windows</Filter>
-    </ClCompile>
     <ClCompile Include="Windows\CarrierWindow.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
@@ -199,6 +208,18 @@
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerOnDemandFlightPage.cpp">
       <Filter>Source Files\Windows\Wizards\Tanker\Pages</Filter>
     </ClCompile>
+    <ClCompile Include="Windows\Wizards\Beacon\BeaconWizard.cpp">
+      <Filter>Source Files\Windows\Wizards\Beacon</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Beacon\Pages\BeaconIntroPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Beacon\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Beacon\Pages\BeaconInfoPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Beacon\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Beacon\Pages\BeaconTacanPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Beacon\Pages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\Log.h">
@@ -255,15 +276,18 @@
     <ClInclude Include="Windows\Wizards\Tanker\TankerWizard.h">
       <Filter>Header Files\Windows\Wizards\Tanker</Filter>
     </ClInclude>
+    <ClInclude Include="Windows\Wizards\Beacon\BeaconWizard.h">
+      <Filter>Header Files\Windows\Wizards\Beacon</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Wizards\WizardMacros.h">
+      <Filter>Header Files\Windows\Wizards</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Windows\InjectorWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="Windows\AtisWindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="Windows\BeaconWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="Windows\CarrierWindow.ui">
@@ -281,9 +305,6 @@
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
     <QtMoc Include="Windows\AtisWindow.h">
-      <Filter>Header Files\Windows</Filter>
-    </QtMoc>
-    <QtMoc Include="Windows\BeaconWindow.h">
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
     <QtMoc Include="Windows\CarrierWindow.h">
@@ -339,6 +360,15 @@
     </QtMoc>
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerOnDemandFlightPage.h">
       <Filter>Header Files\Windows\Wizards\Tanker\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconIntroPage.h">
+      <Filter>Header Files\Windows\Wizards\Beacon\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconInfoPage.h">
+      <Filter>Header Files\Windows\Wizards\Beacon\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconTacanPage.h">
+      <Filter>Header Files\Windows\Wizards\Beacon\Pages</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

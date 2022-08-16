@@ -7,8 +7,8 @@
 #include "Windows/AboutDialog.h"
 #include "Windows/AtisWindow.h"
 #include "Windows/AwacsWindow.h"
-#include "Windows/BeaconWindow.h"
 #include "Windows/CarrierWindow.h"
+#include "Windows/Wizards/Beacon/BeaconWizard.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "MainWindow.h"
 
@@ -218,19 +218,16 @@ void MainWindow::addCarrier()
 void MainWindow::addBeacon()
 {
 	CHECK_MISSION_LOADED()
-	BeaconWindow win(
-		nullptr,
-		m_mission.GetMissionGroups(),
-		[&](const Beacon& beacon)
-		{
-			m_mission.AddBeacon(beacon);
-			m_ui.beacon->addItem(BEACON_PRESENTATION_STRING(beacon).c_str());
-			LOG_TRACE("Beacon {} added !", beacon.Name);
-		},
-		[&]
-		{
-		});
-	win.exec();
+	BeaconWizard wizard(m_mission);
+	wizard.exec();
+
+	if (!wizard.IsDone())
+		return;
+
+	const auto& beacon = wizard.GetBeacon();
+	m_mission.AddBeacon(beacon);
+	m_ui.beacon->addItem(BEACON_PRESENTATION_STRING(beacon).c_str());
+	LOG_TRACE("Beacon {} added !", beacon.Name);
 }
 
 void MainWindow::addAwacs()
@@ -386,21 +383,19 @@ void MainWindow::editBeacon()
 	for (const auto& item : m_ui.beacon->selectedItems())
 	{
 		const std::string beacon_label = item->text().toStdString();
-		const auto& old_beacon = m_mission.GetBeacon(beacon_label);
-		BeaconWindow win(
-			nullptr,
-			m_mission.GetMissionGroups(),
-			[&](const Beacon& new_beacon)
-			{
-				m_mission.ModifyBeacon(old_beacon, new_beacon);
-				item->setText(BEACON_PRESENTATION_STRING(new_beacon).c_str());
-				LOG_TRACE("Beacon {} modified !", old_beacon.Name);
-			},
-			[&]
-			{
-			});
-		win.SetBeacon(old_beacon);
-		win.exec();
+		const auto& old_bcn = m_mission.GetBeacon(beacon_label);
+
+		BeaconWizard wizard(m_mission);
+		wizard.SetBeacon(old_bcn);
+		wizard.exec();
+
+		if (!wizard.IsDone())
+			return;
+
+		const auto& new_bcn = wizard.GetBeacon();
+		m_mission.ModifyBeacon(old_bcn, new_bcn);
+		item->setText(BEACON_PRESENTATION_STRING(new_bcn).c_str());
+		LOG_TRACE("Beacon {} modified !", old_bcn.Name);
 	}
 }
 

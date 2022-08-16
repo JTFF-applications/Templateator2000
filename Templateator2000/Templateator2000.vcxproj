@@ -102,7 +102,8 @@
     <ClCompile Include="Windows\AboutDialog.cpp" />
     <ClCompile Include="Windows\AtisWindow.cpp" />
     <ClCompile Include="Windows\AwacsWindow.cpp" />
-    <ClCompile Include="Windows\BeaconWindow.cpp" />
+    <ClCompile Include="Windows\Wizards\Beacon\Pages\BeaconIntroPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Beacon\BeaconWizard.cpp" />
     <ClCompile Include="Windows\CarrierWindow.cpp" />
     <ClCompile Include="Windows\InjectorWindow.cpp" />
     <ClCompile Include="Utilities\Scripting\Injector.cpp" />
@@ -114,6 +115,8 @@
     <ClCompile Include="Utilities\Moose.cpp" />
     <ClCompile Include="Utilities\DCS\Group.cpp" />
     <ClCompile Include="Utilities\Scripting\Scripts.cpp" />
+    <ClCompile Include="Windows\Wizards\Beacon\Pages\BeaconInfoPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Beacon\Pages\BeaconTacanPage.cpp" />
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerCarrierPage.cpp" />
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerChooseEscortPage.cpp" />
     <ClCompile Include="Windows\Wizards\Tanker\Pages\TankerDeparturePage.cpp" />
@@ -134,7 +137,6 @@
     <QtUic Include="Windows\AboutDialog.ui" />
     <QtUic Include="Windows\AtisWindow.ui" />
     <QtUic Include="Windows\AwacsWindow.ui" />
-    <QtUic Include="Windows\BeaconWindow.ui" />
     <QtUic Include="Windows\CarrierWindow.ui" />
     <QtUic Include="Windows\InjectorWindow.ui" />
     <QtUic Include="MainWindow.ui" />
@@ -149,6 +151,11 @@
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerMissionPage.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerOnDemandPage.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerOnDemandFlightPage.h" />
+    <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconIntroPage.h" />
+    <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconInfoPage.h" />
+    <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconTacanPage.h" />
+    <ClInclude Include="Windows\Wizards\WizardMacros.h" />
+    <ClInclude Include="Windows\Wizards\Beacon\BeaconWizard.h" />
     <ClInclude Include="Windows\Wizards\Tanker\TankerWizard.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerTacanPage.h" />
     <QtMoc Include="Windows\Wizards\Tanker\Pages\TankerRespawnPage.h" />
@@ -167,7 +174,6 @@
     <ClInclude Include="Models\Beacon.h" />
     <QtMoc Include="Windows\AwacsWindow.h" />
     <QtMoc Include="Windows\CarrierWindow.h" />
-    <QtMoc Include="Windows\BeaconWindow.h" />
     <QtMoc Include="Windows\InjectorWindow.h" />
     <QtMoc Include="Windows\AtisWindow.h" />
     <ClInclude Include="Models\Atis.h" />

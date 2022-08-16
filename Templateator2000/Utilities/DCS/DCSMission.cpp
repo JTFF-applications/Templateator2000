@@ -106,6 +106,15 @@ const std::vector<std::string> DcsMission::OrbitUnits(const Coalition::Side& coa
 	return res;
 }
 
+const std::vector<std::string> DcsMission::BeaconUnits() const
+{
+	std::vector<std::string> res;
+	for (const auto& group : m_vehicles)
+		for (const auto& unit : group.Units())
+			res.push_back(unit.Name());
+	return res;
+}
+
 void DcsMission::load()
 {
 	if (!m_initialized)

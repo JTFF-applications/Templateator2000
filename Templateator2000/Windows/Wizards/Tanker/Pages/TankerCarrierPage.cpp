@@ -1,9 +1,11 @@
 ﻿#include <QIntValidator>
 
+#include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerCarrierPage.h"
 
 TankerCarrierPage::TankerCarrierPage(QWidget* parent)
+	: QWizardPage(parent)
 {
 	setTitle("Tanker Carrier Information");
 

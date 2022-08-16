@@ -18,13 +18,6 @@
 #include "Windows/Wizards/Tanker/Pages/TankerRespawnPage.h"
 #include "Windows/Wizards/Tanker/Pages/TankerTacanPage.h"
 
-#define WRAPPED_HTML_LABEL(label) (label)->setTextFormat(Qt::RichText);\
-								  (label)->setTextInteractionFlags(Qt::TextBrowserInteraction);\
-								  (label)->setOpenExternalLinks(true);\
-								  (label)->setWordWrap(true);
-
-#define LABEL_ERROR_MSG(label) (label)->setStyleSheet("QLabel { color : red; }");
-
 class TankerWizard final : public QWizard
 {
 public:

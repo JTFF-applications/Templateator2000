@@ -1,8 +1,11 @@
 ﻿#include "Utilities/Moose.h"
+
+#include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerRadioPage.h"
 
 TankerRadioPage::TankerRadioPage(QWidget* parent)
+	: QWizardPage(parent)
 {
 	setTitle("Tanker Radio Information");
 

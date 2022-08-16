@@ -1,5 +1,6 @@
 ﻿#include <QIntValidator>
 
+#include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerMissionPage.h"
 

@@ -1,4 +1,5 @@
-﻿#include "Windows/Wizards/Tanker/TankerWizard.h"
+﻿#include "Windows/Wizards/WizardMacros.h"
+#include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerEscortPage.h"
 
 TankerEscortPage::TankerEscortPage(QWidget* parent)

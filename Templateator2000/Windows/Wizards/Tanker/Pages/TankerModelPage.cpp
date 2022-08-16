@@ -1,4 +1,5 @@
-﻿#include "Windows/Wizards/Tanker/TankerWizard.h"
+﻿#include "Windows/Wizards/WizardMacros.h"
+#include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerModelPage.h"
 
 TankerModelPage::TankerModelPage(const Mission& mission, QWidget* parent)

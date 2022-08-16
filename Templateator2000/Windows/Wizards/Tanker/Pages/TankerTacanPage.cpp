@@ -1,7 +1,9 @@
-﻿#include "Windows/Wizards/Tanker/TankerWizard.h"
+﻿#include "Windows/Wizards/WizardMacros.h"
+#include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerTacanPage.h"
 
 TankerTacanPage::TankerTacanPage(QWidget* parent)
+	: QWizardPage(parent)
 {
 	setTitle("Tanker Tacan Information");
 

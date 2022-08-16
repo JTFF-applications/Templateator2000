@@ -1,4 +1,6 @@
 ﻿#include "Utilities/Moose.h"
+
+#include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerDeparturePage.h"
 

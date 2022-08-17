@@ -14,12 +14,18 @@ TankerModelPage::TankerModelPage(const Mission& mission, QWidget* parent)
 
 	m_group_list = new QComboBox(this);
 
+	m_group_error_message = new QLabel(this);
+	LABEL_ERROR_MSG(m_group_error_message)
+
 	m_pattern_label = new QLabel(
 		R"(Select the orbit point for the tanker <a href="http://google.com">(more info)</a>:)",
 		this);
 	WRAPPED_HTML_LABEL(m_pattern_label)
 
 	m_pattern_list = new QComboBox(this);
+
+	m_pattern_error_message = new QLabel(this);
+	LABEL_ERROR_MSG(m_pattern_error_message)
 
 	m_layout = new QVBoxLayout(this);
 	m_layout->addWidget(m_group_label);
@@ -31,6 +37,9 @@ TankerModelPage::TankerModelPage(const Mission& mission, QWidget* parent)
 
 void TankerModelPage::initializePage()
 {
+	connect(m_group_list, &QComboBox::currentTextChanged, [&] { m_group_error_message->clear(); });
+	connect(m_pattern_list, &QComboBox::currentTextChanged, [&] { m_pattern_error_message->clear(); });
+
 	QStringList tanker_groups;
 	std::ranges::transform(m_mission.GetMission().Tankers(reinterpret_cast<TankerWizard*>(wizard())->Coalition()),
 	                       std::back_inserter(tanker_groups),
@@ -57,4 +66,22 @@ void TankerModelPage::initializePage()
 	emit init();
 
 	QWizardPage::initializePage();
+}
+
+bool TankerModelPage::validatePage()
+{
+	bool is_valid = true;
+
+	if (m_group_list->currentText().isEmpty())
+	{
+		m_group_error_message->setText("You need to select a model group for the tanker !");
+		is_valid = false;
+	}
+	if (m_pattern_list->currentText().isEmpty() && m_pattern_list->isVisible())
+	{
+		m_pattern_error_message->setText("You need to select a pattern unit for the tanker !");
+		is_valid = false;
+	}
+
+	return is_valid;
 }

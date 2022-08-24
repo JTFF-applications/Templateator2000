@@ -5,9 +5,9 @@
 
 #include "Utilities/Log.h"
 #include "Windows/AboutDialog.h"
-#include "Windows/AtisWindow.h"
 #include "Windows/AwacsWindow.h"
 #include "Windows/CarrierWindow.h"
+#include "Windows/Wizards/Atis/AtisWizard.h"
 #include "Windows/Wizards/Beacon/BeaconWizard.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "MainWindow.h"
@@ -251,19 +251,16 @@ void MainWindow::addAwacs()
 void MainWindow::addAtis()
 {
 	CHECK_MISSION_LOADED()
-	AtisWindow win(
-		nullptr,
-		m_mission.GetMissionGroups(),
-		[&](const Atis& atis)
-		{
-			m_mission.AddAtis(atis);
-			m_ui.atis->addItem(ATIS_PRESENTATION_STRING(atis).c_str());
-			LOG_TRACE("GetAtis for {} added !", atis.AirportName);
-		},
-		[&]
-		{
-		});
-	win.exec();
+	AtisWizard wizard(m_mission);
+	wizard.exec();
+
+	if (!wizard.IsDone())
+		return;
+
+	const auto& atis = wizard.GetAtis();
+	m_mission.AddAtis(atis);
+	m_ui.atis->addItem(ATIS_PRESENTATION_STRING(atis).c_str());
+	LOG_TRACE("Atis {} added !", atis.AirportName);
 }
 
 void MainWindow::removeTanker()
@@ -430,20 +427,18 @@ void MainWindow::editAtis()
 	{
 		const std::string atis_label = item->text().toStdString();
 		const auto& old_atis = m_mission.GetAtis(atis_label);
-		AtisWindow win(
-			nullptr,
-			m_mission.GetMissionGroups(),
-			[&](const Atis& new_atis)
-			{
-				m_mission.ModifyAtis(old_atis, new_atis);
-				item->setText(ATIS_PRESENTATION_STRING(new_atis).c_str());
-				LOG_TRACE("Atis {} modified !", old_atis.AirportName);
-			},
-			[&]
-			{
-			});
-		win.SetAtis(old_atis);
-		win.exec();
+
+		AtisWizard wizard(m_mission);
+		wizard.SetAtis(old_atis);
+		wizard.exec();
+
+		if (!wizard.IsDone())
+			return;
+
+		const auto& new_atis = wizard.GetAtis();
+		m_mission.ModifyAtis(old_atis, new_atis);
+		item->setText(ATIS_PRESENTATION_STRING(new_atis).c_str());
+		LOG_TRACE("Atis {} modified !", old_atis.AirportName);
 	}
 }
 #pragma endregion

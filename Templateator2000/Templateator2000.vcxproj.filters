@@ -90,6 +90,18 @@
     <Filter Include="Source Files\Windows\Wizards\Beacon\Pages">
       <UniqueIdentifier>{fa3149bf-ad77-4eba-94e0-dcf3d101385e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Windows\Wizards\Atis">
+      <UniqueIdentifier>{e8a4fb1f-35c8-4f3e-b12a-c0379aa2c75a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Windows\Wizards\Atis\Pages">
+      <UniqueIdentifier>{adbe4810-66a5-4359-a7da-845ab6c93a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Windows\Wizards\Atis">
+      <UniqueIdentifier>{75e8d5d1-a9d3-4dfd-9ef5-363c309f52a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Windows\Wizards\Atis\Pages">
+      <UniqueIdentifier>{2d2fb3b7-e8f5-4fb7-8107-ea3a18bd85a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MainWindow.qrc">
@@ -146,9 +158,6 @@
       <Filter>Source Files\Utilities\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="Windows\InjectorWindow.cpp">
-      <Filter>Source Files\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\AtisWindow.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="Windows\CarrierWindow.cpp">
@@ -220,6 +229,33 @@
     <ClCompile Include="Windows\Wizards\Beacon\Pages\BeaconTacanPage.cpp">
       <Filter>Source Files\Windows\Wizards\Beacon\Pages</Filter>
     </ClCompile>
+    <ClCompile Include="Windows\Wizards\Atis\AtisWizard.cpp">
+      <Filter>Source Files\Windows\Wizards\Atis</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisIlsPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Atis\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisIntroPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Atis\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisRadioPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Atis\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisSettingsPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Atis\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisSrsPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Atis\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisTacanPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Atis\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisRunwayPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Atis\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisGeneralPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Atis\Pages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\Log.h">
@@ -282,12 +318,12 @@
     <ClInclude Include="Windows\Wizards\WizardMacros.h">
       <Filter>Header Files\Windows\Wizards</Filter>
     </ClInclude>
+    <ClInclude Include="Windows\Wizards\Atis\AtisWizard.h">
+      <Filter>Header Files\Windows\Wizards\Atis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Windows\InjectorWindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="Windows\AtisWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="Windows\CarrierWindow.ui">
@@ -302,9 +338,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Windows\InjectorWindow.h">
-      <Filter>Header Files\Windows</Filter>
-    </QtMoc>
-    <QtMoc Include="Windows\AtisWindow.h">
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
     <QtMoc Include="Windows\CarrierWindow.h">
@@ -369,6 +402,30 @@
     </QtMoc>
     <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconTacanPage.h">
       <Filter>Header Files\Windows\Wizards\Beacon\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisIntroPage.h">
+      <Filter>Header Files\Windows\Wizards\Atis\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisSettingsPage.h">
+      <Filter>Header Files\Windows\Wizards\Atis\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisRadioPage.h">
+      <Filter>Header Files\Windows\Wizards\Atis\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisTacanPage.h">
+      <Filter>Header Files\Windows\Wizards\Atis\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisIlsPage.h">
+      <Filter>Header Files\Windows\Wizards\Atis\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisSrsPage.h">
+      <Filter>Header Files\Windows\Wizards\Atis\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisRunwayPage.h">
+      <Filter>Header Files\Windows\Wizards\Atis\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisGeneralPage.h">
+      <Filter>Header Files\Windows\Wizards\Atis\Pages</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

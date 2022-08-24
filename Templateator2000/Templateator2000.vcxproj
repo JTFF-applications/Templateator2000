@@ -99,9 +99,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisGeneralPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisIlsPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisIntroPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Atis\AtisWizard.cpp" />
     <ClCompile Include="Windows\AboutDialog.cpp" />
-    <ClCompile Include="Windows\AtisWindow.cpp" />
     <ClCompile Include="Windows\AwacsWindow.cpp" />
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisRadioPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisRunwayPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisSettingsPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisSrsPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Atis\Pages\AtisTacanPage.cpp" />
     <ClCompile Include="Windows\Wizards\Beacon\Pages\BeaconIntroPage.cpp" />
     <ClCompile Include="Windows\Wizards\Beacon\BeaconWizard.cpp" />
     <ClCompile Include="Windows\CarrierWindow.cpp" />
@@ -135,7 +143,6 @@
     <ClCompile Include="Windows\Wizards\Tanker\TankerWizard.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="Windows\AboutDialog.ui" />
-    <QtUic Include="Windows\AtisWindow.ui" />
     <QtUic Include="Windows\AwacsWindow.ui" />
     <QtUic Include="Windows\CarrierWindow.ui" />
     <QtUic Include="Windows\InjectorWindow.ui" />
@@ -154,6 +161,15 @@
     <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconIntroPage.h" />
     <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconInfoPage.h" />
     <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconTacanPage.h" />
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisIntroPage.h" />
+    <ClInclude Include="Windows\Wizards\Atis\AtisWizard.h" />
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisSettingsPage.h" />
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisRadioPage.h" />
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisTacanPage.h" />
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisIlsPage.h" />
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisSrsPage.h" />
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisRunwayPage.h" />
+    <QtMoc Include="Windows\Wizards\Atis\Pages\AtisGeneralPage.h" />
     <ClInclude Include="Windows\Wizards\WizardMacros.h" />
     <ClInclude Include="Windows\Wizards\Beacon\BeaconWizard.h" />
     <ClInclude Include="Windows\Wizards\Tanker\TankerWizard.h" />
@@ -175,7 +191,6 @@
     <QtMoc Include="Windows\AwacsWindow.h" />
     <QtMoc Include="Windows\CarrierWindow.h" />
     <QtMoc Include="Windows\InjectorWindow.h" />
-    <QtMoc Include="Windows\AtisWindow.h" />
     <ClInclude Include="Models\Atis.h" />
     <ClInclude Include="Models\Carrier.h" />
     <ClInclude Include="Models\Models.h" />

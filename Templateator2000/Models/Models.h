@@ -66,14 +66,17 @@ namespace models
 			res["modulation"] = Moose::GetNumberFromModulation(radio.Modulation);
 			res["relayunit"] = radio.RelayUnit;
 
-			std::vector<double> tower_frequencies;
-			std::ranges::transform(radio.TowerFrequencies,
-			                       std::back_inserter(tower_frequencies),
-			                       [&](const std::string& frequency)
-			                       {
-				                       return std::stod(frequency);
-			                       });
-			res["tower"] = tower_frequencies;
+			if (!radio.TowerFrequencies.empty())
+			{
+				std::vector<double> tower_frequencies;
+				std::ranges::transform(radio.TowerFrequencies,
+				                       std::back_inserter(tower_frequencies),
+				                       [&](const std::string& frequency)
+				                       {
+					                       return std::stod(frequency);
+				                       });
+				res["tower"] = tower_frequencies;
+			}
 			return res;
 		}
 

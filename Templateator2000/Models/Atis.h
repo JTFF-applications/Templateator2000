@@ -27,18 +27,24 @@ public:
 
 inline Atis Atis::FromJson(const json::json& atis)
 {
-	std::vector<std::string> tower_frequencies;
-	std::ranges::transform(atis["radio"]["tower"],
-	                       std::back_inserter(tower_frequencies),
-	                       [&](const double& nb)
-	                       {
-		                       return std::format("{:.3f}", nb);
-	                       });
+	const bool has_runway = atis.contains("active");
+	const bool has_radio = atis["radio"].contains("tower");
 	const bool has_ils = atis.contains("ils");
+	const bool has_tacan = atis.contains("tacan");
+
+	std::vector<std::string> tower_frequencies;
+	if (has_radio)
+		std::ranges::transform(atis["radio"]["tower"],
+		                       std::back_inserter(tower_frequencies),
+		                       [&](const double& nb)
+		                       {
+			                       return std::format("{:.3f}", nb);
+		                       });
+
 	Atis res = {
 		.AirportName = atis["airfield"],
-		.ActiveRunwayNumber = atis["active"]["number"],
-		.ActiveRunwaySide = atis["active"]["side"],
+		.ActiveRunwayNumber = has_runway ? atis["active"]["number"] : "",
+		.ActiveRunwaySide = has_runway ? atis["active"]["side"] : "",
 		.Radio = {
 			.Frequency = std::format("{:.3f}", atis["radio"]["freq"].get<float>()),
 			.Modulation = Moose::GetModulationFromNumber(atis["radio"]["modulation"].get<int>()),
@@ -47,8 +53,9 @@ inline Atis Atis::FromJson(const json::json& atis)
 			.Power = atis["radio"]["power"]
 		},
 		.Tacan = {
-			.Channel = atis["tacan"]["channel"],
-			.Band = atis["tacan"]["band"]
+			.Channel = has_tacan ? atis["tacan"]["channel"].get<int>() : 0,
+			.Band = has_tacan ? atis["tacan"]["band"] : "",
+			.Morse = has_tacan ? atis["tacan"]["morse"] : ""
 		},
 		.Ils = {
 			.Frequency = has_ils ? std::format("{:.3f}", atis["ils"]["freq"].get<float>()) : "",
@@ -61,6 +68,10 @@ inline Atis Atis::FromJson(const json::json& atis)
 
 inline json::json Atis::ToJson(const Atis& atis)
 {
+	const bool has_runway = !atis.ActiveRunwayNumber.empty();
+	const bool has_ils = !atis.Ils.Frequency.empty();
+	const bool has_tacan = !atis.Tacan.Morse.empty();
+
 	json::json active_runway = {};
 	active_runway["number"] = atis.ActiveRunwayNumber;
 	active_runway["side"] = atis.ActiveRunwaySide;
@@ -72,10 +83,11 @@ inline json::json Atis::ToJson(const Atis& atis)
 	res["enable"] = true;
 	res["airfield"] = atis.AirportName;
 	res["radio"] = models::Radio::ToJson(atis.Radio);
-	res["active"] = active_runway;
-	if (atis.Tacan.Channel != 0)
+	if (has_runway)
+		res["active"] = active_runway;
+	if (has_tacan)
 		res["tacan"] = models::Tacan::ToJson(atis.Tacan);
-	if (!atis.Ils.Frequency.empty())
+	if (has_ils)
 		res["ils"] = models::Ils::ToJson(atis.Ils);
 	res["srs"] = srs;
 

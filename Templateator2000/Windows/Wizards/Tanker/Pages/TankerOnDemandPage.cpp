@@ -1,5 +1,4 @@
-﻿#include <QIntValidator>
-
+﻿#include "Utilities/Validators/QRealIntValidator.h"
 #include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerOnDemandPage.h"
@@ -18,7 +17,7 @@ TankerOnDemandPage::TankerOnDemandPage(QWidget* parent)
 	WRAPPED_HTML_LABEL(m_orbit_heading_label)
 
 	m_orbit_heading = new QLineEdit(this);
-	m_orbit_heading->setValidator(new QIntValidator(0, 360, m_orbit_heading));
+	m_orbit_heading->setValidator(new QRealIntValidator(0, 360, m_orbit_heading));
 
 	m_orbit_heading_error = new QLabel(this);
 	LABEL_ERROR_MSG(m_orbit_heading_error)
@@ -29,7 +28,7 @@ TankerOnDemandPage::TankerOnDemandPage(QWidget* parent)
 	WRAPPED_HTML_LABEL(m_orbit_length_label)
 
 	m_orbit_length = new QLineEdit(this);
-	m_orbit_length->setValidator(new QIntValidator(0, 1000, m_orbit_length));
+	m_orbit_length->setValidator(new QRealIntValidator(0, 1000, m_orbit_length));
 
 	m_orbit_length_error = new QLabel(this);
 	LABEL_ERROR_MSG(m_orbit_length_error)

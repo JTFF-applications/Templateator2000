@@ -259,6 +259,9 @@
     <ClCompile Include="Utilities\StackWalker.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\Validators\QRealIntValidator.cpp">
+      <Filter>Source Files\Utilities\Validators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\Log.h">
@@ -326,6 +329,9 @@
     </ClInclude>
     <ClInclude Include="Utilities\StackWalker.h">
       <Filter>Header Files\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Validators\QRealIntValidator.h">
+      <Filter>Header Files\Utilities\Validators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

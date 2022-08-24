@@ -1,4 +1,5 @@
-﻿#include "Windows/Wizards/WizardMacros.h"
+﻿#include "Utilities/Validators/QRealIntValidator.h"
+#include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Atis/Pages/AtisGeneralPage.h"
 
 AtisGeneralPage::AtisGeneralPage(const Mission& mission, QWidget* parent)
@@ -31,7 +32,7 @@ AtisGeneralPage::AtisGeneralPage(const Mission& mission, QWidget* parent)
 	WRAPPED_HTML_LABEL(m_power_label)
 
 	m_power = new QLineEdit(this);
-	m_power->setValidator(new QIntValidator(0, 100, m_power));
+	m_power->setValidator(new QRealIntValidator(0, 100, m_power));
 
 	m_power_error_message = new QLabel(this);
 	LABEL_ERROR_MSG(m_power_error_message)

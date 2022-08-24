@@ -1,5 +1,5 @@
 ﻿#include "Utilities/Moose.h"
-
+#include "Utilities/Validators/QRealIntValidator.h"
 #include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerRadioPage.h"
@@ -31,7 +31,7 @@ TankerRadioPage::TankerRadioPage(QWidget* parent)
 	m_callsign_list->addItems(Moose::GetQtTankerCallsigns());
 
 	m_callsign_number = new QLineEdit(this);
-	m_callsign_number->setValidator(new QIntValidator(1, 100, m_callsign_number));
+	m_callsign_number->setValidator(new QRealIntValidator(1, 100, m_callsign_number));
 
 	m_callsign_error = new QLabel(this);
 	LABEL_ERROR_MSG(m_callsign_error)

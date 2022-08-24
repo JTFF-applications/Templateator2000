@@ -1,5 +1,4 @@
-﻿#include <QIntValidator>
-
+﻿#include "Utilities/Validators/QRealIntValidator.h"
 #include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerFixedPage.h"
@@ -18,7 +17,7 @@ TankerFixedPage::TankerFixedPage(QWidget* parent)
 	WRAPPED_HTML_LABEL(m_racetrack_front_label)
 
 	m_racetrack_front = new QLineEdit(this);
-	m_racetrack_front->setValidator(new QIntValidator(0, 1000, m_racetrack_front));
+	m_racetrack_front->setValidator(new QRealIntValidator(0, 1000, m_racetrack_front));
 
 	m_racetrack_front_error = new QLabel(this);
 	LABEL_ERROR_MSG(m_racetrack_front_error)
@@ -29,7 +28,7 @@ TankerFixedPage::TankerFixedPage(QWidget* parent)
 	WRAPPED_HTML_LABEL(m_racetrack_back_label)
 
 	m_racetrack_back = new QLineEdit(this);
-	m_racetrack_back->setValidator(new QIntValidator(0, 1000, m_racetrack_back));
+	m_racetrack_back->setValidator(new QRealIntValidator(0, 1000, m_racetrack_back));
 
 	m_racetrack_back_error = new QLabel(this);
 	LABEL_ERROR_MSG(m_racetrack_back_error)

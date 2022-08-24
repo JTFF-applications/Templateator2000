@@ -1,5 +1,4 @@
-﻿#include <QIntValidator>
-
+﻿#include "Utilities/Validators/QRealIntValidator.h"
 #include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerMissionPage.h"
@@ -18,7 +17,7 @@ TankerMissionPage::TankerMissionPage(QWidget* parent)
 	WRAPPED_HTML_LABEL(m_duration_label)
 
 	m_duration = new QLineEdit(this);
-	m_duration->setValidator(new QIntValidator(0, 1440, m_duration));
+	m_duration->setValidator(new QRealIntValidator(0, 1440, m_duration));
 
 	m_duration_error = new QLabel(this);
 	LABEL_ERROR_MSG(m_duration_error)
@@ -27,7 +26,7 @@ TankerMissionPage::TankerMissionPage(QWidget* parent)
 	WRAPPED_HTML_LABEL(m_fuel_level_label)
 
 	m_fuel_level = new QLineEdit(this);
-	m_fuel_level->setValidator(new QIntValidator(0, 100, m_fuel_level));
+	m_fuel_level->setValidator(new QRealIntValidator(0, 100, m_fuel_level));
 
 	m_fuel_level_error = new QLabel(this);
 	LABEL_ERROR_MSG(m_fuel_level_error)

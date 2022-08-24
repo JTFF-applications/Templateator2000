@@ -1,5 +1,4 @@
-﻿#include <QIntValidator>
-
+﻿#include "Utilities/Validators/QRealIntValidator.h"
 #include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerCarrierPage.h"
@@ -15,7 +14,7 @@ TankerCarrierPage::TankerCarrierPage(QWidget* parent)
 	WRAPPED_HTML_LABEL(m_modex_label)
 
 	m_modex = new QLineEdit(this);
-	m_modex->setValidator(new QIntValidator(100, 999, m_modex));
+	m_modex->setValidator(new QRealIntValidator(0, 999, m_modex));
 
 	m_airboss_label = new QLabel("Select if your tanker is landing at a carrier controlled by airboss script.",
 	                             this);

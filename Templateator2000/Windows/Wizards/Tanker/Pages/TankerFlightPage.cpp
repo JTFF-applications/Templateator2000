@@ -1,5 +1,4 @@
-﻿#include <QIntValidator>
-
+﻿#include "Utilities/Validators/QRealIntValidator.h"
 #include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerFlightPage.h"
@@ -16,7 +15,7 @@ TankerFlightPage::TankerFlightPage(QWidget* parent)
 	WRAPPED_HTML_LABEL(m_altitude_label)
 
 	m_altitude = new QLineEdit(this);
-	m_altitude->setValidator(new QIntValidator(0, 100000, m_altitude));
+	m_altitude->setValidator(new QRealIntValidator(0, 100000, m_altitude));
 
 	m_altitude_error = new QLabel(this);
 	LABEL_ERROR_MSG(m_altitude_error)
@@ -25,7 +24,7 @@ TankerFlightPage::TankerFlightPage(QWidget* parent)
 	WRAPPED_HTML_LABEL(m_speed_label)
 
 	m_speed = new QLineEdit(this);
-	m_speed->setValidator(new QIntValidator(0, 1000, m_speed));
+	m_speed->setValidator(new QRealIntValidator(0, 1000, m_speed));
 
 	m_speed_error = new QLabel(this);
 	LABEL_ERROR_MSG(m_speed_error)

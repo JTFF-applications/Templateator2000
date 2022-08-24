@@ -1,4 +1,5 @@
-﻿#include "Windows/Wizards/WizardMacros.h"
+﻿#include "Utilities/Validators/QRealIntValidator.h"
+#include "Windows/Wizards/WizardMacros.h"
 #include "Windows/Wizards/Beacon/BeaconWizard.h"
 #include "Windows/Wizards/Beacon/Pages/BeaconTacanPage.h"
 
@@ -16,7 +17,7 @@ BeaconTacanPage::BeaconTacanPage(QWidget* parent)
 	WRAPPED_HTML_LABEL(m_channel_label)
 
 	m_channel = new QLineEdit(this);
-	m_channel->setValidator(new QIntValidator(1, 126, m_channel));
+	m_channel->setValidator(new QRealIntValidator(1, 126, m_channel));
 
 	m_channel_error = new QLabel(this);
 	LABEL_ERROR_MSG(m_channel_error)

@@ -89,16 +89,17 @@
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Utilities\StackWalker.cpp" />
     <ClCompile Include="Windows\Wizards\Atis\Pages\AtisGeneralPage.cpp" />
     <ClCompile Include="Windows\Wizards\Atis\Pages\AtisIlsPage.cpp" />
     <ClCompile Include="Windows\Wizards\Atis\Pages\AtisIntroPage.cpp" />
@@ -162,6 +163,7 @@
     <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconInfoPage.h" />
     <QtMoc Include="Windows\Wizards\Beacon\Pages\BeaconTacanPage.h" />
     <QtMoc Include="Windows\Wizards\Atis\Pages\AtisIntroPage.h" />
+    <ClInclude Include="Utilities\StackWalker.h" />
     <ClInclude Include="Windows\Wizards\Atis\AtisWizard.h" />
     <QtMoc Include="Windows\Wizards\Atis\Pages\AtisSettingsPage.h" />
     <QtMoc Include="Windows\Wizards\Atis\Pages\AtisRadioPage.h" />

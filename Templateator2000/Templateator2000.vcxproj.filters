@@ -256,6 +256,9 @@
     <ClCompile Include="Windows\Wizards\Atis\Pages\AtisGeneralPage.cpp">
       <Filter>Source Files\Windows\Wizards\Atis\Pages</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\StackWalker.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\Log.h">
@@ -320,6 +323,9 @@
     </ClInclude>
     <ClInclude Include="Windows\Wizards\Atis\AtisWizard.h">
       <Filter>Header Files\Windows\Wizards\Atis</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\StackWalker.h">
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,8 +2,15 @@
 
 int main(int argc, char* argv[])
 {
-	QApplication a(argc, argv);
-	MainWindow w;
-	w.show();
-	return QApplication::exec();
+	try
+	{
+		QApplication a(argc, argv);
+		MainWindow w;
+		w.show();
+		return QApplication::exec();
+	} catch (const std::exception& except)
+	{
+		LOG_ERROR(except.what());
+		return EXIT_FAILURE;
+	}
 }

@@ -22,6 +22,7 @@ public:
 private:
 	QLabel* m_relay_unit_label;
 	QComboBox* m_relay_unit;
+	QLabel* m_relay_unit_error_message;
 	QLabel* m_modulation_label;
 	QComboBox* m_modulation;
 	QLabel* m_power_label;

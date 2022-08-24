@@ -18,6 +18,9 @@ AtisGeneralPage::AtisGeneralPage(const Mission& mission, QWidget* parent)
 	relays.sort(Qt::CaseInsensitive);
 	m_relay_unit->addItems(relays);
 
+	m_relay_unit_error_message = new QLabel(this);
+	LABEL_ERROR_MSG(m_relay_unit_error_message)
+
 	m_modulation_label = new QLabel(R"(Set the <a href="https://google.com">radio modulation:)", this);
 	WRAPPED_HTML_LABEL(m_modulation_label)
 
@@ -36,6 +39,7 @@ AtisGeneralPage::AtisGeneralPage(const Mission& mission, QWidget* parent)
 	m_layout = new QVBoxLayout(this);
 	m_layout->addWidget(m_relay_unit_label);
 	m_layout->addWidget(m_relay_unit);
+	m_layout->addWidget(m_relay_unit_error_message);
 	m_layout->addWidget(m_modulation_label);
 	m_layout->addWidget(m_modulation);
 	m_layout->addWidget(m_power_label);
@@ -47,6 +51,7 @@ AtisGeneralPage::AtisGeneralPage(const Mission& mission, QWidget* parent)
 void AtisGeneralPage::initializePage()
 {
 	connect(m_power, &QLineEdit::textChanged, [&] { m_power_error_message->clear(); });
+	connect(m_relay_unit, &QComboBox::currentTextChanged, [&] { m_relay_unit_error_message->clear(); });
 	QWizardPage::initializePage();
 }
 
@@ -54,11 +59,17 @@ bool AtisGeneralPage::validatePage()
 {
 	QString power = m_power->text();
 	int pos = 0;
+	bool res = true;
 
-	if(m_power->validator()->validate(power, pos) != QValidator::Acceptable)
+	if (m_relay_unit->currentText().isEmpty())
+	{
+		m_relay_unit_error_message->setText("Please select a relay unit !");
+		res = false;
+	}
+	if (m_power->validator()->validate(power, pos) != QValidator::Acceptable)
 	{
 		m_power_error_message->setText("Invalid power ! (Range: 0-100)");
-		return false;
+		res = false;
 	}
-	return true;
+	return res;
 }

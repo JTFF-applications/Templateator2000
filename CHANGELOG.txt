@@ -1,0 +1,26 @@
+0.3.0-beta, 2022-08-24
+
+- Add brand new Atis and Beacon Wizard
+- Use new JTFF scripts version (less sounds, mission size < 8Mo)
+
+- Fix little memory leak
+- Fix bug when there is no usable units for tanker pattern or group
+
+0.2.0-beta, 2022-08-15
+
+- Add brand new Tanker Wizard
+- Add On Demand Tanker support
+- Add more filters for tanker selection
+- Add basic documentation
+
+- Fix bug with awacs airbases mixing beetween Moose and DCS
+- Fix import bug with missions containing [[ or ]] in the mission file
+- Fix carrier recovery tanker name check (by removing)
+- Fix Al Dhafra airbase name
+- Fix bug when empty jsons are trying to be converted into lua
+
+0.1.0-beta, 2022-08-01
+
+- Initial beta release where you can:
+	Inject scripts in a brand new DCS mission.
+	Add/Remove/Modify tankers, carriers, beacons, awacs and atis from your misison.

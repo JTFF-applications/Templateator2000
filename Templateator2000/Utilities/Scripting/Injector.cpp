@@ -32,7 +32,7 @@ void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<st
 
 	updateSources(archive);
 	updateLibraries(archive);
-	addSounds(archive, "General");
+	addSounds(archive, "Misc");
 
 	const std::string mission_data_string = archive.getEntry("mission").readAsText();
 	const std::string map_resource_string = archive.getEntry("l10n/DEFAULT/mapResource").readAsText();
@@ -98,15 +98,12 @@ void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<st
 	if (std::ranges::find(installed_scripts, "atis") != installed_scripts.end())
 	{
 		if (std::ranges::find(was_installed, "atis") == was_installed.end())
-		{
 			injectOne(mission_data,
 			          map_resource,
 			          "Atis",
 			          {"160-atis.lua"},
 			          26,
 			          "0xff0000ff");
-			addSounds(archive, "ATIS");
-		}
 
 		settings_files["AtisConfig"] = "settings-atis.lua";
 	}
@@ -330,11 +327,11 @@ void Injector::addFiles(const libzippp::ZipArchive& archive,
 
 void Injector::addSounds(const libzippp::ZipArchive& archive, const std::string& folder)
 {
-	if (folder == "General")
+	if (folder == "Misc")
 	{
-		const int err = archive.deleteEntry("General/");
+		const int err = archive.deleteEntry("Misc/");
 		if (err != LIBZIPPP_ERROR_INVALID_PARAMETER && err < 0)
-			throw std::exception("Failed to delete 'General' folder in mission.");
+			throw std::exception("Failed to delete 'Misc' folder in mission.");
 	}
 
 	std::filesystem::recursive_directory_iterator begin_iterator(

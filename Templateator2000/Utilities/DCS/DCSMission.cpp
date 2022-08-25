@@ -44,15 +44,16 @@ void DcsMission::Init(const std::filesystem::path& path)
 	if (!IsValidMission(path))
 		throw std::exception(std::format("Invalid mission {} !", path.string()).c_str());
 
-	m_initialized = true;
 	m_path = path;
 
+	m_map.clear();
 	m_helicopters.clear();
 	m_planes.clear();
 	m_statics.clear();
 	m_ships.clear();
 	m_vehicles.clear();
 
+	m_initialized = true;
 	load();
 }
 

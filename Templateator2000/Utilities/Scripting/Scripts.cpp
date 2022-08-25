@@ -21,12 +21,16 @@ Scripts::Scripts(const std::filesystem::path& path)
 
 void Scripts::Init(const std::filesystem::path& path)
 {
-	if (m_initialized)
-		return;
-
-	m_initialized = true;
 	m_path = path;
 
+	m_installed_scripts.clear();
+	m_tankers.clear();
+	m_atis.clear();
+	m_beacons.clear();
+	m_carriers.clear();
+	m_awacs.clear();
+
+	m_initialized = true;
 	load();
 }
 

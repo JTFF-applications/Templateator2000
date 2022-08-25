@@ -32,9 +32,6 @@ Mission::Mission(const std::filesystem::path& path, const std::filesystem::path&
 
 void Mission::Init(const std::filesystem::path& path, const std::filesystem::path& mission_path)
 {
-	if (m_initialized)
-		return;
-
 	m_path = path;
 	m_mission_path = mission_path;
 	m_is_saved = true;

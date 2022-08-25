@@ -441,6 +441,7 @@ void MainWindow::editAtis()
 #pragma region Fill UI
 void MainWindow::fillTankers() const
 {
+	m_ui.tankers->clear();
 	const auto& tankers = m_mission.GetScripts().GetTankers();
 	for (const auto& tanker : tankers)
 		m_ui.tankers->addItem(TANKER_PRESENTATION_STRING(tanker).c_str());
@@ -449,6 +450,7 @@ void MainWindow::fillTankers() const
 
 void MainWindow::fillAtis() const
 {
+	m_ui.atis->clear();
 	const auto& atis_list = m_mission.GetScripts().GetAtis();
 	for (const auto& atis : atis_list)
 		m_ui.atis->addItem(ATIS_PRESENTATION_STRING(atis).c_str());
@@ -457,6 +459,7 @@ void MainWindow::fillAtis() const
 
 void MainWindow::fillBeacons() const
 {
+	m_ui.beacon->clear();
 	const auto& beacons = m_mission.GetScripts().GetBeacons();
 	for (const auto& beacon : beacons)
 		m_ui.beacon->addItem(BEACON_PRESENTATION_STRING(beacon).c_str());
@@ -465,6 +468,7 @@ void MainWindow::fillBeacons() const
 
 void MainWindow::fillCarriers() const
 {
+	m_ui.carrier->clear();
 	const auto& carriers = m_mission.GetScripts().GetCarriers();
 	for (const auto& carrier : carriers)
 		m_ui.carrier->addItem(CARRIER_PRESENTATION_STRING(carrier).c_str());
@@ -473,6 +477,7 @@ void MainWindow::fillCarriers() const
 
 void MainWindow::fillAwacs() const
 {
+	m_ui.awacs->clear();
 	const auto& awacs_list = m_mission.GetScripts().GetAwacs();
 	for (const auto& awacs : awacs_list)
 		m_ui.awacs->addItem(AWACS_PRESENTATION_STRING(awacs).c_str());

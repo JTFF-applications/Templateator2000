@@ -175,9 +175,6 @@
     <ClCompile Include="Windows\CarrierWindow.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="Windows\AwacsWindow.cpp">
-      <Filter>Source Files\Windows</Filter>
-    </ClCompile>
     <ClCompile Include="Windows\AboutDialog.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
@@ -398,9 +395,6 @@
     <QtUic Include="Windows\CarrierWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="Windows\AwacsWindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="Windows\AboutDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -410,9 +404,6 @@
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
     <QtMoc Include="Windows\CarrierWindow.h">
-      <Filter>Header Files\Windows</Filter>
-    </QtMoc>
-    <QtMoc Include="Windows\AwacsWindow.h">
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
     <QtMoc Include="Windows\AboutDialog.h">

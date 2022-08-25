@@ -116,7 +116,6 @@
     <ClCompile Include="Windows\Wizards\Atis\Pages\AtisIntroPage.cpp" />
     <ClCompile Include="Windows\Wizards\Atis\AtisWizard.cpp" />
     <ClCompile Include="Windows\AboutDialog.cpp" />
-    <ClCompile Include="Windows\AwacsWindow.cpp" />
     <ClCompile Include="Windows\Wizards\Atis\Pages\AtisRadioPage.cpp" />
     <ClCompile Include="Windows\Wizards\Atis\Pages\AtisRunwayPage.cpp" />
     <ClCompile Include="Windows\Wizards\Atis\Pages\AtisSettingsPage.cpp" />
@@ -169,7 +168,6 @@
     <ClCompile Include="Windows\Wizards\Tanker\TankerWizard.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="Windows\AboutDialog.ui" />
-    <QtUic Include="Windows\AwacsWindow.ui" />
     <QtUic Include="Windows\CarrierWindow.ui" />
     <QtUic Include="Windows\InjectorWindow.ui" />
     <QtUic Include="MainWindow.ui" />
@@ -230,7 +228,6 @@
     <QtMoc Include="Windows\AboutDialog.h" />
     <ClInclude Include="Models\Awacs.h" />
     <ClInclude Include="Models\Beacon.h" />
-    <QtMoc Include="Windows\AwacsWindow.h" />
     <QtMoc Include="Windows\CarrierWindow.h" />
     <QtMoc Include="Windows\InjectorWindow.h" />
     <ClInclude Include="Models\Atis.h" />

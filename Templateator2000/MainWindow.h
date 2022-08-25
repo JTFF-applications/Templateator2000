@@ -57,6 +57,8 @@ private slots:
 
 private:
 	void loadMission(const std::string& filepath);
+	void setButtonsState(const std::string& button_prefix, const bool& state) const;
+	void setButtons() const;
 
 	void fillTankers() const;
 	void fillAtis() const;

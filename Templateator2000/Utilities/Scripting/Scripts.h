@@ -19,6 +19,7 @@ public:
 	void Init(const std::filesystem::path& path);
 	void Save() const;
 	void Manage();
+	[[nodiscard]] const std::vector<std::string>& InstalledScripts() const { return m_installed_scripts; }
 	[[nodiscard]] const std::vector<Tanker>& GetTankers() const { return m_tankers; }
 	[[nodiscard]] const std::vector<Atis>& GetAtis() const { return m_atis; }
 	[[nodiscard]] const std::vector<Beacon>& GetBeacons() const { return m_beacons; }

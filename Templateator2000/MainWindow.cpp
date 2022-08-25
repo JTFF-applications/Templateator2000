@@ -137,6 +137,7 @@ void MainWindow::manageScripts()
 	try
 	{
 		m_mission.ManageScripts();
+		setButtons();
 	} catch (const std::exception& except)
 	{
 		QMessageBox::critical(nullptr, "Error", except.what(), QMessageBox::Ok);
@@ -484,9 +485,35 @@ void MainWindow::loadMission(const std::string& filepath)
 	}
 
 	m_ui.selected_mission->setText(std::format("Selected mission : {}", m_mission.GetMissionName()).c_str());
+	setButtons();
+
 	fillTankers();
 	fillAtis();
 	fillBeacons();
 	fillCarriers();
 	fillAwacs();
+}
+
+void MainWindow::setButtonsState(const std::string& button_prefix, const bool& state) const
+{
+	findChild<QPushButton*>(std::format("{}_add_btn", button_prefix).c_str())->setEnabled(state);
+	findChild<QPushButton*>(std::format("{}_rm_btn", button_prefix).c_str())->setEnabled(state);
+	findChild<QPushButton*>(std::format("{}_edit_btn", button_prefix).c_str())->setEnabled(state);
+}
+
+void MainWindow::setButtons() const
+{
+	for (const auto& name : {"tanker", "atis", "beacon", "carrier", "awacs"})
+		setButtonsState(name, false);
+
+	const auto& installed_scripts = m_mission.GetScripts().InstalledScripts();
+	for (const std::string& name : installed_scripts)
+		if (name == "tankers")
+			setButtonsState("tanker", true);
+		else if (name == "beacon")
+			setButtonsState("beacon", true);
+		else if (name == "airboss")
+			setButtonsState("carrier", true);
+		else
+			setButtonsState(name, true);
 }

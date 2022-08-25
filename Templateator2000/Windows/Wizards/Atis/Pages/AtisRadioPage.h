@@ -14,7 +14,7 @@ class AtisRadioPage final : public QWizardPage
 public:
 	explicit AtisRadioPage(QWidget* parent = nullptr);
 
-	virtual int nextId() const override;
+	[[nodisacrd]] virtual int nextId() const override;
 
 	[[nodiscard]] std::vector<std::string> Frequencies() const;
 

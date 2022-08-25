@@ -1,4 +1,6 @@
-﻿/**********************************************************************
+﻿// ReSharper disable all
+
+/**********************************************************************
  *
  * StackWalker.cpp
  * https://github.com/JochenKalmbach/StackWalker
@@ -81,8 +83,6 @@
  *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  **********************************************************************/
-
-// ReSharper disable all
 
 #include "Utilities/StackWalker.h"
 

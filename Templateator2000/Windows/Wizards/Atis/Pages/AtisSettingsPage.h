@@ -13,7 +13,7 @@ class AtisSettingsPage final : QWizardPage
 public:
 	explicit AtisSettingsPage(QWidget* parent = nullptr);
 
-	virtual int nextId() const override;
+	[[nodiscard]] virtual int nextId() const override;
 
 private:
 	QLabel* m_label;

@@ -34,7 +34,7 @@ AtisRadioPage::AtisRadioPage(QWidget* parent)
 std::vector<std::string> AtisRadioPage::Frequencies() const
 {
 	std::vector<std::string> res;
-	for (size_t i = 0; i < m_frequencies->count(); i++)
+	for (int i = 0; i < m_frequencies->count(); i++)
 	{
 		const auto& item = m_frequencies->item(i);
 		res.push_back(item->text().toStdString());

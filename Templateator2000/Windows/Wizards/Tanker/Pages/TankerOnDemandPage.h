@@ -15,7 +15,7 @@ public:
 
 	virtual void initializePage() override;
 	virtual bool validatePage() override;
-	virtual int nextId() const override;
+	[[nodiscard]] virtual int nextId() const override;
 
 private:
 	QLabel* m_degrees_label;

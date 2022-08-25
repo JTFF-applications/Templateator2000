@@ -22,7 +22,6 @@ private:
 	QLabel* m_name_label;
 	QLineEdit* m_name;
 	QLabel* m_name_error_message;
-	QLabel* m_default_label;
 	QRadioButton* m_yes_btn;
 	QRadioButton* m_no_btn;
 	QLabel* m_default_error_message;

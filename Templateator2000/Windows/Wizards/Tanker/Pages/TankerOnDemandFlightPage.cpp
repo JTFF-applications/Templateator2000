@@ -8,7 +8,7 @@ TankerOnDemandFlightPage::TankerOnDemandFlightPage(QWidget* parent)
 	setTitle("On Demand Tanker Default Information");
 
 	m_name_label = new QLabel("Select the tanker name:", this);
-	WRAPPED_HTML_LABEL(m_name_label);
+	WRAPPED_HTML_LABEL(m_name_label)
 
 	m_name = new QLineEdit(this);
 

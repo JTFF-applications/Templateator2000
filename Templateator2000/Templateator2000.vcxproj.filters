@@ -102,6 +102,18 @@
     <Filter Include="Header Files\Windows\Wizards\Atis\Pages">
       <UniqueIdentifier>{2d2fb3b7-e8f5-4fb7-8107-ea3a18bd85a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Windows\Wizards\Awacs">
+      <UniqueIdentifier>{99a60121-ef89-4865-ab4f-614bf34a6027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Windows\Wizards\Awacs\Pages">
+      <UniqueIdentifier>{c18542b3-6e5b-446d-96f4-2be28bf98747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Windows\Wizards\Awacs">
+      <UniqueIdentifier>{c538f5a3-2ecb-4000-85e4-5060535ee2b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Windows\Wizards\Awacs\Pages">
+      <UniqueIdentifier>{2999c884-ab4f-4907-b394-021c588501de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MainWindow.qrc">
@@ -262,6 +274,48 @@
     <ClCompile Include="Utilities\Validators\QRealIntValidator.cpp">
       <Filter>Source Files\Utilities\Validators</Filter>
     </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsCarrierPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsChooseEscortPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsDeparturePage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsEscortPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsFixedPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsFlightPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsIntroPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsMissionPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsModelPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsParkingPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsRadioPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsRespawnPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsTacanPage.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Wizards\Awacs\AwacsWizard.cpp">
+      <Filter>Source Files\Windows\Wizards\Awacs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\Log.h">
@@ -332,6 +386,9 @@
     </ClInclude>
     <ClInclude Include="Utilities\Validators\QRealIntValidator.h">
       <Filter>Header Files\Utilities\Validators</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Wizards\Awacs\AwacsWizard.h">
+      <Filter>Header Files\Windows\Wizards\Awacs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -438,6 +495,45 @@
     </QtMoc>
     <QtMoc Include="Windows\Wizards\Atis\Pages\AtisGeneralPage.h">
       <Filter>Header Files\Windows\Wizards\Atis\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsCarrierPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsChooseEscortPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsDeparturePage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsEscortPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsFixedPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsFlightPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsIntroPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsMissionPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsModelPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsParkingPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsRadioPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsRespawnPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
+    </QtMoc>
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsTacanPage.h">
+      <Filter>Header Files\Windows\Wizards\Awacs\Pages</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

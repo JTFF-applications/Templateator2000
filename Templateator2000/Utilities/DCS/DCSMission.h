@@ -24,6 +24,7 @@ public:
 	[[nodiscard]] const std::vector<std::string> Carriers(const Coalition::Side& coalition) const;
 	[[nodiscard]] const std::vector<std::string> Escorts(const Coalition::Side& coalition) const;
 	[[nodiscard]] const std::vector<std::string> Tankers(const Coalition::Side& coalition) const;
+	[[nodiscard]] const std::vector<std::string> Awacs(const Coalition::Side& coalition) const;
 	[[nodiscard]] const std::vector<std::string> OrbitUnits(const Coalition::Side& coalition) const;
 	[[nodiscard]] const std::vector<std::string> BeaconUnits() const;
 

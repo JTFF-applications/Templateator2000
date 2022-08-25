@@ -33,34 +33,35 @@ inline Awacs Awacs::FromJson(const json::json& awacs)
 	// ReSharper disable StringLiteralTypo
 	const bool is_escorted = awacs.contains("escortgroupname");
 	const bool is_default_tacan_band = !awacs["tacan"].contains("band");
+
 	Awacs res = {
-		.Coalition = Coalition::FromDcsCoalition(awacs["benefit_coaleition"].get<int>()),
-		.AutoRespawn = awacs["autorespawn"].get<bool>(),
-		.AirbossRecovery = awacs["airboss_recovery"].get<bool>(),
-		.PatternUnit = awacs["patternUnit"].get<std::string>(),
-		.DepartureBase = awacs["baseUnit"].get<std::string>(),
-		.TerminalType = Moose::GetMooseTerminalFromNumber(awacs["terminalType"].get<int>()),
+		.Coalition = Coalition::FromDcsCoalition(awacs["benefit_coalition"]),
+		.AutoRespawn = awacs["autorespawn"],
+		.AirbossRecovery = awacs["airboss_recovery"],
+		.PatternUnit = awacs["patternUnit"],
+		.DepartureBase = awacs["baseUnit"],
+		.TerminalType = Moose::GetMooseTerminalFromNumber(awacs["terminalType"]),
 		.GroupName = awacs["groupName"].get<std::string>(),
-		.EscortGroupName = is_escorted ? awacs["escortgroupname"].get<std::string>() : "",
+		.EscortGroupName = is_escorted ? awacs["escortgroupname"] : "",
 		.Frequency = std::format("{:.3f}", awacs["freq"].get<float>()),
-		.MaxMissionDuration = awacs["missionmaxduration"].get<int>(),
+		.MaxMissionDuration = awacs["missionmaxduration"],
 		.Altitude = awacs["altitude"].get<int>(),
 		.Speed = awacs["speed"].get<int>(),
-		.FuelWarningLevel = awacs["fuelwarninglevel"].get<int>(),
-		.Modex = awacs["modex"].get<int>(),
+		.FuelWarningLevel = awacs["fuelwarninglevel"],
+		.Modex = awacs["modex"],
 		.Tacan = {
-			.Channel = awacs["tacan"]["channel"].get<int>(),
-			.Band = is_default_tacan_band ? "Y" : awacs["tacan"]["band"].get<std::string>(),
-			.Morse = awacs["tacan"]["morse"].get<std::string>(),
+			.Channel = awacs["tacan"]["channel"],
+			.Band = is_default_tacan_band ? "Y" : awacs["tacan"]["band"],
+			.Morse = awacs["tacan"]["morse"],
 		},
 		.Racetrack = {
 			.Front = awacs["racetrack"]["front"].get<int>(),
 			.Back = awacs["racetrack"]["back"].get<int>(),
 		},
 		.Callsign = {
-			.Name = Moose::GetMooseCallsignFromNumber(awacs["callsign"]["name"].get<int>(),
+			.Name = Moose::GetMooseCallsignFromNumber(awacs["callsign"]["name"],
 			                                          "CALLSIGN.AWACS"),
-			.Number = awacs["callsign"]["number"].get<int>()
+			.Number = awacs["callsign"]["number"]
 		}
 	};
 	return res;

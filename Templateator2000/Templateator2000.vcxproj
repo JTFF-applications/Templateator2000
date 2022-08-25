@@ -58,6 +58,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgHostTriplet>
+    </VcpkgHostTriplet>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgConfiguration>Debug</VcpkgConfiguration>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -112,6 +122,20 @@
     <ClCompile Include="Windows\Wizards\Atis\Pages\AtisSettingsPage.cpp" />
     <ClCompile Include="Windows\Wizards\Atis\Pages\AtisSrsPage.cpp" />
     <ClCompile Include="Windows\Wizards\Atis\Pages\AtisTacanPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\AwacsWizard.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsCarrierPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsChooseEscortPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsDeparturePage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsEscortPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsFixedPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsFlightPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsIntroPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsMissionPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsModelPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsParkingPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsRadioPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsRespawnPage.cpp" />
+    <ClCompile Include="Windows\Wizards\Awacs\Pages\AwacsTacanPage.cpp" />
     <ClCompile Include="Windows\Wizards\Beacon\Pages\BeaconIntroPage.cpp" />
     <ClCompile Include="Windows\Wizards\Beacon\BeaconWizard.cpp" />
     <ClCompile Include="Windows\CarrierWindow.cpp" />
@@ -174,6 +198,20 @@
     <QtMoc Include="Windows\Wizards\Atis\Pages\AtisSrsPage.h" />
     <QtMoc Include="Windows\Wizards\Atis\Pages\AtisRunwayPage.h" />
     <QtMoc Include="Windows\Wizards\Atis\Pages\AtisGeneralPage.h" />
+    <ClInclude Include="Windows\Wizards\Awacs\AwacsWizard.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsCarrierPage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsChooseEscortPage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsDeparturePage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsEscortPage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsFixedPage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsFlightPage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsIntroPage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsMissionPage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsModelPage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsParkingPage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsRadioPage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsRespawnPage.h" />
+    <QtMoc Include="Windows\Wizards\Awacs\Pages\AwacsTacanPage.h" />
     <ClInclude Include="Windows\Wizards\WizardMacros.h" />
     <ClInclude Include="Windows\Wizards\Beacon\BeaconWizard.h" />
     <ClInclude Include="Windows\Wizards\Tanker\TankerWizard.h" />

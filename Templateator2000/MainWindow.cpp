@@ -5,9 +5,9 @@
 
 #include "Utilities/Log.h"
 #include "Windows/AboutDialog.h"
-#include "Windows/AwacsWindow.h"
 #include "Windows/CarrierWindow.h"
 #include "Windows/Wizards/Atis/AtisWizard.h"
+#include "Windows/Wizards/Awacs/AwacsWizard.h"
 #include "Windows/Wizards/Beacon/BeaconWizard.h"
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "MainWindow.h"
@@ -233,19 +233,16 @@ void MainWindow::addBeacon()
 void MainWindow::addAwacs()
 {
 	CHECK_MISSION_LOADED()
-	AwacsWindow win(
-		nullptr,
-		m_mission.GetMissionGroups(),
-		[&](const Awacs& awacs)
-		{
-			m_mission.AddAwacs(awacs);
-			m_ui.awacs->addItem(AWACS_PRESENTATION_STRING(awacs).c_str());
-			LOG_TRACE("Awacs {}-{} added !", awacs.Callsign.Name, awacs.Callsign.Number);
-		},
-		[&]
-		{
-		});
-	win.exec();
+	AwacsWizard wizard(m_mission);
+	wizard.exec();
+
+	if (!wizard.IsDone())
+		return;
+
+	const auto& awacs = wizard.GetAwacs();
+	m_mission.AddAwacs(awacs);
+	m_ui.awacs->addItem(AWACS_PRESENTATION_STRING(awacs).c_str());
+	LOG_TRACE("Awacs {}-{} added !", awacs.Callsign.Name, awacs.Callsign.Number);
 }
 
 void MainWindow::addAtis()
@@ -403,20 +400,18 @@ void MainWindow::editAwacs()
 	{
 		const std::string awacs_label = item->text().toStdString();
 		const auto& old_awacs = m_mission.GetAwacs(awacs_label);
-		AwacsWindow win(
-			nullptr,
-			m_mission.GetMissionGroups(),
-			[&](const Awacs& new_awacs)
-			{
-				m_mission.ModifyAwacs(old_awacs, new_awacs);
-				item->setText(AWACS_PRESENTATION_STRING(new_awacs).c_str());
-				LOG_TRACE("Awacs {}-{} modified !", old_awacs.Callsign.Name, old_awacs.Callsign.Number);
-			},
-			[&]
-			{
-			});
-		win.SetAwacs(old_awacs);
-		win.exec();
+
+		AwacsWizard wizard(m_mission);
+		wizard.SetAwacs(old_awacs);
+		wizard.exec();
+
+		if (!wizard.IsDone())
+			return;
+
+		const auto& new_awacs = wizard.GetAwacs();
+		m_mission.ModifyAwacs(old_awacs, new_awacs);
+		item->setText(AWACS_PRESENTATION_STRING(new_awacs).c_str());
+		LOG_TRACE("Awacs {}-{} modified !", old_awacs.Callsign.Name, old_awacs.Callsign.Number);
 	}
 }
 

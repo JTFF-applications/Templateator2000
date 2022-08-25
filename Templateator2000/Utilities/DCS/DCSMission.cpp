@@ -91,6 +91,20 @@ const std::vector<std::string> DcsMission::Tankers(const Coalition::Side& coalit
 	return res;
 }
 
+const std::vector<std::string> DcsMission::Awacs(const Coalition::Side& coalition) const
+{
+	std::vector<std::string> res;
+	for (const auto& group : m_planes)
+		for (const auto& unit : group.Units())
+			if (unit.Coalition() == coalition)
+			{
+				const std::string& type = unit.Type();
+				if (type == "E-2C" || type == "E-3A")
+					res.push_back(unit.Name());
+			}
+	return res;
+}
+
 const std::vector<std::string> DcsMission::OrbitUnits(const Coalition::Side& coalition) const
 {
 	std::vector<std::string> res;

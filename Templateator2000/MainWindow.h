@@ -56,6 +56,8 @@ private slots:
 	void editAtis();
 
 private:
+	void loadMission(const std::string& filepath);
+
 	void fillTankers() const;
 	void fillAtis() const;
 	void fillBeacons() const;

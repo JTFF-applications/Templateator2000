@@ -91,33 +91,7 @@ void MainWindow::open()
 	if (filepath.empty())
 		return;
 
-	if (!DcsMission::IsValidMission(filepath))
-	{
-		QMessageBox::warning(this, "Error", "Invalid mission file !");
-		LOG_WARN("Invalid mission {}", filepath);
-		return;
-	}
-
-	try
-	{
-		const std::filesystem::path temp_filepath = std::format("temp/{}",
-		                                                        std::filesystem::path(filepath).filename().string());
-		copy_file(filepath, temp_filepath, std::filesystem::copy_options::overwrite_existing);
-		m_mission.Init(temp_filepath, filepath);
-		LOG_TRACE("Mission {} loaded sucessfully !", filepath);
-	} catch (const std::exception& except)
-	{
-		QMessageBox::critical(nullptr, "Error", except.what(), QMessageBox::Ok);
-		LOG_ERROR(except.what());
-		return;
-	}
-
-	m_ui.selected_mission->setText(std::format("Selected mission : {}", m_mission.GetMissionName()).c_str());
-	fillTankers();
-	fillAtis();
-	fillBeacons();
-	fillCarriers();
-	fillAwacs();
+	loadMission(filepath);
 }
 
 void MainWindow::save()
@@ -145,6 +119,7 @@ void MainWindow::saveAs()
 			return;
 		m_mission.SaveAs(filepath);
 		LOG_TRACE("Mission {} saved sucessfully !", filepath);
+		loadMission(filepath);
 	} catch (const std::exception& except)
 	{
 		QMessageBox::critical(nullptr, "Error", except.what(), QMessageBox::Ok);
@@ -484,3 +459,34 @@ void MainWindow::fillAwacs() const
 	LOG_TRACE("Awacs filled !");
 }
 #pragma endregion
+
+void MainWindow::loadMission(const std::string& filepath)
+{
+	if (!DcsMission::IsValidMission(filepath))
+	{
+		QMessageBox::warning(this, "Error", "Invalid mission file !");
+		LOG_WARN("Invalid mission {}", filepath);
+		return;
+	}
+
+	try
+	{
+		const std::filesystem::path temp_filepath = std::format("temp/{}",
+		                                                        std::filesystem::path(filepath).filename().string());
+		copy_file(filepath, temp_filepath, std::filesystem::copy_options::overwrite_existing);
+		m_mission.Init(temp_filepath, filepath);
+		LOG_TRACE("Mission {} loaded sucessfully !", filepath);
+	} catch (const std::exception& except)
+	{
+		QMessageBox::critical(nullptr, "Error", except.what(), QMessageBox::Ok);
+		LOG_ERROR(except.what());
+		return;
+	}
+
+	m_ui.selected_mission->setText(std::format("Selected mission : {}", m_mission.GetMissionName()).c_str());
+	fillTankers();
+	fillAtis();
+	fillBeacons();
+	fillCarriers();
+	fillAwacs();
+}

@@ -8,7 +8,7 @@ class Log
 {
 public:
 	Log();
-	~Log() = default;
+	~Log();
 
 	Log(const Log& other) = delete;
 	Log(const Log&& other) = delete;
@@ -26,8 +26,9 @@ private:
 	std::shared_ptr<spdlog::logger> m_logger;
 };
 
-#define LOG_TRACE(...)	::Log::RawGet()->trace(__VA_ARGS__)
-#define LOG_INFO(...)	::Log::RawGet()->info(__VA_ARGS__)
-#define LOG_WARN(...)	::Log::RawGet()->warn(__VA_ARGS__)
-#define LOG_ERROR(...)	::Log::RawGet()->error(__VA_ARGS__); \
-						::Log::Get()->LogStackTrace()
+#define LOG_TRACE(...)		::Log::RawGet()->trace(__VA_ARGS__)
+#define LOG_INFO(...)		::Log::RawGet()->info(__VA_ARGS__)
+#define LOG_WARN(...)		::Log::RawGet()->warn(__VA_ARGS__)
+#define LOG_ERROR(...)		::Log::RawGet()->error(__VA_ARGS__)
+#define LOG_CRITICAL(...)	::Log::RawGet()->error(__VA_ARGS__); \
+							::Log::Get()->LogStackTrace()

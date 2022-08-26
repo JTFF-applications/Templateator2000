@@ -7,10 +7,15 @@ int main(int argc, char* argv[])
 		QApplication a(argc, argv);
 		MainWindow w;
 		w.show();
-		return QApplication::exec();
+		QApplication::exec();
+
+		delete Log::Get();
+		return EXIT_SUCCESS;
 	} catch (const std::exception& except)
 	{
-		LOG_ERROR(except.what());
+		LOG_CRITICAL(except.what());
+
+		delete Log::Get();
 		return EXIT_FAILURE;
 	}
 }

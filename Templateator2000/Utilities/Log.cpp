@@ -15,6 +15,13 @@ Log::Log()
 	spdlog::set_pattern(s_log_pattern);
 }
 
+Log::~Log()
+{
+	m_logger->set_pattern("%v");
+	LOG_INFO("Exiting Application !");
+	m_logger.reset();
+}
+
 Log* Log::Get()
 {
 	return s_instance;

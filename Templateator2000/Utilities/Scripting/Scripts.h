@@ -26,6 +26,8 @@ public:
 	[[nodiscard]] const std::vector<Carrier>& GetCarriers() const { return m_carriers; }
 	[[nodiscard]] const std::vector<Awacs>& GetAwacs() const { return m_awacs; }
 
+	[[nodiscard]] const std::vector<Tanker> GetOnDemandTankers() const;
+
 private:
 	void load();
 	[[nodiscard]] static const std::vector<std::string> installedScripts(const std::string& file_data);

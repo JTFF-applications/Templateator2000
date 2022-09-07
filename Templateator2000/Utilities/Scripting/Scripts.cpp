@@ -134,6 +134,15 @@ void Scripts::Manage()
 		throw std::exception("Failed to close and save temporary mission !");
 }
 
+const std::vector<Tanker> Scripts::GetOnDemandTankers() const
+{
+	std::vector<Tanker> res;
+	for (const auto& tanker : m_tankers)
+		if (tanker.Type == Tanker::Type::OnDemand)
+			res.push_back(tanker);
+	return res;
+}
+
 void Scripts::load()
 {
 	if (!m_initialized)

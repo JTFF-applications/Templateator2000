@@ -38,6 +38,7 @@ public:
 	[[nodiscard]] bool IsCustomValues() const;
 	[[nodiscard]] Coalition::Side Coalition() const;
 	[[nodiscard]] enum Tanker::Type Type() const;
+	[[nodiscard]] Tanker InternalGetTanker() const { return m_tanker; }
 
 private slots:
 	void configureTankerModel() const;

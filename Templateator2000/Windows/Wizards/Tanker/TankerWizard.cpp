@@ -9,14 +9,14 @@ TankerWizard::TankerWizard(const Mission& mission, QWidget* parent)
 	m_departure_page = new TankerDeparturePage(mission, this);
 	m_parking_page = new TankerParkingPage(this);
 	m_carrier_page = new TankerCarrierPage(this);
-	m_ondemand_flight_page = new TankerOnDemandFlightPage(this);
+	m_ondemand_flight_page = new TankerOnDemandFlightPage(mission, this);
 	m_flight_page = new TankerFlightPage(this);
 	m_mission_page = new TankerMissionPage(this);
 	m_fixed_page = new TankerFixedPage(this);
 	m_ondemand_page = new TankerOnDemandPage(this);
 	m_escort_page = new TankerEscortPage(this);
 	m_choose_escort_page = new TankerChooseEscortPage(mission, this);
-	m_radio_page = new TankerRadioPage(this);
+	m_radio_page = new TankerRadioPage(mission, this);
 	m_tacan_page = new TankerTacanPage(this);
 
 	setPage(IntroPage, m_intro_page);
@@ -83,6 +83,9 @@ void TankerWizard::SetTanker(const Tanker& tanker)
 	m_fixed_page->m_racetrack_back->setText(QString::number(tanker.Racetrack.Back));
 
 	m_ondemand_flight_page->m_name->setText(tanker.Name.c_str());
+	m_ondemand_flight_page->m_yes_btn->setChecked(tanker.Type == Tanker::Type::OnDemand && tanker.Altitude != 0);
+	m_ondemand_flight_page->m_no_btn->setChecked(!(tanker.Type == Tanker::Type::OnDemand && tanker.Altitude != 0));
+
 	m_ondemand_page->m_orbit_heading->setText(QString::number(tanker.Orbit.Heading));
 	m_ondemand_page->m_orbit_length->setText(QString::number(tanker.Orbit.Length));
 }

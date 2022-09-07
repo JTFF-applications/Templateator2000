@@ -2,8 +2,8 @@
 #include "Windows/Wizards/Tanker/TankerWizard.h"
 #include "Windows/Wizards/Tanker/Pages/TankerOnDemandFlightPage.h"
 
-TankerOnDemandFlightPage::TankerOnDemandFlightPage(QWidget* parent)
-	: QWizardPage(parent)
+TankerOnDemandFlightPage::TankerOnDemandFlightPage(const Mission& mission, QWidget* parent)
+	: QWizardPage(parent), m_mission(mission)
 {
 	setTitle("On Demand Tanker Default Information");
 
@@ -42,10 +42,22 @@ void TankerOnDemandFlightPage::initializePage()
 bool TankerOnDemandFlightPage::validatePage()
 {
 	bool res = true;
+	const auto& on_demand_tankers = m_mission.GetScripts().GetOnDemandTankers();
+
 	if (m_name->text().length() == 0)
 	{
 		res = false;
 		m_name_error_message->setText("Name cannot be empty.");
+	}
+	else if (std::ranges::find_if(on_demand_tankers,
+	                              [&](const Tanker& tk)
+	                              {
+		                              return tk.Name == m_name->text().toStdString() && tk.Name != reinterpret_cast<
+			                                     TankerWizard*>(wizard())->InternalGetTanker().Name;
+	                              }) != on_demand_tankers.cend())
+	{
+		res = false;
+		m_name_error_message->setText("You can't select an already used name.");
 	}
 	if (!m_yes_btn->isChecked() && !m_no_btn->isChecked())
 	{

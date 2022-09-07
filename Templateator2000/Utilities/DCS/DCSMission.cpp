@@ -86,7 +86,7 @@ const std::vector<std::string> DcsMission::Tankers(const Coalition::Side& coalit
 			if (unit.Coalition() == coalition)
 			{
 				const std::string& type = unit.Type();
-				if (type == "KC130" || type == "KC-135" || type == "KC135MPRS" || type == "S-3B Tanker")
+				if (type == "KC130" || type == "KC-135" || type == "KC135MPRS" || type == "S-3B Tanker" ||type == "KC_10_Extender" || type == "KC_10_Extender_D")
 					res.push_back(unit.Name());
 			}
 	return res;

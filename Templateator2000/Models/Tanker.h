@@ -76,8 +76,8 @@ inline Tanker Tanker::FromJson(const json::json& tanker, const enum Tanker::Type
 			.Number = tanker["callsign"]["number"]
 		},
 		.PatternUnit = is_fixed ? tanker["patternUnit"] : "",
-		.Altitude = ondemand_has_infos ? tanker["altitude"].get<int>() : 0,
-		.Speed = ondemand_has_infos ? tanker["speed"].get<int>() : 0,
+		.Altitude = is_fixed || ondemand_has_infos ? tanker["altitude"].get<int>() : 0,
+		.Speed = is_fixed || ondemand_has_infos ? tanker["speed"].get<int>() : 0,
 		.Racetrack = {
 			.Front = is_fixed ? tanker["racetrack"]["front"].get<int>() : 0,
 			.Back = is_fixed ? tanker["racetrack"]["back"].get<int>() : 0,

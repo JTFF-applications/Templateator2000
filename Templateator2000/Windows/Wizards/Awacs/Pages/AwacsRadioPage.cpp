@@ -4,8 +4,8 @@
 #include "Windows/Wizards/Awacs/AwacsWizard.h"
 #include "Windows/Wizards/Awacs/Pages/AwacsRadioPage.h"
 
-AwacsRadioPage::AwacsRadioPage(QWidget* parent)
-	: QWizardPage(parent)
+AwacsRadioPage::AwacsRadioPage(const Mission& mission, QWidget* parent)
+	: QWizardPage(parent), m_mission(mission)
 {
 	setTitle("Awacs Radio Information");
 
@@ -51,6 +51,7 @@ AwacsRadioPage::AwacsRadioPage(QWidget* parent)
 void AwacsRadioPage::initializePage()
 {
 	connect(m_frequency, &QLineEdit::textChanged, [&] { m_frequency_error->clear(); });
+	connect(m_callsign_list, &QComboBox::currentTextChanged, [&] { m_callsign_error->clear(); });
 	connect(m_callsign_number, &QLineEdit::textChanged, [&] { m_callsign_error->clear(); });
 	QWizardPage::initializePage();
 }
@@ -62,6 +63,13 @@ bool AwacsRadioPage::validatePage()
 	bool res = true;
 	int pos = 0;
 
+	const auto& awacs_list = m_mission.GetScripts().GetAwacs();
+	bool has_unique_callsign = true;
+	for (const auto& awacs : awacs_list)
+		if (awacs.Callsign.Name == m_callsign_list->currentText().toStdString() && awacs.Callsign.Number ==
+		    callsign_nb.toInt())
+			has_unique_callsign = false;
+
 	if (m_frequency->validator()->validate(frequency, pos) != QValidator::Acceptable)
 	{
 		m_frequency_error->setText(R"(Invalid frequency ! More info <a href="http://google.com">here</a>)");
@@ -70,6 +78,11 @@ bool AwacsRadioPage::validatePage()
 	if (m_callsign_number->validator()->validate(callsign_nb, pos) != QValidator::Acceptable)
 	{
 		m_callsign_error->setText("Invalid callsign number !");
+		res = false;
+	}
+	else if (!has_unique_callsign)
+	{
+		m_callsign_error->setText("Callsign is already in use by another awacs !");
 		res = false;
 	}
 	return res;

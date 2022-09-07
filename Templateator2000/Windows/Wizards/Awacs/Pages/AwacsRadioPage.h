@@ -6,18 +6,22 @@
 #include <QLineEdit>
 #include <QWizardPage>
 
+#include "Utilities/Mission.h"
+
 class AwacsRadioPage final : public QWizardPage
 {
 	Q_OBJECT
 	friend class AwacsWizard;
 
 public:
-	explicit AwacsRadioPage(QWidget* parent = nullptr);
+	explicit AwacsRadioPage(const Mission& mission, QWidget* parent = nullptr);
 
 	virtual void initializePage() override;
 	virtual bool validatePage() override;
 
 private:
+	Mission m_mission;
+
 	QLabel* m_mhz_label;
 	QLabel* m_frequency_label;
 	QLineEdit* m_frequency;

@@ -14,7 +14,7 @@ AwacsWizard::AwacsWizard(const Mission& mission, QWidget* parent)
 	m_fixed_page = new AwacsFixedPage(this);
 	m_escort_page = new AwacsEscortPage(this);
 	m_choose_escort_page = new AwacsChooseEscortPage(mission, this);
-	m_radio_page = new AwacsRadioPage(this);
+	m_radio_page = new AwacsRadioPage(mission, this);
 	m_tacan_page = new AwacsTacanPage(this);
 
 	setPage(IntroPage, m_intro_page);

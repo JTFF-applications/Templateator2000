@@ -500,6 +500,8 @@
     <property name="title">
      <string>Scripts</string>
     </property>
+    <addaction name="actionUpdate"/>
+    <addaction name="separator"/>
     <addaction name="actionAddTanker"/>
     <addaction name="actionAddCarrier"/>
     <addaction name="actionAddBeacon"/>
@@ -591,6 +593,11 @@
   <action name="actionManageScripts">
    <property name="text">
     <string>Manage Scripts</string>
+   </property>
+  </action>
+  <action name="actionUpdate">
+   <property name="text">
+    <string>Update</string>
    </property>
   </action>
  </widget>

@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(m_ui.actionRefresh, SIGNAL(triggered()), this, SLOT(refresh()));
 	connect(m_ui.actionManageScripts, SIGNAL(triggered()), this, SLOT(manageScripts()));
 
+	connect(m_ui.actionUpdate, SIGNAL(triggered()), this, SLOT(updateScripts()));
 	connect(m_ui.actionAddTanker, SIGNAL(triggered()), this, SLOT(addTanker()));
 	connect(m_ui.actionAddCarrier, SIGNAL(triggered()), this, SLOT(addCarrier()));
 	connect(m_ui.actionAddBeacon, SIGNAL(triggered()), this, SLOT(addBeacon()));
@@ -143,6 +144,12 @@ void MainWindow::manageScripts()
 		QMessageBox::critical(nullptr, "Error", except.what(), QMessageBox::Ok);
 		LOG_ERROR(except.what());
 	}
+}
+
+void MainWindow::updateScripts()
+{
+	CHECK_MISSION_LOADED()
+	m_mission.UpdateScripts();
 }
 
 void MainWindow::help()

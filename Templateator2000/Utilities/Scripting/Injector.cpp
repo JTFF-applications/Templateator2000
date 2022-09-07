@@ -290,6 +290,12 @@ void Injector::ManageScripts(const libzippp::ZipArchive& archive, std::vector<st
 	// ReSharper restore StringLiteralTypo
 }
 
+void Injector::UpdateScripts(const libzippp::ZipArchive& archive)
+{
+	updateSources(archive);
+	updateLibraries(archive);
+}
+
 void Injector::addFile(const libzippp::ZipArchive& archive,
                        const std::string& entry_name,
                        const std::string& file)

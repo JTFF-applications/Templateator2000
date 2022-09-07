@@ -5,6 +5,7 @@ class Injector
 {
 public:
 	static void ManageScripts(const libzippp::ZipArchive& archive, std::vector<std::string>& installed_scripts);
+	static void UpdateScripts(const libzippp::ZipArchive& archive);
 
 private:
 	static void addFile(const libzippp::ZipArchive& archive,

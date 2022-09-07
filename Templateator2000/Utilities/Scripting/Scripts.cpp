@@ -134,6 +134,18 @@ void Scripts::Manage()
 		throw std::exception("Failed to close and save temporary mission !");
 }
 
+void Scripts::Update() const
+{
+	libzippp::ZipArchive archive(m_path.string());
+	if (!archive.open(libzippp::ZipArchive::Write))
+		throw std::exception("Failed to open mission for writing !");
+
+	Injector::UpdateScripts(archive);
+
+	if (archive.close() != LIBZIPPP_OK)
+		throw std::exception("Failed to close and save temporary mission !");
+}
+
 const std::vector<Tanker> Scripts::GetOnDemandTankers() const
 {
 	std::vector<Tanker> res;

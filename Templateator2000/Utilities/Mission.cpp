@@ -62,6 +62,12 @@ void Mission::ManageScripts()
 	m_is_saved = false;
 }
 
+void Mission::UpdateScripts()
+{
+	m_scripts.Update();
+	m_is_saved = false;
+}
+
 const std::map<const std::string, const std::vector<Group>> Mission::GetMissionGroups() const
 {
 	std::map<const std::string, const std::vector<Group>> res;

@@ -24,6 +24,7 @@ public:
 	void Save();
 	void SaveAs(std::filesystem::path new_path);
 	void ManageScripts();
+	void UpdateScripts();
 
 	[[nodiscard]] const bool& IsInitialized() const { return m_initialized; }
 	[[nodiscard]] const bool& IsSaved() const { return m_is_saved; }

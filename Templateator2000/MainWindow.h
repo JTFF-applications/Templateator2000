@@ -32,6 +32,7 @@ private slots:
 
 	void refresh();
 	void manageScripts();
+	void updateScripts();
 
 	static void help();
 	static void about();

@@ -1,3 +1,15 @@
+0.4.0-beta, 2022-09-13
+
+- Add brand new Awacs Wizard
+- Add stacktrace to logging system
+- Add KC-10 support
+
+- Fix multiple callsigns/names can be used on the same mission with Tankers and Awacs
+- Fix possibily to add non injected scripts
+- Fix values in wizards not being really bounded
+- Fix Tanker model error message shown behind the title
+- Fix log not saving when crashing (to be tested more)
+
 0.3.0-beta, 2022-08-24
 
 - Add brand new Atis and Beacon Wizard

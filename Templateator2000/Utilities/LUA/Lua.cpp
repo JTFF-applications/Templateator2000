@@ -27,6 +27,7 @@ json::json Lua::JsonFromLua(const std::string& content, const std::string& table
 			const std::string json = lua_tostring(l, -1);
 			return json::json::parse(json);
 		}
+		LOG_CRITICAL("Lua::JsonFromLua: Can't find str in lua !");
 		throw std::exception("Lua error : Can't find str in lua !");
 	}
 	return {};
@@ -55,6 +56,7 @@ std::string Lua::LuaFromJson(const json::json& content, const std::string& table
 		lua_getglobal(l, "str");
 		if (lua_isstring(l, -1))
 			return std::format("{} = {}", table_name, lua_tostring(l, -1));
+		LOG_CRITICAL("Lua::LuaFromJson: Can't find str in lua !");
 		throw std::exception("Lua error : Can't find str in lua !");
 	}
 	return "";
@@ -107,6 +109,7 @@ bool Lua::checkLua(lua::lua_State* l, const int& r)
 		const int err = lua_pcall(l, 0, 0, 0);
 		const std::string error = lua_tostring(l, -1);
 		lua_pop(l, 1);
+		LOG_CRITICAL("Lua::checkLua: ERROR {}", error);
 		throw std::exception(std::format("Lua error : {}, {}", err, error).c_str());
 	}
 	return r == 0;

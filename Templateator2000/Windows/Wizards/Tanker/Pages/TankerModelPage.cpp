@@ -30,8 +30,10 @@ TankerModelPage::TankerModelPage(const Mission& mission, QWidget* parent)
 	m_layout = new QVBoxLayout(this);
 	m_layout->addWidget(m_group_label);
 	m_layout->addWidget(m_group_list);
+	m_layout->addWidget(m_group_error_message);
 	m_layout->addWidget(m_pattern_label);
 	m_layout->addWidget(m_pattern_list);
+	m_layout->addWidget(m_pattern_error_message);
 	setLayout(m_layout);
 }
 

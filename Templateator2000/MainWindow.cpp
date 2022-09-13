@@ -510,7 +510,8 @@ void MainWindow::setButtonsState(const std::string& button_prefix, const bool& s
 
 void MainWindow::setButtons() const
 {
-	for (const auto& name : {"tanker", "atis", "beacon", "carrier", "awacs"})
+	const std::vector names = {"tanker", "atis", "beacon", "carrier", "awacs"};
+	for (const auto& name : names)
 		setButtonsState(name, false);
 
 	const auto& installed_scripts = m_mission.GetScripts().InstalledScripts();
@@ -521,6 +522,6 @@ void MainWindow::setButtons() const
 			setButtonsState("beacon", true);
 		else if (name == "airboss")
 			setButtonsState("carrier", true);
-		else
+		else if (std::ranges::find(names, name) != names.cend())
 			setButtonsState(name, true);
 }

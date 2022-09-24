@@ -15,6 +15,9 @@ public:
 	static Awacs FromJson(const json::json& awacs);
 	static json::json ToJson(const Awacs& awacs);
 
+	friend bool operator==(const Awacs& lhs, const Awacs& rhs);
+	friend bool operator!=(const Awacs& lhs, const Awacs& rhs) { return !(lhs == rhs); }
+
 public:
 	Coalition::Side Coalition;
 
@@ -94,4 +97,25 @@ inline json::json Awacs::ToJson(const Awacs& awacs)
 
 	return result;
 	// ReSharper restore StringLiteralTypo
+}
+
+inline bool operator==(const Awacs& lhs, const Awacs& rhs)
+{
+	return lhs.Coalition == rhs.Coalition
+	       && lhs.AutoRespawn == rhs.AutoRespawn
+	       && lhs.AirbossRecovery == rhs.AirbossRecovery
+	       && lhs.PatternUnit == rhs.PatternUnit
+	       && lhs.DepartureBase == rhs.DepartureBase
+	       && lhs.TerminalType == rhs.TerminalType
+	       && lhs.GroupName == rhs.GroupName
+	       && lhs.EscortGroupName == rhs.EscortGroupName
+	       && lhs.Frequency == rhs.Frequency
+	       && lhs.MaxMissionDuration == rhs.MaxMissionDuration
+	       && lhs.Altitude == rhs.Altitude
+	       && lhs.Speed == rhs.Speed
+	       && lhs.FuelWarningLevel == rhs.FuelWarningLevel
+	       && lhs.Modex == rhs.Modex
+	       && lhs.Tacan == rhs.Tacan
+	       && lhs.Racetrack == rhs.Racetrack
+	       && lhs.Callsign == rhs.Callsign;
 }

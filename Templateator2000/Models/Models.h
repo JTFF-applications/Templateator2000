@@ -18,6 +18,15 @@ namespace models
 			return res;
 		}
 
+		friend bool operator==(const Tacan& lhs, const Tacan& rhs)
+		{
+			return lhs.Channel == rhs.Channel
+			       && lhs.Band == rhs.Band
+			       && lhs.Morse == rhs.Morse;
+		}
+
+		friend bool operator!=(const Tacan& lhs, const Tacan& rhs) { return !(lhs == rhs); }
+
 	public:
 		int Channel;
 		std::string Band, Morse;
@@ -34,6 +43,14 @@ namespace models
 			return res;
 		}
 
+		friend bool operator==(const Ils& lhs, const Ils& rhs)
+		{
+			return lhs.Frequency == rhs.Frequency
+			       && lhs.Runway == rhs.Runway;
+		}
+
+		friend bool operator!=(const Ils& lhs, const Ils& rhs) { return !(lhs == rhs); }
+
 	public:
 		std::string Frequency;
 		std::string Runway;
@@ -49,6 +66,14 @@ namespace models
 			res["morse"] = icls.Morse;
 			return res;
 		}
+
+		friend bool operator==(const Icls& lhs, const Icls& rhs)
+		{
+			return lhs.Channel == rhs.Channel
+			       && lhs.Morse == rhs.Morse;
+		}
+
+		friend bool operator!=(const Icls& lhs, const Icls& rhs) { return !(lhs == rhs); }
 
 	public:
 		int Channel;
@@ -80,6 +105,17 @@ namespace models
 			return res;
 		}
 
+		friend bool operator==(const Radio& lhs, const Radio& rhs)
+		{
+			return lhs.Frequency == rhs.Frequency
+			       && lhs.Modulation == rhs.Modulation
+			       && lhs.RelayUnit == rhs.RelayUnit
+			       && lhs.TowerFrequencies == rhs.TowerFrequencies
+			       && lhs.Power == rhs.Power;
+		}
+
+		friend bool operator!=(const Radio& lhs, const Radio& rhs) { return !(lhs == rhs); }
+
 	public:
 		std::string Frequency, Modulation, RelayUnit;
 		std::vector<std::string> TowerFrequencies;
@@ -97,6 +133,14 @@ namespace models
 			return res;
 		}
 
+		friend bool operator==(const RaceTrack& lhs, const RaceTrack& rhs)
+		{
+			return lhs.Front == rhs.Front
+			       && lhs.Back == rhs.Back;
+		}
+
+		friend bool operator!=(const RaceTrack& lhs, const RaceTrack& rhs) { return !(lhs == rhs); }
+
 	public:
 		int Front, Back;
 	};
@@ -111,6 +155,14 @@ namespace models
 			res["length"] = orbit.Length;
 			return res;
 		}
+
+		friend bool operator==(const Orbit& lhs, const Orbit& rhs)
+		{
+			return lhs.Heading == rhs.Heading
+			       && lhs.Length == rhs.Length;
+		}
+
+		friend bool operator!=(const Orbit& lhs, const Orbit& rhs) { return !(lhs == rhs); }
 
 	public:
 		int Heading, Length;
@@ -127,6 +179,14 @@ namespace models
 			res["number"] = callsign.Number;
 			return res;
 		}
+
+		friend bool operator==(const Callsign& lhs, const Callsign& rhs)
+		{
+			return lhs.Name == rhs.Name
+			       && lhs.Number == rhs.Number;
+		}
+
+		friend bool operator!=(const Callsign& lhs, const Callsign& rhs) { return !(lhs == rhs); }
 
 	public:
 		std::string Name;
@@ -162,6 +222,16 @@ namespace models
 			return res;
 		}
 
+		friend bool operator==(const RecoveryOps& lhs, const RecoveryOps& rhs)
+		{
+			return lhs.Type == rhs.Type
+			       && lhs.EventDuration == rhs.EventDuration
+			       && lhs.EventIaDuration == rhs.EventIaDuration
+			       && lhs.Recoveries == rhs.Recoveries;
+		}
+
+		friend bool operator!=(const RecoveryOps& lhs, const RecoveryOps& rhs) { return !(lhs == rhs); }
+
 	public:
 		enum Type
 		{
@@ -170,6 +240,18 @@ namespace models
 
 		struct AlphaStrikeRecovery
 		{
+			friend bool operator==(const AlphaStrikeRecovery& lhs, const AlphaStrikeRecovery& rhs)
+			{
+				return lhs.Start == rhs.Start
+				       && lhs.Duration == rhs.Duration
+				       && lhs.RecoveryMode == rhs.RecoveryMode;
+			}
+
+			friend bool operator!=(const AlphaStrikeRecovery& lhs, const AlphaStrikeRecovery& rhs)
+			{
+				return !(lhs == rhs);
+			}
+
 			int Start, Duration, RecoveryMode;
 		};
 
@@ -194,6 +276,16 @@ namespace models
 			return res;
 			// ReSharper restore StringLiteralTypo
 		}
+
+		friend bool operator==(const MenuRecovery& lhs, const MenuRecovery& rhs)
+		{
+			return lhs.Duration == rhs.Duration
+			       && lhs.WindOnDeck == rhs.WindOnDeck
+			       && lhs.Offset == rhs.Offset
+			       && lhs.UTurn == rhs.UTurn;
+		}
+
+		friend bool operator!=(const MenuRecovery& lhs, const MenuRecovery& rhs) { return !(lhs == rhs); }
 
 	public:
 		int Duration, WindOnDeck, Offset;

@@ -15,6 +15,9 @@ public:
 	static Carrier FromJson(const json::json& carrier);
 	static json::json ToJson(const Carrier& carrier);
 
+	friend bool operator==(const Carrier& lhs, const Carrier& rhs);
+	friend bool operator!=(const Carrier& lhs, const Carrier& rhs) { return !(lhs == rhs); }
+
 public:
 	Coalition::Side Coalition;
 	std::string Name, Alias, RecoveryTanker, AirbossDifficulty;
@@ -157,4 +160,34 @@ inline json::json Carrier::ToJson(const Carrier& carrier)
 
 	return res;
 	// ReSharper enable StringLiteralTypo
+}
+
+inline bool operator==(const Carrier& lhs, const Carrier& rhs)
+{
+	return lhs.Coalition == rhs.Coalition
+	       && lhs.Name == rhs.Name
+	       && lhs.Alias == rhs.Alias
+	       && lhs.RecoveryTanker == rhs.RecoveryTanker
+	       && lhs.AirbossDifficulty == rhs.AirbossDifficulty
+	       && lhs.BaseFq == rhs.BaseFq
+	       && lhs.MarshallFq == rhs.MarshallFq
+	       && lhs.LsoFq == rhs.LsoFq
+	       && lhs.MarshallRelayUnit == rhs.MarshallRelayUnit
+	       && lhs.LsoRelayUnit == rhs.LsoRelayUnit
+	       && lhs.StatPath == rhs.StatPath
+	       && lhs.TrapsheetsPath == rhs.TrapsheetsPath
+	       && lhs.MenuMarkZone == rhs.MenuMarkZone
+	       && lhs.MenuSmokeZone == rhs.MenuSmokeZone
+	       && lhs.NiceGuy == rhs.NiceGuy
+	       && lhs.HandleAi == rhs.HandleAi
+	       && lhs.InfinitePatrol == rhs.InfinitePatrol
+	       && lhs.SingleCarrier == rhs.SingleCarrier
+	       && lhs.ControlArea == rhs.ControlArea
+	       && lhs.RecoveryMode == rhs.RecoveryMode
+	       && lhs.MaxPatterns == rhs.MaxPatterns
+	       && lhs.MaxStacks == rhs.MaxStacks
+	       && lhs.RecoveryOps == rhs.RecoveryOps
+	       && lhs.MenuRecovery == rhs.MenuRecovery
+	       && lhs.Tacan == rhs.Tacan
+	       && lhs.Icls == rhs.Icls;
 }

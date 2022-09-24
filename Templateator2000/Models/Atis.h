@@ -16,6 +16,9 @@ public:
 	static Atis FromJson(const json::json& atis);
 	static json::json ToJson(const Atis& atis);
 
+	friend bool operator==(const Atis& lhs, const Atis& rhs);
+	friend bool operator!=(const Atis& lhs, const Atis& rhs);
+
 public:
 	std::string AirportName;
 	std::string ActiveRunwayNumber, ActiveRunwaySide;
@@ -92,4 +95,15 @@ inline json::json Atis::ToJson(const Atis& atis)
 	res["srs"] = srs;
 
 	return res;
+}
+
+inline bool operator==(const Atis& lhs, const Atis& rhs)
+{
+	return lhs.AirportName == rhs.AirportName
+	       && lhs.ActiveRunwayNumber == rhs.ActiveRunwayNumber
+	       && lhs.ActiveRunwaySide == rhs.ActiveRunwaySide
+	       && lhs.Radio == rhs.Radio
+	       && lhs.Tacan == rhs.Tacan
+	       && lhs.Ils == rhs.Ils
+	       && lhs.SrsPath == rhs.SrsPath;
 }

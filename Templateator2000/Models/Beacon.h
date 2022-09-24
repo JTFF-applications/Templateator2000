@@ -13,6 +13,9 @@ public:
 	static Beacon FromJson(const json::json& beacon);
 	static json::json ToJson(const Beacon& beacon);
 
+	friend bool operator==(const Beacon& lhs, const Beacon& rhs);
+	friend bool operator!=(const Beacon& lhs, const Beacon& rhs) { return !(lhs == rhs); }
+
 public:
 	std::string Name, UnitName;
 	models::Tacan Tacan;
@@ -44,4 +47,11 @@ inline json::json Beacon::ToJson(const Beacon& beacon)
 	res["tacan"] = models::Tacan::ToJson(beacon.Tacan);
 	return res;
 	// ReSharper restore StringLiteralTypo
+}
+
+inline bool operator==(const Beacon& lhs, const Beacon& rhs)
+{
+	return lhs.Name == rhs.Name
+	       && lhs.UnitName == rhs.UnitName
+	       && lhs.Tacan == rhs.Tacan;
 }

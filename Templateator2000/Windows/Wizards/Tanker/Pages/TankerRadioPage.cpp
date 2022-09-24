@@ -64,10 +64,11 @@ bool TankerRadioPage::validatePage()
 	int pos = 0;
 
 	const auto& tankers = m_mission.GetScripts().GetTankers();
+	const auto& modified_tanker = reinterpret_cast<TankerWizard*>(wizard())->InternalGetTanker();
 	bool has_unique_callsign = true;
 	for (const auto& tanker : tankers)
 		if (tanker.Callsign.Name == m_callsign_list->currentText().toStdString() && tanker.Callsign.Number ==
-		    callsign_nb.toInt())
+		    callsign_nb.toInt() && tanker != modified_tanker)
 			has_unique_callsign = false;
 
 	if (m_frequency->validator()->validate(frequency, pos) != QValidator::Acceptable)

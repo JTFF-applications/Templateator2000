@@ -34,6 +34,7 @@ public:
 
 	[[nodiscard]] bool IsDone() const { return m_done; }
 	[[nodiscard]] Coalition::Side Coalition() const;
+	[[nodiscard]] Awacs InternalGetAwacs() { return m_awacs; }
 
 private slots:
 	void configureAwacsModel() const;

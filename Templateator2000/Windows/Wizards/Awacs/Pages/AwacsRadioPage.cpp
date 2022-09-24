@@ -64,10 +64,11 @@ bool AwacsRadioPage::validatePage()
 	int pos = 0;
 
 	const auto& awacs_list = m_mission.GetScripts().GetAwacs();
+	const auto& modified_awacs = reinterpret_cast<AwacsWizard*>(wizard())->InternalGetAwacs();
 	bool has_unique_callsign = true;
 	for (const auto& awacs : awacs_list)
 		if (awacs.Callsign.Name == m_callsign_list->currentText().toStdString() && awacs.Callsign.Number ==
-		    callsign_nb.toInt())
+		    callsign_nb.toInt() && awacs != modified_awacs)
 			has_unique_callsign = false;
 
 	if (m_frequency->validator()->validate(frequency, pos) != QValidator::Acceptable)
